@@ -1,0 +1,53 @@
+
+<div class="card-container">
+  <div id="modalContactus" class="modal">
+    <div class="modal-content"  [hidden]="submitted">
+      <div style="line-height: 40px">
+        <h1 x-large class="sample-content" style="display: inline-block;">Contact Us</h1>
+        <h2 style="font-size: 14px">Feel free to contact us with any question, suggestion or problem via this form or email us at <a href="mailto:info@malabi.co">info@malabi.co</a></h2>
+      </div>
+      <form #f="ngForm" (ngSubmit)="submitState(f)" autocomplete="on">
+        <div class="row">
+          <div class="input-field col s12">
+            <input ngModel name="firstName" id="firstName" type="text" class="validate" [class.invalid]="firstNameError" >
+            <label id="firstNameLabel" for="email" data-error="Enter name" [class.active]="firstNameErrorLabel" >Name</label>
+          </div>
+
+          <div class="input-field col s12">
+            <input ngModel name="email" id="email" type="text" class="validate" [class.invalid]="emailError" >
+            <label id="emailLabel" for="email" data-error="Enter valid email" [class.active]="emailErrorLabel" >Email</label>
+          </div>
+          <div class="input-field col s12">
+            <input ngModel name="subject" id="subject" type="text" class="validate">
+            <label for="email">Subject</label>
+          </div>
+          <div class="input-field col s12">
+            <textarea ngModel name="message" id="message" class="materialize-textarea"></textarea>
+            <label id="messageLabel" for="message" data-error="Enter a message" [class.active]="messageErrorLabel" >Message</label>
+          </div>
+
+        </div>
+
+        <div class="modal-footer" >
+          <button class=" waves-effect waves-green btn-flat" >Submit</button>
+          <div style="margin-top: 30px">
+            Follow us on <a href="https://www.facebook.com/Malabi-275529366128243/?fref=ts" target="_blank">Facebook</a>,
+            <a href="https://twitter.com/malabi_co" target="_blank">Twitter</a> &
+            <a href="https://www.linkedin.com/company/3504634?trk=vsrp_companies_res_pri_act&trkInfo=VSRPsearchId%3A1332274201411889499441%2CVSRPtargetId%3A3504634%2CVSRPcmpt%3Aprimary" target="_blank">Linkedin</a>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="modal-content" style="" [hidden]="!submitted">
+      <h1 id="errorSubject" style="display: inline-block;font-size: 21px;margin: 0px">Thank you for contacting us at Malabi</h1>
+      <p>
+        We will make every effort to get back to you as quickly as possible.
+      </p>
+    </div>
+    <div class="modal-footer" [hidden]="!submitted">
+      <button class=" modal-action modal-close waves-effect waves-green btn-flat font14" >close</button>
+    </div>
+  </div>
+
+</div>
+

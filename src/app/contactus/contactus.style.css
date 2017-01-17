@@ -1,0 +1,3 @@
+textarea.materialize-textarea+label:after {
+  width: 200px;
+}

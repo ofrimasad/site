@@ -1,14 +1,547 @@
-<!doctype html>
-<html>
+<!DOCTYPE html>
+<html lang="">
 <head>
   <meta charset="utf-8">
-  <title>Site</title>
-  <base href="/">
-
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <title>Malabi - Automatic Background Removal</title>
+  <link rel="shortcut icon" href="/assets/icon/favicon.ico" />
+
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/css/materialize.min.css">
+  <link href="assets/dragdropfile/style.css" rel="stylesheet">
+  <meta http-equiv="cache-control" content="max-age=0" />
+  <meta http-equiv="cache-control" content="no-cache" />
+  <meta http-equiv="expires" content="0" />
+  <meta http-equiv="expires" content="Tue, 01 Jan 1980 1:00:00 GMT" />
+  <meta http-equiv="pragma" content="no-cache" />
 </head>
+
 <body>
-  <app-root>Loading...</app-root>
+<script>
+  var versionStart = function () {
+    var justOnce = "malv2012_a";
+    try {
+      if (! localStorage[justOnce]) {
+        localStorage.setItem(justOnce, "true");
+        window.location.reload(true);
+      }
+    } catch (e){
+    }
+  };
+  versionStart();
+</script>
+<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/js/materialize.min.js"></script>
+
+<nav id="nav-bar" style="background-color: #0e3049;color: white;" role="navigation">
+  <div class="nav-wrapper container">
+    <a href="#/" >
+      <img style=" vertical-align: middle;    height: 41px;-webkit-user-select: none;margin-bottom: 4px" src="https://static.wixstatic.com/media/6a46b6_637fba01ae83440b8b0d19cd32516043~mv2.png/v1/fill/w_240,h_62,al_c,lg_1/6a46b6_637fba01ae83440b8b0d19cd32516043~mv2.png">
+    </a>
+    <ul id="dropdown1" class="dropdown-content">
+      <li><a href="#/yourinfo">Account Info</a></li>
+      <li class="divider"></li>
+      <li><a href="#/logout">Logout</a></li>
+    </ul>
+    <ul class="right hide-on-med-and-down" >
+      <li id="loginLabel"><a href="#login" data-target="modalLogin" class="modal-trigger" onclick="window.ga('send', 'event', 'Site', 'btn login', 'topnav')">Login</a></li>
+      <li id="registerLabel"><a href="#register" data-target="modalRegister" class="modal-trigger" onclick="window.ga('send', 'event', 'Site', 'btn create acount','topnav')">Create Account</a></li>
+
+      <li><a id="plans-link" href="#/" onclick="window.ga('send', 'event', 'Site','btn plan', 'topnav')">Plans</a></li>
+
+      <li><a id="contactus" href="http://www.malabi.co/blog" target="_blank" onclick="window.ga('send', 'event', 'Site','btn blog', 'topnav')">Blog</a></li>
+      <li><a id="contactus" href="#contactus" onclick="window.ga('send', 'event', 'Site','btn get support', 'topnav')">Get support</a></li>
+      <li><a id="contactus" href="#contactus" onclick="window.ga('send', 'event', 'Site','btn contact us', 'topnav')">Contact us</a></li>
+      <li id="myAccountDropdownLabel"  style="display: none"><a id="myAccountDropdown" class="dropdown-button" href="#" data-activates="dropdown1" onclick="window.ga('send', 'event', 'Site','btn my account', 'topnav')">My Account<i class="material-icons right">arrow_drop_down</i></a></li>
+    </ul>
+
+  </div>
+</nav>
+
+<div id="uploadload-container">
+  <div class="section no-pad-bot" id="index-banner">
+    <div class="container">
+      <br><br>
+      <div class="row center">
+        <div id="try-it-free" style="position: absolute;margin-top: 31px;margin-left: -195px;display: inline-block">
+          <img src="/assets/appimages/try_it_out_for_free.png"  >
+
+        </div>
+        <div id="dropbox">
+          <div style="font-family: Roboto, sans-serif;font-size: 17px;line-height: 73px">Drag and Drop Images Into Page</div>
+        </div>
+
+        <input id="file-input" type="file" style="display: none" multiple/>
+        <a id="fileupload-btn" for="file-input" class="waves-effect waves-teal btn-flat btn-large white-text" onclick="window.ga('send', 'event', 'Site','btn upload', 'topnav')">upload</a>
+      </div>
+    </div>
+  </div>
+
+  <div id="droptarget" class="droptarget" draggable="true">
+    <div  class="dropImagePopup" draggable="true">
+      <div class="centerInfo roboto" style=" position: fixed;
+    top: 50%;
+    left: 50%;
+    /* bring your own prefixes */
+    transform: translate(-50%, -50%);font-size: 50px;">Drop Images</div>
+    </div>
+  </div>
+
+
+  <div class="container" id="download-images-wrapper" style="display: none">
+    <!-- Page Content goes here -->
+    <div style="text-align: center;padding: 20px;">
+      <a id="download-images" class="waves-effect waves-light btn-large green" style="background-color: #44a6cb !important;">download images</a>
+    </div>
+    <hr>
+  </div>
+
+  <div class="row">
+    <div id="imageList">
+    </div>
+  </div>
+
+</div>
+<!-- Modal Structure -->
+<div id="modal1" class="modal modal-wider" style="margin-bottom: -8px; ">
+  <div class="modal-content" style="padding-top: 20px;padding-bottom: 5px;background-color: #393b4b;">
+    <a style="position: absolute; right: 11px; top: 16px;"
+       class="btn-floating modal-action modal-close waves-effect waves-light btn-flat">
+      <i style="font-size: 24px;color: white" class="material-icons right">close</i>
+    </a>
+    <div style="font-family: Roboto, sans-serif; font-size: 24px; color: white;margin-bottom: 6px;">Background Remover Edit
+    </div>
+    <a id="camera51-btn-mark-object" class="waves-effect waves-light btn-flat roboto tooltipped"
+       data-position="bottom" data-delay="50" data-tooltip="Draw lines to mark areas you want to keep in the image"
+       style="color:#7cb342;font-size: 14px;padding-right: 10px; padding-left: 10px;" onclick="camera51.setColor('colorFG');">
+      <i class="material-icons left" style="color:#7cb342;padding-right: 0px;margin-right: 10px;font-size: 24px;">add_circle</i>
+      Mark Object
+    </a>
+    <a id="camera51-btn-mark-background" class="waves-effect waves-light  btn-flat roboto tooltipped"
+       data-position="bottom" data-delay="50" data-tooltip="Draw lines to mark areas you want to remove from the image"
+       style="margin-left:10px;color:#f44336;font-size: 14px;padding-right: 10px; padding-left: 10px;" onclick="camera51.setColor('colorBG');">
+      <i class="material-icons left" style="color:#f44336;padding-right: 0px;margin-right: 10px;font-size: 24px;">remove_circle</i>
+      Mark Background
+    </a>
+    <a id="camera51-btn-undo" class="waves-effect waves-light btn-flat roboto" style="color: white;font-size: 14px;"
+       onclick="camera51.undo()">UNDO</a>
+    <br>
+    <a id="camera51-zoom-in" class="waves-effect waves-circle transparent"
+       style="position: absolute;top: 141px;left: 36px" onmousedown="camera51.onclickLongZoomIn()"
+       onmouseup="camera51.onmouseupLongZoomIn()">
+      <i class="material-icons right small zoomRippel" style="color:#393b4b;">zoom_in</i>
+    </a>
+    <a id="camera51-zoom-out" class="waves-effect waves-circle transparent"
+       style="position: absolute;top: 194px;left: 36px" onmousedown="camera51.onclickLongZoomOut()"
+       onmouseup="camera51.onmouseupLongZoomOut()">
+      <i class="material-icons right small zoomRippel" style="color:#393b4b;">zoom_out</i>
+    </a>
+  </div>
+  <div class="progress" style="margin: 0px;visibility: hidden;height: 3px" id="camera51-loader">
+    <div class="indeterminate"></div>
+  </div>
+  <div>
+    <div id="camera51Iframe" style="height:500px;width:100%"></div>
+  </div>
+  <div class="modal-footer" style="background-color: white ">
+    <a id="camera51-btn-save-image" class=" btn white-text   waves-light btn-flat btn-large malabiBG "
+       onclick="camera51.saveImage()"
+       style="font-size: 14px;margin-right: 9px; margin-left: 23px;">Save Changes</a>
+    <a id="camera51-btn-show-result" class="waves-effect waves-teal btn-flat btn "
+       style="font-size: 14px; margin-left: 10px; margin-top: 17px;"
+       onclick="camera51.showResult()">preview result</a>
+  </div>
+</div>
+
+<app>
+  <div class="camera51-preloader "></div>
+</app>
+<div class="container">
+
+</div>
+<div class="row">
+  <div class="page-footer"><span style="font-size: 12px">
+                        By using Malabi you accept the terms of its <a href="http://www.malabi.co/eula" target="_blank">EULA and privacy policy</a>.<br>
+                        © Copyright ArtInCam Ltd. (2016). All rights reserved.
+                    </span></div>
+</div>
+
+<div id="show-token-error" class="modal modal-small">
+  <div class="modal-content">
+    <h1 id="errorSubject" style="display: inline-block;font-size: x-large;">Cancel Subscription Plan</h1>
+    <p id="errorMessage" class="font14-5"></p>
+  </div>
+  <div class="modal-footer">
+    <a href="#" class=" modal-action modal-close waves-effect waves-green btn-flat font14">Close</a>
+  </div>
+</div>
+<div id="modal-show-img" class="modal" >
+  <div class="modal-content" style="text-align: center;">
+
+    <img id="preview-img-src" src="" style="max-width: 400px; max-height: 600px">
+  </div>
+</div>
+<script>
+
+  var myurl = "trial.malabi.co";
+  var currenturl = window.location.hostname;
+  if(window.location.protocol != "https:" && myurl == currenturl) {
+    window.location = 'https:' + window.location.href.substring(window.location.protocol.length);
+  }
+
+  if (screen.width <= 800) {
+    window.location = "http://malabi.co";
+  }
+
+  var customerId = 5;
+  var customerSessionToken = "2acb46bb-d9ce-4c5f-9e7d-c0cb909418d9";
+  var camera51EditorIframe = "camera51Iframe";
+  /* create this mapping and pass it to camera51WithQueue.init in order to
+   * override text with localization
+   * see full list of keys in documentation
+   */
+
+  window.addEventListener("message", function(e){
+    switch (e.data){
+      case "openPlans":
+        window.angularComponentRef.component.toggelPlans();
+        break;
+      case "openMyAccount":
+        window.angularComponentYourinfoshopify.component.openModal();
+        break;
+//      case "modalConfirmResponseFalse":
+//        window.angularComponentShopify.component.modalConfirmResponse(false);
+//        break;
+//      case "modalConfirmResponseTrue":
+//        window.angularComponentShopify.component.modalConfirmResponse(true);
+//        break;
+      case "refreshShopifyProducts":
+        window.angularComponentShopify.component.refreshShopifyProducts();
+        break;
+      default:
+      //console.log(e.data, "nothing to run");
+    }
+
+  }, false);
+
+
+  $(document).ready(function () {
+    $(".button-collapse").sideNav();
+    $(".dropdown-button").dropdown( { 'hover': true });
+
+    // call to initialize the Camera51 object
+    camera51WithQueue.init({
+      "customerId": customerId,
+      "showTutorial": true,
+      "sessionToken": customerSessionToken,
+      "camera51EditorIframe": camera51EditorIframe,
+      "decreaseInnerHeight": 20,
+      "wrappermarginTop":10,
+      "apiUrl":apiUrl,
+    });
+
+
+    // version which does not show errors.
+    camera51WithQueue.showImageCallbackOverride = function(elem, imgUrl , processingResultCode, trackId){
+      var elementHeight = elem.clientHeight;
+      var maxImage = elementHeight;// - 45;
+      var wrapper = document.createElement('div');
+      if (processingResultCode < 100 ) {
+        var img = document.createElement('img');
+        img.src = imgUrl;
+        img.onmousedown = function(event){
+          if(event.preventDefault){
+            event.preventDefault();
+          } else {
+            event.returnValue = false;
+          }
+
+        };
+        img.className = "img-result-preview";
+        img.style.maxWidth = "180px";
+        img.style.maxHeight = maxImage+"px";
+        // img.onclick =  function () {
+        //   camera51OpenEditor(trackId,elem.id);
+        // };
+        wrapper.setAttribute("onclick","camera51OpenEditor('" + trackId + "','"+ elem.id+ "');");
+
+        wrapper.style.cursor = "pointer";
+        elem.innerHTML = "";
+        wrapper.appendChild(img);
+        wrapper.style.height = "inherit";
+        wrapper.style.width = "inherit";
+        elem.appendChild(wrapper);
+      }
+      if (processingResultCode > 100) {
+        elem.innerHTML = "";
+        var errorWrapper = document.createElement('div');
+
+        var header = document.createElement('div');
+
+        if(processingResultCode > 100){
+
+          header.innerHTML = camera51Text['error-header-image-failure'];
+          header.className = "error-header-image-failure";
+          errorWrapper.className = "camera51-error-wrapper-failure";
+        } else {
+          errorWrapper.className = "camera51-error-wrapper";
+          var errorText = document.createElement('div');
+          var str = "error-text-"+ processingResultCode;
+          header.innerHTML = camera51Text[str];
+          header.className = "error-header-default";
+          // wrapper.onclick =  function () {
+          //   camera51OpenEditor(trackId,elem.id);
+          // };
+          wrapper.setAttribute("onclick","camera51OpenEditor('" + trackId + "','"+ elem.id+ "');");
+
+          wrapper.style.cursor = "pointer";
+          wrapper.style.height = "inherit";
+          wrapper.style.width = "inherit";
+        }
+
+        errorWrapper.appendChild(header);
+        var errorTextWrapper = document.createElement('div');
+
+        var errorText = document.createElement('div');
+        if(processingResultCode > 100){
+          var str = "error-text-"+ processingResultCode;
+          errorText.innerHTML = camera51Text[str];
+          errorText.className = "camera51-error-text-failure";
+        } else {
+          errorText.className = "camera51-error-text";
+          errorText.innerHTML = camera51Text["click-to-fix"];
+        }
+
+
+        errorTextWrapper.className = "camera51-error-text-wrapper";
+        errorTextWrapper.appendChild(errorText);
+        errorWrapper.appendChild(errorTextWrapper);
+        wrapper.appendChild(errorWrapper);
+        elem.appendChild(wrapper);
+      }
+      if (processingResultCode <= 100) {
+        var btnWrapper = document.createElement('div');
+        btnWrapper.style.position = "relative";
+        btnWrapper.style.left = 0;
+        btnWrapper.style.right = 0;
+        btnWrapper.style.bottom = "-20px";
+
+        var btn = document.createElement('a');
+        btn.innerHTML = "TOUCH UP";
+        // btn.onclick =  function () {
+        //   camera51OpenEditor(trackId,elem.id);
+        // };
+        btn.setAttribute("onclick","camera51OpenEditor('" + trackId + "','"+ elem.id+ "');");
+
+        btn.className = "btn btn-touchup";
+
+        btnWrapper.appendChild(btn);
+        elem.appendChild(btnWrapper);
+
+        //elem.style.cursor = "pointer";
+      }
+      window.angularComponentApp.component.updatedImages();
+    }
+
+  });
+
+
+
+
+
+  // implement this function and call it after your user has uploaded a new image
+  function requestImage(imageId, origImgUrl) {
+    var responseElement = document.getElementById("resultPreview-" + imageId);
+
+    // start loader
+    var str = 'resultPreview-' + imageId + ' .preloader-wrapper';
+    $("#"+str ).addClass('active');
+
+    // image should be https !
+
+    if(isloggedIn){
+      ga('send', 'event', 'Site', 'request async','isloggedIn=true&userId='+siteUserId+'&customerId='+customerId);
+      ga('send', 'event', 'Site request async', siteUserId , origImgUrl);
+    } else {
+      ga('send', 'event', 'Site', 'request async','isloggedIn=false&customerId='+customerId);
+      ga('send', 'event', 'Site request async', "unknown" , origImgUrl);
+
+    }
+
+
+    /*
+     call to process an image. pass the element
+     and camera51.js will insert the response into this element.
+     response will include and image or response message. Under it a button.
+     */
+    camera51WithQueue.requestAsync( origImgUrl, responseElement, "", true,false, false, siteUserId, siteUserToken );
+  }
+
+  /*
+   implement this function to open Camera51 Editor.
+   function name must be camera51OpenEditor in order to use camera51 builtin callback.
+   function receives a trackId and imgElementId to set the src to the resultUrl.
+   */
+  function camera51OpenEditor(trackId, responseElementId) {
+    if(isloggedIn){
+      ga('send', 'event', 'Site', 'open editor','isloggedIn=true&userId='+siteUserId+'customerId='+customerId);
+    } else {
+      ga('send', 'event', 'Site', 'open editor','isloggedIn=false&customerId='+customerId+'trackId='+trackId);
+
+    }
+
+    var responseElement = document.getElementById(responseElementId);
+    /*
+     implement the onSaveWithResult and pass it to Camera51.openEditorWithTrackId.
+     this function specify what to do once the user selected an image in the editor.
+     */
+    var onSaveWithResult = function (resultUrl) {
+      $('#modal1').closeModal();
+    };
+
+    $('#modal1').openModal();
+
+    // open the editor
+    camera51WithQueue.openEditorWithTrackId({
+      'customerId': customerId,
+      'trackId': trackId
+    }, onSaveWithResult, responseElement);
+  }
+
+
+
+
+
+</script>
+
+<script src="assets/camera51.js"></script>
+<script src="assets/dragdropfile/filereader.js"></script>
+<script src="assets/dragdropfile/script.js"></script>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-75726540-1', 'auto');
+  ga('send', 'pageview');
+  ga(function(tracker) {
+    var clientId = tracker.get('clientId');
+    ga('set', 'dimension1', clientId);
+  });
+</script>
+<script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=console.*,Intl.~locale.en&gated=1"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/core-js/2.4.0/shim.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/es6-shim/0.33.3/es6-shim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/systemjs/0.19.20/system-polyfills.js"></script>
+<script src="https://npmcdn.com/angular2/es6/dev/src/testing/shims_for_IE.js"></script>
+<script type="text/javascript">
+  adroll_adv_id = "PURPHNFP4NCBVA4TOSEWEX";
+  adroll_pix_id = "YWN53SA5JFAM7MC5LF3OCK";
+  /* OPTIONAL: provide email to improve user identification */
+  /* adroll_email = "username@example.com"; */
+  (function () {
+    var _onload = function(){
+      if (document.readyState && !/loaded|complete/.test(document.readyState)){setTimeout(_onload, 10);return}
+      if (!window.__adroll_loaded){__adroll_loaded=true;setTimeout(_onload, 50);return}
+      var scr = document.createElement("script");
+      var host = (("https:" == document.location.protocol) ? "https://s.adroll.com" : "http://a.adroll.com");
+      scr.setAttribute('async', 'true');
+      scr.type = "text/javascript";
+      scr.src = host + "/j/roundtrip.js";
+      ((document.getElementsByTagName('head') || [null])[0] ||
+      document.getElementsByTagName('script')[0].parentNode).appendChild(scr);
+    };
+    if (window.addEventListener) {window.addEventListener('load', _onload, false);}
+    else {window.attachEvent('onload', _onload)}
+  }());
+</script>
+<!-- Facebook Pixel Code -->
+<script>
+  !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+    n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+    document,'script','https://connect.facebook.net/en_US/fbevents.js');
+  fbq('init', '1110575519050215', {
+    em: 'insert_email_variable,'
+  });
+  fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+               src="https://www.facebook.com/tr?id=1110575519050215&ev=PageView&noscript=1"
+/></noscript>
+<!-- DO NOT MODIFY -->
+<!-- End Facebook Pixel Code -->
+<script>
+
+
+  function statusChangeCallback(response) {
+    console.log('statusChangeCallback');
+    console.log(response);
+    // The response object is returned with a status field that lets the
+    // app know the current login status of the person.
+    // Full docs on the response object can be found in the documentation
+    // for FB.getLoginStatus().
+    if (response.status === 'connected') {
+      // Logged into your app and Facebook.
+      testAPI();
+    } else if (response.status === 'not_authorized') {
+      // The person is logged into Facebook, but not your app.
+      document.getElementById('status').innerHTML = 'Please log ' +
+        'into this app.';
+    } else {
+      // The person is not logged into Facebook, so we're not sure if
+      // they are logged into this app or not.
+      document.getElementById('status').innerHTML = 'Please log ' +
+        'into Facebook.';
+    }
+  }
+
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '331437167238476',
+      xfbml      : true,
+      version    : 'v2.8'
+    });
+    FB.AppEvents.logPageView();
+  };
+
+  (function(d, s, id){
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) {return;}
+    js = d.createElement(s); js.id = id;
+    js.src = "//connect.facebook.net/en_US/sdk.js";
+    fjs.parentNode.insertBefore(js, fjs);
+
+
+  }(document, 'script', 'facebook-jssdk'));
+
+
+  function checkLoginState() {
+    FB.getLoginStatus(function(response) {
+      statusChangeCallback(response);
+    });
+  }
+  function testAPI() {
+    console.log('Welcome!  Fetching your information.... ');
+    FB.api('/me', {fields:'email,name'}, function(response) {
+      console.log('Successful login for: ' + response.name);
+      console.log(response);
+
+    });
+
+  }
+</script>
+
+<!--<fb:login-button scope="public_profile,email" onlogin="checkLoginState();">-->
+<!--</fb:login-button>-->
+<% if (webpackConfig.metadata.isDevServer && webpackConfig.metadata.HMR !== true) { %>
+<!-- Webpack Dev Server reload -->
+<script src="/webpack-dev-server.js"></script>
+<% } %>
+
 </body>
 </html>
