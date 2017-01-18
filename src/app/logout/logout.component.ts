@@ -22,16 +22,15 @@ export class Logout {
   ngOnInit() {
     this.windowRef.nativeWindow.ga('set', { page:'/logout',title:'Logout'});
     this.windowRef.nativeWindow.ga('send', 'pageview');
-    localStorage.setItem('camera51-login','');
-    this.router.navigate(['/']);
-    location.reload();
+    try {
+      localStorage.setItem('camera51-login','');
+    } catch (e){
 
-    this.route
-      .data
-      .subscribe((data: any) => {
-        // your resolved data from route
-        this.localState = data.yourData;
-      });
+    }
+
+    setTimeout(function () {
+      location.reload(true)
+    }, 200);
   }
 
 

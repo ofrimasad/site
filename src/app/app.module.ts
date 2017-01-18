@@ -38,6 +38,7 @@ import {Yourinfoshopify} from "./shopify/yourinfo-shopify";
 import {PlansComponentService} from "./shopify/mission.service";
 import {Shopifyconfirmation} from "./shopify/confirmation/confirmation.component";
 import {Rateusshopify} from "./shopify/rateusshopify";
+import {DateNice} from "./datenice.pipe";
 
 //
 //
@@ -69,7 +70,7 @@ const APP_PROVIDERS = [
     Paymentreceived,
     Yourinfo,
     Register,
-    NoContent,
+    NoContent,DateNice,
       Contactus,Yourinfoshopify, Shopifyconfirmation,
     XLarge, TakefirstPipe,Shopify, Rateusshopify
   ],

@@ -3,7 +3,7 @@
     <div class="modal-content">
       <h1 x-large class="sample-content" style="display: inline-block">{{userInfo.firstName}}'s Account</h1>
       <div class="user-label">Image credits left</div>
-      <div class="user-text-info">{{userInfo.userCredit}} Images left for download until <span *ngIf="userInfo.creditExpires != ''">{{userInfo.creditExpires | date:shortDate}}</span></div>
+      <div class="user-text-info">{{userInfo.userCredit}} Images left for download until <span *ngIf="userInfo.creditExpires != ''">{{userInfo.creditExpires | datenice}}</span></div>
       <div class="user-label">Email</div>
       <div class="user-text-info">{{userInfo.userEmail}} </div>
       <div class="user-label">Subscription plan</div>
@@ -36,9 +36,9 @@
   </div>
     <div id="modalYourInfo" class="modal" style="width: 734px">
         <div class="modal-content">
-            <h1 x-large class="sample-content" style="display: inline-block">{{userInfo.firstName}}'s Account</h1>
+          <h1 x-large class="sample-content" style="display: inline-block">{{userInfo.firstName}} Account</h1>
             <div class="user-label">Image credits left</div>
-            <div class="user-text-info">{{userInfo.userCredit}} Images left for download until <span *ngIf="userInfo.creditExpires != ''">{{userInfo.creditExpires | date:shortDate}}</span></div>
+            <div class="user-text-info">{{userInfo.userCredit}} Images left for download until <span *ngIf="userInfo.creditExpires != ''">{{userInfo.creditExpires | datenice}}</span></div>
             <div class="user-label">Email</div>
             <div class="user-text-info">{{userInfo.userEmail}} </div>
             <div class="user-label">Subscription plan</div>
@@ -54,7 +54,7 @@
             <div class="user-label">Auto Renewal Date</div>
             <div class="user-text-info">
                 <div *ngIf="hasSubscription">
-                    {{subscription.endDate | date:shortDate}}
+                  {{subscription.endDate | datenice}}
                 </div>
                 <div *ngIf="!hasSubscription">
                     No active plan
@@ -74,7 +74,7 @@
           <h1 x-large class="sample-content" style="display: inline-block">Cancel Subscription Plan</h1>
 
           <p style="font-size: 14.5px">By canceling, your plan will not renew.<br>
-              You will be able to use the remaining image credits until {{subscription.endDate | date:shortDate}}.<br>
+            You will be able to use the remaining image credits until {{subscription.endDate | datenice}}.<br>
             </p>
 
         </div>
@@ -106,7 +106,7 @@
                 <tr *ngFor="let invoice of invoices; let idx = index;">
                     <td>{{invoice.invoiceCode}}</td>
                   <td>$ {{invoice.invoiceTotal }}</td>
-                  <td>{{invoice.invoiceDate | date:shortDate}}</td>
+                  <td>{{invoice.invoiceDate | datenice}}</td>
 
                     <td><a href="{{invoice.invoiceURL}}"  target="_blank" style="color: #44a6cb">View Invoice</a></td>
                 </tr>

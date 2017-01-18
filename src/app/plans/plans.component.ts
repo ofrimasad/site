@@ -47,7 +47,7 @@ export class Plans {
     noImagesTitle = false;
     subscription: Subscription;
     private plansCounter:number;
-  private dateRenew: any;
+    private dateRenew: any;
     //plans = [];
     // TypeScript public modifiers
     constructor(private http: Http, private windowRef: WindowRef, private _eref: ElementRef, public appState: AppState,
@@ -259,14 +259,20 @@ export class Plans {
         //var paymentWindow = this.windowRef.nativeWindow.open("/assets/zoho-pay.html");
         var paymentRedirectUrl = this.appState.get("paymentRedirectUrl");
         var sqs = this.windowRef.nativeWindow.camera51WithQueue.getSQSurl();
-        var a = {
+      var analyticsInfo = this.getAnalyticsInfo();
+
+      var a = {
             "planId":id,
             "userId": this.appState.get("userId"),
             "userToken":this.appState.get("userToken"),
             "queueUrl":sqs,
             "redirectUrl": paymentRedirectUrl
         };
-        this.windowRef.nativeWindow.startLoadingCursor();
+      if(analyticsInfo != null){
+        a = Object.assign(a, analyticsInfo);
+      }
+
+      this.windowRef.nativeWindow.startLoadingCursor();
         var that = this;
         this.requestPaymentUrl(a)
             .then(res => {
@@ -287,6 +293,19 @@ export class Plans {
                 }
             });
     }
+
+  private getAnalyticsInfo() {
+    try {
+
+      var malabiAna = this.windowRef.nativeWindow.camera51WithQueue.getCookie("malabiCampaign");
+
+      var json = JSON.parse(malabiAna);
+      return json;
+    } catch (e) {
+
+    }
+    return null;
+  }
 
 
     requestPaymentUrl(name: Object): Promise<any> {

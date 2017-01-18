@@ -19,6 +19,8 @@ export class Plan {
     planColor:string;
     planCode:string;
     free:boolean;
+    dateRenew:any;
+
 }
 
 
@@ -56,7 +58,12 @@ export class PlansService {
         return this.http.post(this.apiUrl + "/getPlans", body, options)
             .map(response => {
                 var res = response.json();
-                res.saveData = new Date();
+              if(res["status"] && res["status"] == "fail"){
+                console.log(res["error"]);
+                return;
+              }
+
+              res.saveData = new Date();
 
                 sessionStorage.setItem(cacheKey, JSON.stringify(res));
                 return response.json().plans as Plan[];

@@ -59,21 +59,21 @@ export class UserService {
       }
     }
 
-
     setDbDataToAppState(user){
       if(user.hasOwnProperty("creditExpires")){
         this.appState.set("creditExpires", user.creditExpires);
       }
       if(user.hasOwnProperty("userCredit")){
-        this.appState.set("userCredit", user.userCredit);
+        try {
+          this.windowRef.nativeWindow.setUserCredit(user.userCredit);
+        }catch (e){
+
+        }
       }
       if(user.hasOwnProperty("subscription")){
         this.appState.set("subscription", user.subscription);
       }
-
     }
-
-
 
     loginUser(view, user){
         if(!user.hasOwnProperty("userId")){

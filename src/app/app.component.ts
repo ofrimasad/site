@@ -5,15 +5,16 @@ import {Component, ViewEncapsulation, state, ElementRef, NgZone, Compiler } from
 import { AppState } from './app.service';
 import {UserService} from "./user.service";
 import {
-    CanActivate, Router,
-    ActivatedRouteSnapshot,
-    RouterStateSnapshot
+  CanActivate, Router,
+  ActivatedRouteSnapshot,
+  RouterStateSnapshot
 }                           from '@angular/router';
 import {WindowRef} from "./WindowRef";
 import {PlansService} from "./plans/plans.service";
 import {UserstateService} from "./userstate.service";
 import {PlansComponentService} from "./shopify/mission.service";
 declare  var $:any;
+
 /*
  * App Component
  * Top Level Component
@@ -22,7 +23,7 @@ declare  var $:any;
   selector: 'app',
   //encapsulation: ViewEncapsulation.None,
   styleUrls: [
-    'app.style.css'
+    './app.style.css'
   ],
   template: `
     <main>
@@ -37,40 +38,47 @@ declare  var $:any;
 export class AppComponent {
 
   constructor(
+    public appState: AppState, private eref: ElementRef, private zone:NgZone,
+    private router: Router, private windowRef: WindowRef,private _compiler: Compiler,
+    private userState:UserstateService, private loginservice: UserService, private plansComponentService:PlansComponentService) {
 
-      public appState: AppState, private eref: ElementRef, private zone:NgZone,
-      private router: Router, private windowRef: WindowRef,private _compiler: Compiler,
-      private userState:UserstateService, private loginservice: UserService, private plansComponentService:PlansComponentService) {
-      // clear cache
-      _compiler.clearCache();
+    appState.set("isSandbox", false);
+    // clear cache
+    _compiler.clearCache();
+    appState.set("apiDownloadURL", "https://api.malabi.co");
+    appState.set("apiURL", "https://users.malabi.co/UsersServer/v1");
+    appState.set("apiShopifyURL", "https://users.malabi.co/UsersServer/shopify");
+    appState.set("planProductId", "454354000000052180");
 
-      appState.set("apiURL", "https://users.malabi.co/UsersServer/v1");
-      appState.set("apiShopifyURL", "https://users.malabi.co/UsersServer/shopify");
-      appState.set("apiDownloadURL", "https://api.malabi.co");
+    if(appState.getExact("isSandbox")){
+      console.log("Sandbox", appState.getExact("isSandbox"));
+      appState.set("apiURL", "https://sandbox.users.malabi.co/UsersServer/v1");
+      appState.set("apiShopifyURL", "https://sandbox.users.malabi.co/UsersServer/shopify");
+      appState.set("planProductId", "402919000000047078");
+    }
 
-      appState.set("planProductId", "454354000000052180");
-      appState.set("paymentRedirectUrl", window.location.protocol + "//" + window.location.host + "/#/paymentreceived");
-      appState.set("sqsURL", this.windowRef.nativeWindow.camera51WithQueue.getSQSurl());
+    appState.set("paymentRedirectUrl", window.location.protocol + "//" + window.location.host + "/#/paymentreceived");
+    appState.set("sqsURL", this.windowRef.nativeWindow.camera51WithQueue.getSQSurl());
 
 
     this.windowRef.nativeWindow.angularComponentApp = {
-        zone: this.zone,
-        componentFn: (value) => this.callCreditUpdate(value),
-        component: this
+      zone: this.zone,
+      componentFn: (value) => this.callCreditUpdate(value),
+      component: this
 
-      };
+    };
     this.windowRef.nativeWindow.angularComponentApp = {
-        zone: this.zone,
-        componentFn: (listImages) => this.downloadImages(listImages),
-        component: this
+      zone: this.zone,
+      componentFn: (listImages) => this.downloadImages(listImages),
+      component: this
 
-      };
+    };
     this.windowRef.nativeWindow.angularComponentApp = {
-        zone: this.zone,
-        componentFn: () => this.updatedImages(),
-        component: this
+      zone: this.zone,
+      componentFn: () => this.updatedImages(),
+      component: this
 
-      };
+    };
   }
 
 
@@ -97,9 +105,9 @@ export class AppComponent {
     this.windowRef.nativeWindow.ga('send','event', 'Site', 'download request','userId='+this.appState.get("userId")+"&amount="+listImages.length,listImages.length);
 
     this.loginservice.downloadImages(obj)
-        .subscribe(
-            a => this.download(a)
-        );
+      .subscribe(
+        a => this.download(a)
+      );
 
   }
 
@@ -120,6 +128,8 @@ export class AppComponent {
     var link = document.createElement("a");
     link.download = "a";
     link.href = res.response.zipFileUrl;
+    document.body.appendChild(link);
+
     link.click();
     this.appState.set("userCredit",res.response.userCredit );
     //localStorage.setItem("camera51-login",JSON.stringify(this.appState.get()));
@@ -164,7 +174,7 @@ export class AppComponent {
       this.windowRef.nativeWindow.ga('set', { page:'/creditupdate',title:'Credit update'});
       this.windowRef.nativeWindow.ga('send', 'pageview');
 
-      this.windowRef.nativeWindow.ga('send', 'event', 'Site', 'credit update','userId='+this.appState.get("userId")+"&credit=" + res.userCredit);
+      this.windowRef.nativeWindow.ga('send', 'event', 'Site', 'credit update','userId='+this.appState.get("userId")+"&credit="+res.userCredit);
       this.appState.set("userCredit",res.userCredit );
       this.appState.set("activePlanId",res.subscription.plan.planId );
       //localStorage.setItem("camera51-login",JSON.stringify(this.appState.get()));
@@ -177,7 +187,7 @@ export class AppComponent {
   }
 
   ngOnInit() {
- //   console.log('Initial App State', this.appState.state);
+    //   console.log('Initial App State', this.appState.state);
   }
 
 }

@@ -72,17 +72,18 @@ export class Yourinfo {
       return;
     }
     this.userService.updateAppState( a);
+    if(a.firstName == ""){
+      a.firstName = "Your"
+    } else {
+      a.firstName = a.firstName + "'s";
+    }
     this.userInfo = a;
     if(a.hasOwnProperty("subscription") && typeof a.subscription === 'object'){
       this.subscription = a.subscription;
-
-
-      //this.loginservice.loginUser(this.eref,a);
       this.hasSubscription = true;
-
     }
     this.windowRef.nativeWindow.stopLoadingCursor();
-    //this.loginservice.loginUser(this.eref,a);
+
   }
 
   changePassword(){

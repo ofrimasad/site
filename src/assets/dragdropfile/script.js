@@ -3,6 +3,7 @@
 var apiUrl = "https://api.malabi.co";
 
 var isloggedIn = false;
+var showWatermark = true;
 var siteUserId = null;
 var siteUserToken = null;
 var imageArray = [];
@@ -24,11 +25,11 @@ $(document).bind("contextmenu",function(e){
 
 
 /*$(window).bind('beforeunload', function(){
-  var numItems = $('.eachImage').length;
-  if(numItems >0){
-    return "Data will be lost if you leave the page, are you sure?";
-  }
-});*/
+ var numItems = $('.eachImage').length;
+ if(numItems >0){
+ return "Data will be lost if you leave the page, are you sure?";
+ }
+ });*/
 
 
 
@@ -159,14 +160,14 @@ $(document).ready(function () {
         var img = new Image();
 
         img.onload = function () {
-  //        console.log("Width:" + this.width + "   Height: " + this.height);//this will give you image width and height and you can easily validate here....
+          //        console.log("Width:" + this.width + "   Height: " + this.height);//this will give you image width and height and you can easily validate here....
           var s = {w: this.width, h: this.height};
           create_box(e, file, s);
         };
         img.src = _URL.createObjectURL(file);
       },
       showerrors: function (msg) {
-      //  $('#show-token-error').show();
+        //  $('#show-token-error').show();
         $('#show-token-error').openModal();
         $('#errorSubject').html("Images were not uploaded");
         $('#errorMessage').html("You may upload a MAXIMUM of "+MAX_FILES_TO_UPLOAD+" images");
@@ -227,7 +228,7 @@ $(document).ready(function () {
           $( item ).parents(".eachImage").remove();
           if($('.eachImage').length == 0){
             $("#download-images-wrapper").css('display', 'none');
-           // $("#try-it-free").css('display', 'block');
+            // $("#try-it-free").css('display', 'block');
 
 
           }
@@ -280,8 +281,8 @@ create_box = function (e, file, size) {
   template += '<div style="font-size: 14px;color: white; ">Uploading...</div></span>';
   template += '</div><div style="height: 20px;width: 100%"></div> ';
   template += '<div class="resultPreview" id="resultPreview-' + rand +
-      '" style="width:100%;height:200px;" id="'
-      + rand + '"><div style="top: 70px;position: relative;">' + loader + '</div></div>';
+    '" style="width:100%;height:200px;" id="'
+    + rand + '"><div style="top: 70px;position: relative;">' + loader + '</div></div>';
 
   if ($("#imageList .eachImage").html() == null)
     $("#imageList").html(template);
@@ -289,19 +290,57 @@ create_box = function (e, file, size) {
     $("#imageList").append(template);
 
   // upload image
-  upload(file, rand);
+  var contentType = file.type;
+  if (!contentType.match(/(gif|jpe?g|png)$/i)) {
+    alert('Invalid file type only: gif, jpg, and png supported');
+    return;
+  }
+  contentType = contentType.split("/")[1];
+  $.ajax({
+    url: "https://1yiwu07216.execute-api.us-east-1.amazonaws.com/getSignedUrl",
+    type: "POST",
+    data: JSON.stringify({ contentType: contentType}),
+    contentType: "application/json",
+    dataType: "json",
+    crossDomain: true,
+    complete: function( data ) {
+      upload(file, rand, data.responseJSON.oneTimeUploadUrl, data.responseJSON.resultUrl);
+    }
+  });
 };
 
-upload = function (file, rand) {
+upload = function (file, rand, signedUrl, resultUrl) {
 
   var _this = this;
   var formData = new FormData();
-  formData.append('file', file);
+  formData.append(file.name, file);
 
+
+  var data = null;
+  //
+  // var xhr = new XMLHttpRequest();
+  // xhr.withCredentials = true;
+  //
+  // xhr.addEventListener("readystatechange", function () {
+  //   if (this.readyState === 4) {
+  //     console.log(this.responseText);
+  //   }
+  // });
+  //
+  // xhr.open("PUT", "https://malabi-upload.s3.amazonaws.com/2017-01-02/1483366943635.jpeg?AWSAccessKeyId=ASIAICH6SMOG5C5OV6SA&Content-Type=jpeg&Expires=1483367843&Signature=rYCsTYm7%2FGSeWiwf4WORvziLT%2Fk%3D&x-amz-security-token=FQoDYXdzEKj%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaDF3tMi0PwKeVooDYBSLkAbVrvMMtoOnSIZxI0d9JdQKkd%2FW5xxH%2BrC9%2FODXq8nD1LPv%2BD2jA4i5JmjtsWBBPNf9Mx7OOCwrSvGw4LuKwDWJt%2FHaxdGvQo2e2RSCeqazjVAGundgfkixRByGSsMv5qidtpqpH%2BFc2%2B87xHEsm9cPXEHST%2FjGemciQelvnYDgNN0R%2F6J6U4FOdGpx1VqmKAdj28Udq6J52tXhq1jVRLGd3lMFgOcJU7TuoMtGsXa0LvMlXaJEzA%2F9LBxgGFZbvfHHsnhiWxuaAQMsJ5t%2F07udgfJDYP9QGFBI6ZRAqG2WBke4exyifxKnDBQ%3D%3D");
+  // xhr.open("PUT", signedUrl);
+  // var contentType = file.type.split("/")[1];
+  // xhr.setRequestHeader("Content-Type", contentType);
+  //
+  //
+  // xhr.send(file);
+  var contentType = file.type.split("/")[1];
   // now upload the file
   var xhr = new Array();
   xhr[rand] = new XMLHttpRequest();
-  xhr[rand].open("post", apiUrl + "/Camera51Server/uploadimage", true);
+  //xhr[rand].open("post", apiUrl + "/Camera51Server/uploadimage", true);
+  xhr[rand].open("PUT",  signedUrl);
+  xhr[rand].setRequestHeader("Content-Type", contentType);
   xhr[rand].upload.addEventListener("progress", function (event) {
     //console.log(event);
     if (event.lengthComputable) {
@@ -328,28 +367,28 @@ upload = function (file, rand) {
         $(".preview[id='" + rand + "'] .overlay").css("display", "none");
         try{
 
-          data = JSON.parse(xhr[rand].responseText);
-          var url = data.uploadUrl;
+          // data = JSON.parse(xhr[rand].responseText);
+          var url = resultUrl;
           var res = url.slice(0, 6);
           if(res == "http:/"){
             url = "https://"+url.split("http://")[1];
           }
           $(".preview[id='" + rand + "'] img").attr("src", url);
         } catch (e){
-          _this.upload(file, rand);
+          //    _this.upload(file, rand);
           return false;
         }
-        requestImage(rand, data.uploadUrl);
+        requestImage(rand, resultUrl);
 
       } else {
-        _this.upload(file, rand);
+        //  _this.upload(file, rand);
         return false;
         console.error(xhr[rand]);
       }
     }
   };
 
-  xhr[rand].send(formData);
+  xhr[rand].send(file);
 
 };
 
@@ -401,7 +440,7 @@ $(document).ready(function () {
   });
   var obj = document.getElementById("droptarget");
   obj.addEventListener("drop", function(event) {
-      $('.droptarget').css('display','none');
+    $('.droptarget').css('display','none');
   });
 
   // By default, data/elements cannot be dropped in other elements. To allow a drop, we must prevent the default handling of the element
@@ -446,6 +485,14 @@ function setIsloggedIn(type){
     $("#download-images").html("Download images");
   }
   isloggedIn = type;
+}
+function setUserCredit(val){
+  if(val > 0){
+    showWatermark = false;
+  } else {
+    showWatermark = true;
+  }
+
 }
 function setUserloggedIn(userId, userToken){
   siteUserId = userId;

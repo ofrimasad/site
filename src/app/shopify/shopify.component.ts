@@ -11,9 +11,8 @@ import {PlansService} from "../plans/plans.service";
 import {UserstateService} from "../userstate.service";
 import {PlansComponentService} from "./mission.service";
 import {Shopifyconfirmation} from "./confirmation";
-
 import {Rateusshopify} from "./rateusshopify";
-declare  var $:any;
+declare var $: any;
 
 @Component({
   selector: 'shopify',  // <home></home>
@@ -35,7 +34,7 @@ export class Shopify {
   private publishedStatus:string = "any";
   private searchTitle:string;
   private pageReturnfields:string;
-  private imageReplaceUrl:string = "/assets/preloader.svg";
+  private imageReplaceUrl:string = "/assets/loader.gif";
   private localStorageName:string = "shopify-malabi-image-id2-";
   private customerId:number = 1;
   private sessionToken:string = "283f67b2-a5a5-11e6-80f5-76304dec7eb7";
@@ -97,6 +96,13 @@ export class Shopify {
     this.appState.set("sessionToken", this.sessionToken);
     this.appState.set("customerId", this.customerId);
     this.appState.set("planProductId", "454354000000052226");
+    if(appState.getExact("isSandbox")){
+      console.log("Sandbox Shopify", appState.getExact("isSandbox"));
+      this.appState.set("planProductId", "402919000000206001"); // sandbox
+    }
+
+
+
     appState.set("paymentRedirectUrl", (parent !== window) ? document.referrer : document.location);
     this.windowRef.nativeWindow.ga('send', 'event', 'Site', 'shopify app enter', "userId="+params.userId+"&shop="+this.userShop);
     this.windowRef.nativeWindow.ga('set', { page:'/shopify',title:'Shopify App'});
@@ -146,10 +152,10 @@ export class Shopify {
       //console.log(elem, imgUrl , processingResultCode, trackId);
 
       if(processingResultCode >= 100){
-        imgUrl = "/assets/appimages/error.png";
+        imgUrl = "/assets/appimages/error.jpg";
       }
       if(processingResultCode == 103){
-        imgUrl = "/assets/appimages/errorsize.png";
+        imgUrl = "/assets/appimages/errorsize.jpg";
       }
       for(var i=0; i < that.products.length; i++){
         //ronen
@@ -241,8 +247,8 @@ export class Shopify {
     var divToShow = $("#popupBox");
     divToShow.css({
       position: "absolute",
-      left: ($(ev.fromElement).offset().left + $(ev.fromElement).width()) + "px",
-      top: $(ev.fromElement).offset().top + "px"
+      left: ($(ev.relatedTarget).offset().left + $(ev.relatedTarget).width()) + "px",
+      top: $(ev.relatedTarget).offset().top + "px"
     });
     this.divToShowSrc = ev.currentTarget.currentSrc;//ev.fromElement.children[0].getElementsByTagName('img')[0].src;
 
@@ -328,6 +334,8 @@ export class Shopify {
     this.startLoader();
 
     this.addToUserStateRateUs("shopify-image-save-log",1);
+    this.windowRef.nativeWindow.ga('send', 'event', 'Site shopify ADD orig image', this.userId,product.imageSrc);
+    this.windowRef.nativeWindow.ga('send', 'event', 'Site shopify ADD result image', this.userId,product.imageRes);
 
     var imgName = product.imageSrc.substring(product.imageSrc.lastIndexOf("/") + 1).split("?")[0];
     var imgUrl = (product.imageRes.slice(0,4) == "http") ? product.imageRes : "https:"+product.imageRes;
@@ -360,6 +368,8 @@ export class Shopify {
     this.windowRef.nativeWindow.ga('send', 'event', 'Site', 'shopify replace enhanced image',"shop="+this.userShop);
     this.startLoader();
     this.addToUserStateRateUs("shopify-image-save-log",1);
+    this.windowRef.nativeWindow.ga('send', 'event', 'Site shopify REPLACE orig image', this.userId,product.imageSrc);
+    this.windowRef.nativeWindow.ga('send', 'event', 'Site shopify REPLACE result image', this.userId,product.imageRes);
 
     var imgUrl = (product.imageRes.slice(0,4) == "http") ? product.imageRes : "https:"+product.imageRes;
     var tempOriginalImage = product.imageSrc;
@@ -390,6 +400,7 @@ export class Shopify {
                 this.changeDetector.detectChanges();
               }, 200);
               parent.postMessage({"flashNotice":true,"text":'Image has been replaced'},"*");
+
               this.stopLoader();
               product.btnTouchUpDisable = true;
             };
@@ -446,6 +457,7 @@ export class Shopify {
     } else {
       res['trackId'] = this.windowRef.nativeWindow.camera51WithQueue.requestAsync(src/*.split("?",1)[0]*/, id,
         "", true, false, true, this.userId, this.userToken);
+      this.windowRef.nativeWindow.ga('send', 'event', 'Site shopify request async', this.userId, src);
 
       res['imgUrl'] = this.imageReplaceUrl;
       return res;
@@ -517,13 +529,16 @@ export class Shopify {
     }
     this.windowRef.nativeWindow.ga('send', 'event', 'Site', 'shopify touchUp',"shop="+this.userShop);
 
-    var onSaveWithResult = function (resultUrl) {
+    var onSaveWithResult = (resultUrl) => {
+      this.windowRef.nativeWindow.closeModal('modal1');
 
-      $('#modal1').closeModal();
     };
 
-    $('#modal1').openModal();
 
+    this.windowRef.nativeWindow.openModal('modal1');
+
+    this.windowRef.nativeWindow.document.getElementById("camera51-show-transparent").checked = false;
+    this.windowRef.nativeWindow.document.getElementById("camera51-show-shadow").checked = false;
     // open the editor
     this.windowRef.nativeWindow.camera51WithQueue.openEditorWithTrackId({
       'customerId': this.customerId,
@@ -533,8 +548,11 @@ export class Shopify {
 
   showImgPreview(e) {
     var src = e.toElement.children[0].src;
-    $("#modal-show-img").openModal();
-    $("#preview-img-src").attr("src", src);
+    this.windowRef.nativeWindow.openModal('modal-show-img');
+
+    var img = this.windowRef.nativeWindow.document.getElementById("#preview-img-src");
+    img.src = src;
+
   }
 
   onInputFilter(val){
