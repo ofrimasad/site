@@ -1,0 +1,112 @@
+<div class="section">
+  <div class="section-content">
+    <div class="section-row">
+      <div class="section-listing">
+        <div class="section-options">
+          <div class="section-filter">
+            <div class="section-row">
+              <div class="select-wrapper select-after" style="width: 210px;margin: 0px; min-width: 187px;">
+                <select class="btn-bigcommerce select filter-left" (change)="onSelectProduct($event.target.value)">
+                  <option value="all" >All product images</option>
+                  <option value="main" >Product main images</option>
+                  <option value="hours_1" >Updated in Last hour</option>
+
+                  <option value="hours_24" >Updated in last 24 hours</option>
+                </select>
+              </div>
+              <div style="width: 100%;">
+                <input (keyup.enter)="onInputFilter($event.target.value)" class="input-search" type="text" placeholder="Start typing to search for products...">
+              </div>
+              <div class="userCountShop"><span style="font-weight: 800">{{this.appState.get("userCredit")}}</span> Image Credits left</div>
+            </div>
+          </div>
+
+          <div class="section-content" >
+            <div class="section-row">
+              <table class="table-section">
+                <thead>
+                <tr>
+                  <th class="" style="width:106px;max-width: 220px;">Product Title</th>
+                  <th class="col-center" style="width: 120px">Listed Image</th>
+                  <th class="col-center" style="width: 120px">Enhanced Image</th>
+
+                  <th class=""></th>
+                  <th class=""></th>
+                  <th class=""></th>
+
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let product of products; let idx = index;" id="tr-imageId-{{product.imageId}}" #ImageRow>
+                  <td width="220" ><span class="threePoints">{{product.title}}</span></td>
+                  <td class="col-center" >
+                    <div class="aspect-ratio aspect-ratio--square aspect-ratio--square--50 aspect-ratio--interactive" >
+                      <img id="orig-img-id-{{product.imageId}}" class="aspect-ratio__content materialboxed" src="{{product.imageSrc}}" >
+                    </div>
+                  </td>
+                  <td class="col-center">
+                    <div class="aspect-ratio aspect-ratio--square aspect-ratio--square--50 aspect-ratio--interactive" (click)="touchUp(product)" >
+                      <img id="res-img-id-{{product.imageId}}"  class="aspect-ratio__content materialboxed" style="z-index: 22;cursor: pointer; max-width: 118px;max-height: 115px;" src="{{product.imageRes}}" (mouseover)="resultImageMouseOver($event)" (mouseout)="resultImageMouseOver(false)">
+                    </div>
+                  </td>
+
+                  <td class="col-center"><button (click)="touchUp(product)" name="touchUp" [ngClass]="{disabled: product.btnTouchUpDisable}" class="btn-bigcommerce default touchUp" >Touch-up</button></td>
+                  <td class="col-center"><button (click)="replaceProductImage(product)" name="replaceProductImage" [ngClass]="{disabled: product.btnReplaceProductImageDisable}" class="btn-bigcommerce primary replaceProductImage"><i class="replaceIcon"></i>Replace original image with enhanced image</button></td>
+                  <td class="col-center"><button (click)="addProductImage(product)" name="addProductImage" [ngClass]="{disabled: product.btnAddProductImageDisable}"  class="btn-bigcommerce default addProductImage"><i class="addIcon"></i>Add enhanced image to product</button></td>
+                </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="section-content">
+            <div class="section-row">
+              <div class="pagination" *ngIf="products.length > 9 && showMoreButton">
+                <button (click)="showMoreProducts()" class="btn-bigcommerce default" href="#">show more</button>
+              </div>
+              <div class="pagination" *ngIf="showMoreButton == false">
+                <span>No products found</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="modal-welcome-bigcommerce" class="modal modal-small" style="display: none">
+  <div class="modal-content" style="text-align: center">
+    <h1 id="errorSubject" style="display: inline-block;font-size: 21px;margin: 0px">Welcome to Malabi image background removal</h1>
+    <div style="margin-top: 20px;margin-bottom: 20px;height: 60px;"><img src="https://cdn.bigcommerce.com/s/files/applications/dc4b0d5a27a5f392b8d0e29e64097614.png?1478702023"></div>
+    <p id="" style="font-size: 19px;margin-top: 0px;">Enjoy {{this.appState.get("userCredit")}} image credits for FREE</p>
+  </div>
+  <div class="modal-footer">
+    <button class=" modal-action modal-close waves-effect waves-green btn-flat font14" >start</button>
+  </div>
+</div>
+<div id="popupBox" [style.display]="divToShowDisplay" style="
+    z-index: 22;
+    border: 1px lavender;
+    border-style: groove;">
+  <img src="{{divToShowSrc}}" style="max-height: 300px;max-width: 300px" >
+</div>
+<yourinfobigcommerce></yourinfobigcommerce>
+<rateusbigcommerce (rateusmodal)="rateusmodal($event)"></rateusbigcommerce>
+<bigcommerceconfirmation (confirmReplace)="confirmReplace($event)"></bigcommerceconfirmation>
+<script type="text/javascript">
+  /* <![CDATA[ */
+  var google_conversion_id = 882470777;
+  var google_conversion_label = "_hHlCPGi1WwQ-d7lpAM";
+  var google_custom_params = window.google_tag_params;
+  var google_remarketing_only = true;
+  /* ]]> */
+</script>
+<script type="text/javascript" src="//www.googleadservices.com/pagead/conversion.js">
+</script>
+<noscript>
+  <div style="display:inline;">
+    <img height="1" width="1" style="border-style:none;" alt="" src="//googleads.g.doubleclick.net/pagead/viewthroughconversion/882470777/?value=1.00&amp;currency_code=USD&amp;label=_hHlCPGi1WwQ-d7lpAM&amp;guid=ON&amp;script=0"/>
+  </div>
+</noscript>

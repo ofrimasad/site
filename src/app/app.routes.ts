@@ -15,6 +15,7 @@ import { NoContent } from './no-content';
 import { DataResolver } from './app.resolver';
 import {Logout} from "./logout/logout.component";
 import {Shopify} from "./shopify";
+import {Bigcommerce} from "./bigcommerce";
 
 
 export const ROUTES: Routes = [
@@ -22,6 +23,8 @@ export const ROUTES: Routes = [
   { path: 'home',  component: Home },
   { path: 'shopify/:userId/:userToken',  component: Shopify },
   { path: 'shopify/:userId/:userToken/:shop',  component: Shopify },
+  { path: 'bigcommerce/:userId/:userToken',  component: Bigcommerce },
+  { path: 'bigcommerce/:userId/:userToken/:shop',  component: Bigcommerce },
   { path: 'login',  component: Login },
   { path: 'yourinfo',  component: Yourinfo },
 

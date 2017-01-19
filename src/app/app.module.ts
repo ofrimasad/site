@@ -14,6 +14,7 @@ import { APP_RESOLVER_PROVIDERS } from './app.resolver';
 import { AppState, InteralStateType } from './app.service';
 import { Home } from './home';
 import { Shopify } from './shopify';
+import { Bigcommerce } from './bigcommerce';
 import { Logout } from './logout';
 import { Login } from './login';
 import { Plans } from './plans';
@@ -38,7 +39,13 @@ import {Yourinfoshopify} from "./shopify/yourinfo-shopify";
 import {PlansComponentService} from "./shopify/mission.service";
 import {Shopifyconfirmation} from "./shopify/confirmation/confirmation.component";
 import {Rateusshopify} from "./shopify/rateusshopify";
+
 import {DateNice} from "./datenice.pipe";
+
+import {Bigcommerceconfirmation} from "./bigcommerce/confirmation";
+import {Rateusbigcommerce} from "./bigcommerce/rateusbigcommerce";
+import {Yourinfobigcommerce} from "./bigcommerce/yourinfo-bigcommerce";
+
 
 //
 //
@@ -71,8 +78,11 @@ const APP_PROVIDERS = [
     Yourinfo,
     Register,
     NoContent,DateNice,
-      Contactus,Yourinfoshopify, Shopifyconfirmation,
-    XLarge, TakefirstPipe,Shopify, Rateusshopify
+      Contactus,
+    XLarge, TakefirstPipe,
+    Yourinfoshopify, Shopify,Shopifyconfirmation, Rateusshopify,
+    Yourinfobigcommerce, Bigcommerce,Bigcommerceconfirmation, Rateusbigcommerce
+
   ],
   imports: [ // import Angular's modules
     BrowserModule,

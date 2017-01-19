@@ -1,0 +1,42 @@
+<div class="card-container">
+  <div id="modal-bigcommerce-rateus" class="modal" style="display: none;width:469px ">
+    <div class="modal-content ">
+      <div x-large class="sample-content center">If you enjoy using Malabi, would you mind taking a moment to rate it? Thanks for your support.</div>
+      <hr style="margin: 30px">
+      <div class="center">
+        <span>Tap a star to rate</span>
+        <div class="rating">
+          <span (click)="rate(5)" [class.isStartSelected]="starSelected['5']">☆</span>
+          <span (click)="rate(4)" [class.isStartSelected]="starSelected['4']">☆</span>
+          <span (click)="rate(3)" [class.isStartSelected]="starSelected['3']">☆</span>
+          <span (click)="rate(2)" [class.isStartSelected]="starSelected['2']">☆</span>
+          <span (click)="rate(1)" [class.isStartSelected]="starSelected['1']">☆</span>
+        </div>
+
+      </div>
+      <div  class="center" [style.display]="showDobetter ? 'block': 'none'" style="margin-top: 20px">
+        <span>What can we do better?</span>
+        <div>
+          <textarea #textDoBetterArea rows="4" cols="50"></textarea >
+        </div>
+      </div>
+
+    </div>
+
+    <div class="modal-footer" style="height: 71px;" >
+      <div class="input-wrapper inline center">
+
+      <div [style.display]="showDobetter ? 'block': 'none'" style="float: right;">
+        <button class="btn-bigcommerce default" (click)="submit()" >Send</button>
+
+      </div>
+
+        <div [style.display]="showDobetter ? 'none': 'block'">
+          <button class="btn-bigcommerce default" (click)="dontask()" style="float: left;color: gray; background: #fafafa;">Don't ask again</button>
+          <button class="btn-bigcommerce default" (click)="remindme()" style="float: right;background: #fafafa;">Remind me later</button>
+        </div>
+
+    </div>
+    </div>
+  </div>
+</div>

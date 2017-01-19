@@ -1,0 +1,19 @@
+<div class="card-container">
+  <div id="modal-bigcommerce-confirmation" class="modal" style="display: none;width:469px ">
+    <div class="modal-content">
+        <div x-large class="sample-content">Replacing image cannot be undone</div>
+    </div>
+    <div class="modal-footer" style="height: 71px;" >
+      <div class="input-wrapper inline center">
+        <div class=" col s12" style="margin-top:7px;float: left">
+          <input (change)="checkBoxChange($event)" type="checkbox" name="noshowagain" class="filled-in " id="filled-in-box"/>
+          <label for="filled-in-box" class="labelAfter" style="font-size: 12px">Do not show me this message again&nbsp;&nbsp;&nbsp;&nbsp;</label>
+        </div>
+        <div style="float: right;">
+        <button class="btn-bigcommerce default" (click)="onSave(false)" >Cancel</button>
+        <button class="btn-bigcommerce primary" (click)="onSave(true)">Replace</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
