@@ -20,7 +20,7 @@ export class Products {
 
 
 @Injectable()
-export class ProductsService {
+export class ProductsBigcommerceService {
 
   private headers = new Headers({'Content-Type': 'application/json'});
 

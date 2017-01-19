@@ -45,6 +45,7 @@ import {DateNice} from "./datenice.pipe";
 import {Bigcommerceconfirmation} from "./bigcommerce/confirmation";
 import {Rateusbigcommerce} from "./bigcommerce/rateusbigcommerce";
 import {Yourinfobigcommerce} from "./bigcommerce/yourinfo-bigcommerce";
+import {ProductsBigcommerceService} from "./bigcommerce/products-bigcommerce.service";
 
 
 //
@@ -53,7 +54,7 @@ import {Yourinfobigcommerce} from "./bigcommerce/yourinfo-bigcommerce";
 const APP_PROVIDERS = [
   ...APP_RESOLVER_PROVIDERS,
   AppState,UserService, PlansService, InvoiceService, SubscriptionService, ProductsService,
-  UserstateService, PlansComponentService
+  UserstateService, PlansComponentService, ProductsBigcommerceService
 ];
 //
 // type StoreType = {

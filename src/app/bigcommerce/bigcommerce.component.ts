@@ -2,7 +2,7 @@ import {Component, ElementRef, ChangeDetectorRef, NgZone, Input} from '@angular/
 import {AppState} from '../app.service';
 import {Router, ActivatedRoute} from "@angular/router";
 import {UserService} from "../user.service";
-import {ProductsService, Products} from "../shopify/products.service";
+import {ProductsBigcommerceService, Products} from "./products-bigcommerce.service";
 import {forEach} from "@angular/router/src/utils/collection";
 import {isUndefined} from "util";
 import {WindowRef} from "../WindowRef";
@@ -50,7 +50,7 @@ export class Bigcommerce {
   // TypeScript public modifiers
   constructor(public appState: AppState, private route: ActivatedRoute, private router: Router,
               private windowRef: WindowRef, private eref: ElementRef, private changeDetector: ChangeDetectorRef,
-              private userService: UserService, private productsService: ProductsService, private zone:NgZone,
+              private userService: UserService, private productsService: ProductsBigcommerceService, private zone:NgZone,
               private plansService: PlansService, private plansComponentService: PlansComponentService,
               private userState:UserstateService ) {
 

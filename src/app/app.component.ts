@@ -48,12 +48,14 @@ export class AppComponent {
     appState.set("apiDownloadURL", "https://api.malabi.co");
     appState.set("apiURL", "https://users.malabi.co/UsersServer/v1");
     appState.set("apiShopifyURL", "https://users.malabi.co/UsersServer/shopify");
+    appState.set("apiBigcommerceURL", "https://users.malabi.co/UsersServer/bigcommerce");
     appState.set("planProductId", "454354000000052180");
 
     if(appState.getExact("isSandbox")){
       console.log("Sandbox", appState.getExact("isSandbox"));
       appState.set("apiURL", "https://sandbox.users.malabi.co/UsersServer/v1");
       appState.set("apiShopifyURL", "https://sandbox.users.malabi.co/UsersServer/shopify");
+      appState.set("apiBigcommerceURL", "https://sandbox.users.malabi.co/UsersServer/bigcommerce");
       appState.set("planProductId", "402919000000047078");
     }
 
