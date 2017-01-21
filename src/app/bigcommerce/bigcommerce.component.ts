@@ -424,7 +424,7 @@ export class Bigcommerce {
           if (products["status"] == "fail") {
             console.log("fail to retrieve info. Login again.");
           } else {
-            this.mapProductResults(products["products"]);
+            this.mapProductResults(products["data"]);
           }
           this.stopLoader();
         }
@@ -460,8 +460,8 @@ export class Bigcommerce {
     c["imageRes"] = res['imgUrl'];
     c["trackId"] = res['trackId'];
     c["id"] = b.id;
-    c["title"] = b.title;
-    c["imageSrc"] = imageInfo.src;
+    c["title"] = b.name;
+    c["imageSrc"] = imageInfo.url_standard;
     c["imageId"] = imageInfo.id;
     c["imagePosition"] = imageInfo.position;
     c["processingResultCode"] = res['processingResultCode'];
@@ -482,17 +482,18 @@ export class Bigcommerce {
     if(products === undefined ||  products.constructor !== Array ){
       return;
     }
+    console.log(products);
     var res = products.reduce((a:any, b:any)=> {
       var newArray = [];
       if(this.showALL){
 
         for(var i=0; i < b.images.length;i++){
-
-          var res = this.addToRequest(b.images[i].id, b.images[i].src);
+        console.log(b.images);
+          var res = this.addToRequest(b.images[i].id, b.images[i].url_standard);
           newArray.push(this.createProduct(b, b.images[i], res));
         }
       } else {
-        var res = this.addToRequest(b.images[0].id, b.images[0].src);
+        var res = this.addToRequest(b.images[0].id, b.images[0].url_standard);
         newArray.push(this.createProduct(b, b.images[0], res));
       }
 
@@ -506,6 +507,7 @@ export class Bigcommerce {
     }
 
     this.products.push(...res);
+    console.log(this.products);
     setTimeout(() => {
       this.changeDetector.detectChanges();
     }, 200);
