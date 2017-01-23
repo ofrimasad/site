@@ -366,7 +366,7 @@ hr {
   -webkit-box-pack:center;
   -webkit-box-align:center;
   /* W3C */
-  display:box;
+  display:flex;
   box-pack:center;
   box-align:center;
 }
@@ -603,7 +603,7 @@ hr {
   -webkit-box-pack:center;
   -webkit-box-align:center;
   /* W3C */
-  display:box;
+  display:flex;
   box-pack:center;
   box-align:center;
 }

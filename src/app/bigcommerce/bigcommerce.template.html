@@ -1,3 +1,15 @@
+
+
+<h1>Automatic background remover by Malabi</h1>
+<div>
+  <div style="float: right">
+    <button>Refresh</button>
+    <button (click)="openPlans()">Pricing</button>
+    <button>Get support</button>
+    <button>My account</button>
+    <button>Tutorial video</button>
+  </div>
+</div>
 <div class="section">
   <div class="section-content">
     <div class="section-row">
@@ -23,10 +35,10 @@
 
           <div class="section-content" >
             <div class="section-row">
-              <table class="table-section">
+              <table class="tbl tbl-stripe tbl-border tbl-admin">
                 <thead>
                 <tr>
-                  <th class="" style="width:106px;max-width: 220px;">Product Title</th>
+                  <th class="" style="width:106px;max-width: 220px;">Product Name</th>
                   <th class="col-center" style="width: 120px">Listed Image</th>
                   <th class="col-center" style="width: 120px">Enhanced Image</th>
 
@@ -92,7 +104,7 @@
     border-style: groove;">
   <img src="{{divToShowSrc}}" style="max-height: 300px;max-width: 300px" >
 </div>
-<yourinfobigcommerce></yourinfobigcommerce>
+<yourinfobigcommerce (yourinfomodal)="openModal()"></yourinfobigcommerce>
 <rateusbigcommerce (rateusmodal)="rateusmodal($event)"></rateusbigcommerce>
 <bigcommerceconfirmation (confirmReplace)="confirmReplace($event)"></bigcommerceconfirmation>
 <script type="text/javascript">

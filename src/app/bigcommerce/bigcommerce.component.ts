@@ -341,7 +341,8 @@ export class Bigcommerce {
         res => {
           if (res.status == "fail") {
             if(res.error == "credit-not-enough"){
-              this.plansComponentService.openPlan({"noImagesTitle":true});
+
+              this.openPlans({"noImagesTitle":true});
             }
           } else {
             parent.postMessage({"flashNotice":true,"text":'Image has been added to your product'},"*");
@@ -354,6 +355,12 @@ export class Bigcommerce {
 
         }
       )
+  }
+
+
+  private openPlans(obj = {}){
+
+    this.plansComponentService.openPlan(obj);
   }
 
   private confirmReplace(product){
@@ -379,7 +386,7 @@ export class Bigcommerce {
             product.btnAddProductImageDisable = false;
             product.btnReplaceProductImageDisable = false;
             if(res.error == "credit-not-enough"){
-              this.plansComponentService.openPlan({"noImagesTitle":true});
+              this.openPlans({"noImagesTitle":true});
             }
             //@TOdo: show place.
           } else {
@@ -463,7 +470,7 @@ export class Bigcommerce {
     c["title"] = b.name;
     c["imageSrc"] = imageInfo.url_standard;
     c["imageId"] = imageInfo.id;
-    c["imagePosition"] = imageInfo.position;
+    c["imagePosition"] = imageInfo.sort_order;
     c["processingResultCode"] = res['processingResultCode'];
     c["btnTouchUpDisable"] = false;
     c["btnReplaceProductImageDisable"] = false;
@@ -482,13 +489,13 @@ export class Bigcommerce {
     if(products === undefined ||  products.constructor !== Array ){
       return;
     }
-    console.log(products);
+    //console.log(products);
     var res = products.reduce((a:any, b:any)=> {
       var newArray = [];
       if(this.showALL){
 
         for(var i=0; i < b.images.length;i++){
-        console.log(b.images);
+
           var res = this.addToRequest(b.images[i].id, b.images[i].url_standard);
           newArray.push(this.createProduct(b, b.images[i], res));
         }
@@ -507,7 +514,6 @@ export class Bigcommerce {
     }
 
     this.products.push(...res);
-    console.log(this.products);
     setTimeout(() => {
       this.changeDetector.detectChanges();
     }, 200);

@@ -43,7 +43,8 @@ export class Login {
             // if (event.target.innerHTML =="Login") // or some similar check
             //     $('#modalLogin').openModal();
             if (event.target.id =="download-images") // or some similar check
-                $('#modalLogin').openModal();
+
+                this.windowRef.nativeWindow.openModal('modalLogin');
         }
     }
 
@@ -58,18 +59,21 @@ export class Login {
 
     openModal(){
       var that = this;
-      $('#modalLogin').openModal({complete: function() {
+      this.windowRef.nativeWindow.openModal('modalLogin',{complete: function() {
         that.router.navigate(['/']);
         $(".lean-overlay").remove();
-      }
-      });
+      }});
+
+
+
       this.windowRef.nativeWindow.ga('set', { page:'/login',title:'Login'});
       this.windowRef.nativeWindow.ga('send', 'pageview');
     }
 
     closeModal(){
         $(".lean-overlay").remove();
-        $('#modalLogin').closeModal();
+
+        this.windowRef.nativeWindow.closeModal('modalLogin');
     }
 
     submitState(f: NgForm) {

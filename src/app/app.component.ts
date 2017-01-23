@@ -21,7 +21,7 @@ declare  var $:any;
  */
 @Component({
   selector: 'app',
-  //encapsulation: ViewEncapsulation.None,
+  encapsulation: ViewEncapsulation.Emulated ,
   styleUrls: [
     './app.style.css'
   ],
@@ -42,7 +42,7 @@ export class AppComponent {
     private router: Router, private windowRef: WindowRef,private _compiler: Compiler,
     private userState:UserstateService, private loginservice: UserService, private plansComponentService:PlansComponentService) {
 
-    appState.set("isSandbox", false);
+    appState.set("isSandbox", true);
     // clear cache
     _compiler.clearCache();
     appState.set("apiDownloadURL", "https://api.malabi.co");

@@ -220,12 +220,7 @@
       case "openMyAccount":
         window.angularComponentYourinfoshopify.component.openModal();
         break;
-//      case "modalConfirmResponseFalse":
-//        window.angularComponentShopify.component.modalConfirmResponse(false);
-//        break;
-//      case "modalConfirmResponseTrue":
-//        window.angularComponentShopify.component.modalConfirmResponse(true);
-//        break;
+
       case "refreshShopifyProducts":
         window.angularComponentShopify.component.refreshShopifyProducts();
         break;
@@ -251,109 +246,110 @@
       "apiUrl":apiUrl,
     });
 
+    // check if already exsits, not to override.
+    if ( typeof camera51WithQueue.showImageCallbackOverride !== 'function' ) {
+      camera51WithQueue.showImageCallbackOverride = function (elem, imgUrl, processingResultCode, trackId) {
 
-    // version which does not show errors.
-    camera51WithQueue.showImageCallbackOverride = function(elem, imgUrl , processingResultCode, trackId){
-      var elementHeight = elem.clientHeight;
-      var maxImage = elementHeight;// - 45;
-      var wrapper = document.createElement('div');
-      if (processingResultCode < 100 ) {
-        var img = document.createElement('img');
-        img.src = imgUrl;
-        img.onmousedown = function(event){
-          if(event.preventDefault){
-            event.preventDefault();
-          } else {
-            event.returnValue = false;
-          }
+        var elementHeight = elem.clientHeight;
+        var maxImage = elementHeight;// - 45;
+        var wrapper = document.createElement('div');
+        if (processingResultCode < 100) {
+          var img = document.createElement('img');
+          img.src = imgUrl;
+          img.onmousedown = function (event) {
+            if (event.preventDefault) {
+              event.preventDefault();
+            } else {
+              event.returnValue = false;
+            }
 
-        };
-        img.className = "img-result-preview";
-        img.style.maxWidth = "180px";
-        img.style.maxHeight = maxImage+"px";
-        // img.onclick =  function () {
-        //   camera51OpenEditor(trackId,elem.id);
-        // };
-        wrapper.setAttribute("onclick","camera51OpenEditor('" + trackId + "','"+ elem.id+ "');");
-
-        wrapper.style.cursor = "pointer";
-        elem.innerHTML = "";
-        wrapper.appendChild(img);
-        wrapper.style.height = "inherit";
-        wrapper.style.width = "inherit";
-        elem.appendChild(wrapper);
-      }
-      if (processingResultCode > 100) {
-        elem.innerHTML = "";
-        var errorWrapper = document.createElement('div');
-
-        var header = document.createElement('div');
-
-        if(processingResultCode > 100){
-
-          header.innerHTML = camera51Text['error-header-image-failure'];
-          header.className = "error-header-image-failure";
-          errorWrapper.className = "camera51-error-wrapper-failure";
-        } else {
-          errorWrapper.className = "camera51-error-wrapper";
-          var errorText = document.createElement('div');
-          var str = "error-text-"+ processingResultCode;
-          header.innerHTML = camera51Text[str];
-          header.className = "error-header-default";
-          // wrapper.onclick =  function () {
+          };
+          img.className = "img-result-preview";
+          img.style.maxWidth = "180px";
+          img.style.maxHeight = maxImage + "px";
+          // img.onclick =  function () {
           //   camera51OpenEditor(trackId,elem.id);
           // };
-          wrapper.setAttribute("onclick","camera51OpenEditor('" + trackId + "','"+ elem.id+ "');");
+          wrapper.setAttribute("onclick", "camera51OpenEditor('" + trackId + "','" + elem.id + "');");
 
           wrapper.style.cursor = "pointer";
+          elem.innerHTML = "";
+          wrapper.appendChild(img);
           wrapper.style.height = "inherit";
           wrapper.style.width = "inherit";
+          elem.appendChild(wrapper);
         }
+        if (processingResultCode > 100) {
+          elem.innerHTML = "";
+          var errorWrapper = document.createElement('div');
 
-        errorWrapper.appendChild(header);
-        var errorTextWrapper = document.createElement('div');
+          var header = document.createElement('div');
 
-        var errorText = document.createElement('div');
-        if(processingResultCode > 100){
-          var str = "error-text-"+ processingResultCode;
-          errorText.innerHTML = camera51Text[str];
-          errorText.className = "camera51-error-text-failure";
-        } else {
-          errorText.className = "camera51-error-text";
-          errorText.innerHTML = camera51Text["click-to-fix"];
+          if (processingResultCode > 100) {
+
+            header.innerHTML = camera51Text['error-header-image-failure'];
+            header.className = "error-header-image-failure";
+            errorWrapper.className = "camera51-error-wrapper-failure";
+          } else {
+            errorWrapper.className = "camera51-error-wrapper";
+            var errorText = document.createElement('div');
+            var str = "error-text-" + processingResultCode;
+            header.innerHTML = camera51Text[str];
+            header.className = "error-header-default";
+            // wrapper.onclick =  function () {
+            //   camera51OpenEditor(trackId,elem.id);
+            // };
+            wrapper.setAttribute("onclick", "camera51OpenEditor('" + trackId + "','" + elem.id + "');");
+
+            wrapper.style.cursor = "pointer";
+            wrapper.style.height = "inherit";
+            wrapper.style.width = "inherit";
+          }
+
+          errorWrapper.appendChild(header);
+          var errorTextWrapper = document.createElement('div');
+
+          var errorText = document.createElement('div');
+          if (processingResultCode > 100) {
+            var str = "error-text-" + processingResultCode;
+            errorText.innerHTML = camera51Text[str];
+            errorText.className = "camera51-error-text-failure";
+          } else {
+            errorText.className = "camera51-error-text";
+            errorText.innerHTML = camera51Text["click-to-fix"];
+          }
+
+
+          errorTextWrapper.className = "camera51-error-text-wrapper";
+          errorTextWrapper.appendChild(errorText);
+          errorWrapper.appendChild(errorTextWrapper);
+          wrapper.appendChild(errorWrapper);
+          elem.appendChild(wrapper);
         }
+        if (processingResultCode <= 100) {
+          var btnWrapper = document.createElement('div');
+          btnWrapper.style.position = "relative";
+          btnWrapper.style.left = 0;
+          btnWrapper.style.right = 0;
+          btnWrapper.style.bottom = "-20px";
 
+          var btn = document.createElement('a');
+          btn.innerHTML = "TOUCH UP";
+          // btn.onclick =  function () {
+          //   camera51OpenEditor(trackId,elem.id);
+          // };
+          btn.setAttribute("onclick", "camera51OpenEditor('" + trackId + "','" + elem.id + "');");
 
-        errorTextWrapper.className = "camera51-error-text-wrapper";
-        errorTextWrapper.appendChild(errorText);
-        errorWrapper.appendChild(errorTextWrapper);
-        wrapper.appendChild(errorWrapper);
-        elem.appendChild(wrapper);
+          btn.className = "btn btn-touchup";
+
+          btnWrapper.appendChild(btn);
+          elem.appendChild(btnWrapper);
+
+          //elem.style.cursor = "pointer";
+        }
+        window.angularComponentApp.component.updatedImages();
       }
-      if (processingResultCode <= 100) {
-        var btnWrapper = document.createElement('div');
-        btnWrapper.style.position = "relative";
-        btnWrapper.style.left = 0;
-        btnWrapper.style.right = 0;
-        btnWrapper.style.bottom = "-20px";
-
-        var btn = document.createElement('a');
-        btn.innerHTML = "TOUCH UP";
-        // btn.onclick =  function () {
-        //   camera51OpenEditor(trackId,elem.id);
-        // };
-        btn.setAttribute("onclick","camera51OpenEditor('" + trackId + "','"+ elem.id+ "');");
-
-        btn.className = "btn btn-touchup";
-
-        btnWrapper.appendChild(btn);
-        elem.appendChild(btnWrapper);
-
-        //elem.style.cursor = "pointer";
-      }
-      window.angularComponentApp.component.updatedImages();
     }
-
   });
 
 
