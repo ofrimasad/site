@@ -212,7 +212,7 @@ form {
 *******************************************/
 
 a {
-  color: #479ccf;
+  color: #3E5ED6;
   text-decoration: none;
   line-height: 1.428;
   font-size: 15px;
@@ -283,16 +283,17 @@ hr {
   box-sizing: border-box;
   cursor: pointer;
   display: inline-block;
-  height: 32px;
-  line-height: 30px;
-  padding: 0 15px;
+
+  line-height: 1.3334;
+  padding: 7px 15px;
   font-size: 13px;
-  border-radius: 4px;
+  border-radius: 2px;
   text-decoration: none;
   white-space: nowrap;
   text-transform: none;
   vertical-align: middle;
   -webkit-appearance: none;
+  text-shadow: none;
   margin: 0;
 }
 
@@ -302,14 +303,14 @@ hr {
 
 /* modifier: primary */
 .btn-bigcommerce.primary {
-  background-color: #479ccf;
-  border: 1px solid #479ccf;
+  background-color: #3E5ED6;
+  border: 1px solid #3E5ED6;
   color: #FFFFFF;
 }
 
 .btn-bigcommerce.primary:hover, .btn-bigcommerce.primary:active {
-  background-color: #4293C2;
-  border: #479ccf 1px solid;
+  background-color: #93aafd;
+  border: #93aafd 1px solid;
   color: #FFFFFF;
   text-decoration: none;
 }
@@ -330,7 +331,7 @@ hr {
 .btn-bigcommerce.default, .btn-bigcommerce.filter-left, .btn-bigcommerce.destroy {
   background-color: #ffffff;
   border: 1px solid #d3dbe2;
-  color: #479ccf;
+  color: #3E5ED6;
 }
 
 .btn-bigcommerce.default:hover, .btn-bigcommerce.default:active, .btn-bigcommerce.filter-left:hover, .btn-bigcommerce.filter-left:active {
@@ -437,7 +438,7 @@ hr {
 }
 
 .segmented>li .btn.primary {
-  border: 1px solid #479ccf;
+  border: 1px solid #3E5ED6;
   border-right-color: #3e89b5;
 }
 
@@ -457,7 +458,7 @@ hr {
 }
 
 .segmented>li:last-child .btn.primary {
-  border-right-color: #479ccf;
+  border-right-color: #3E5ED6;
 }
 
 .segmented>li.middle-child>.btn {
@@ -587,6 +588,11 @@ hr {
 
 .section-cell.dark {
   background-color: #f5f6f7;
+}
+
+.section-cell-override {
+  background-color: initial;
+  box-shadow: initial;
 }
 
 .section-upload-images {
@@ -752,7 +758,7 @@ hr {
 .section-tabs li.active {
   background: white;
   border-bottom: solid 1px white;
-  color: #479ccf;
+  color: #3E5ED6;
   cursor: default;
 }
 
@@ -760,7 +766,7 @@ hr {
   /*background: white;
   border: 1px solid #d3dbe2;
   border-bottom: solid 1px white;
-  color: #479ccf;
+  color: #3E5ED6;
   cursor: default;
   line-height: 26px;
   padding: 0 7px;
@@ -777,7 +783,7 @@ hr {
 }
 
 .section-tabs li a:hover {
-  color: #479CCF;
+  color: #3E5ED6;
   background: #FAFBFC;
 }
 
@@ -809,7 +815,7 @@ hr {
 }
 
 .section-filter input[type="text"]:focus {
-  border: #479CCF 1px solid;
+  border: #3E5ED6 1px solid;
   outline: 0;
 }
 
@@ -1106,7 +1112,7 @@ label.label-normal {
 
 .select:focus {
   outline: none;
-  border-color: #479ccf;
+  border-color: #3E5ED6;
 }
 
 .select option {
@@ -1180,7 +1186,7 @@ td .checkbox-wrapper, th .checkbox-wrapper {
 }
 
 .checkbox:active ~ .checkbox-styled, .checkbox:focus ~ .checkbox-styled {
-  border-color: #479ccf
+  border-color: #3E5ED6
 }
 
 .checkbox:checked ~ .checkbox-styled:after {
@@ -1196,11 +1202,11 @@ td .checkbox-wrapper, th .checkbox-wrapper {
 }
 
 .checkbox-styled:after {
-  background-image: url(data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%20enable-background%3D%22new%200%200%2024%2024%22%3E%3Cstyle%20type%3D%22text%2Fcss%22%3Ecircle%2Cellipse%2Cline%2Cpath%2Cpolygon%2Cpolyline%2Crect%2Ctext%7Bfill%3A%23479ccf%20%21important%3B%20%7D%3C%2Fstyle%3E%3Cpath%20d%3D%22M23.6%205L22%203.4c-.5-.4-1.2-.4-1.7%200L8.5%2015l-4.8-4.7c-.5-.4-1.2-.4-1.7%200L.3%2011.9c-.5.4-.5%201.2%200%201.6l7.3%207.1c.5.4%201.2.4%201.7%200l14.3-14c.5-.4.5-1.1%200-1.6z%22%2F%3E%3C%2Fsvg%3E)
+  background-image: url(data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%20enable-background%3D%22new%200%200%2024%2024%22%3E%3Cstyle%20type%3D%22text%2Fcss%22%3Ecircle%2Cellipse%2Cline%2Cpath%2Cpolygon%2Cpolyline%2Crect%2Ctext%7Bfill%3A%233E5ED6%20%21important%3B%20%7D%3C%2Fstyle%3E%3Cpath%20d%3D%22M23.6%205L22%203.4c-.5-.4-1.2-.4-1.7%200L8.5%2015l-4.8-4.7c-.5-.4-1.2-.4-1.7%200L.3%2011.9c-.5.4-.5%201.2%200%201.6l7.3%207.1c.5.4%201.2.4%201.7%200l14.3-14c.5-.4.5-1.1%200-1.6z%22%2F%3E%3C%2Fsvg%3E)
 }
 
 .checkbox:indeterminate ~ .checkbox-styled:after {
-  background-image: url(data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2012%2012%22%20enable-background%3D%22new%200%200%2012%2012%22%3E%3Cstyle%20type%3D%22text%2Fcss%22%3Ecircle%2Cellipse%2Cline%2Cpath%2Cpolygon%2Cpolyline%2Crect%2Ctext%7Bfill%3A%23479ccf%20%21important%3B%20%7D%3C%2Fstyle%3E%3Cpath%20d%3D%22M6%200%22%2F%3E%3Cpath%20d%3D%22M.8%207C.3%207%200%206.7%200%206.2v-.4c0-.5.3-.8.8-.8h10.5c.4%200%20.7.3.7.8v.5c0%20.4-.3.7-.8.7H.8z%22%2F%3E%3C%2Fsvg%3E)
+  background-image: url(data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2012%2012%22%20enable-background%3D%22new%200%200%2012%2012%22%3E%3Cstyle%20type%3D%22text%2Fcss%22%3Ecircle%2Cellipse%2Cline%2Cpath%2Cpolygon%2Cpolyline%2Crect%2Ctext%7Bfill%3A%233E5ED6%20%21important%3B%20%7D%3C%2Fstyle%3E%3Cpath%20d%3D%22M6%200%22%2F%3E%3Cpath%20d%3D%22M.8%207C.3%207%200%206.7%200%206.2v-.4c0-.5.3-.8.8-.8h10.5c.4%200%20.7.3.7.8v.5c0%20.4-.3.7-.8.7H.8z%22%2F%3E%3C%2Fsvg%3E)
 }
 
 /******************************************
@@ -1258,7 +1264,7 @@ table.table-section tbody tr:hover {
 
 table.table-section .sortable:hover {
   background: #eff9fd;
-  color: #479ccf;
+  color: #3E5ED6;
   cursor: hand;
 }
 
@@ -1391,7 +1397,7 @@ table .thumbnail-image {
 /* SVG icons */
 
 .ico-prev {
-  background-image: url(data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xmlns%3Axlink%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2Fxlink%22%20viewBox%3D%220%200%2028%2028%22%3E%3Cstyle%20type%3D%22text%2Fcss%22%3Ecircle%2Cellipse%2Cline%2Cpath%2Cpolygon%2Cpolyline%2Crect%2Ctext%7Bfill%3A%23479ccf%20%21important%3B%20%7D%3C%2Fstyle%3E%3Cpath%20d%3D%22M23%2C24.7L12.5%2C14.2L23%2C3.7L20.3%2C1L7%2C14.2l13.3%2C13.3C20.3%2C27.5%2C23%2C24.7%2C23%2C24.7z%22%2F%3E%3C%2Fsvg%3E)
+  background-image: url(data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xmlns%3Axlink%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2Fxlink%22%20viewBox%3D%220%200%2028%2028%22%3E%3Cstyle%20type%3D%22text%2Fcss%22%3Ecircle%2Cellipse%2Cline%2Cpath%2Cpolygon%2Cpolyline%2Crect%2Ctext%7Bfill%3A%233E5ED6%20%21important%3B%20%7D%3C%2Fstyle%3E%3Cpath%20d%3D%22M23%2C24.7L12.5%2C14.2L23%2C3.7L20.3%2C1L7%2C14.2l13.3%2C13.3C20.3%2C27.5%2C23%2C24.7%2C23%2C24.7z%22%2F%3E%3C%2Fsvg%3E)
 }
 
 .disabled .ico-prev {
@@ -1399,7 +1405,7 @@ table .thumbnail-image {
 }
 
 .ico-next {
-  background-image: url(data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xmlns%3Axlink%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2Fxlink%22%20version%3D%221.1%22%20id%3D%22Layer_1%22%20x%3D%220px%22%20y%3D%220px%22%20viewBox%3D%220%200%2028%2028%22%20enable-background%3D%22new%200%200%2028%2028%22%20xml%3Aspace%3D%22preserve%22%20width%3D%2228%22%20height%3D%2228%22%3E%3Cstyle%20type%3D%22text%2Fcss%22%3Ecircle%2Cellipse%2Cline%2Cpath%2Cpolygon%2Cpolyline%2Crect%2Ctext%7Bfill%3A%23479ccf%20%21important%3B%20%7D%3C%2Fstyle%3E%3Cpath%20fill%3D%22%23329ECC%22%20d%3D%22M7%2C3.8l10.5%2C10.5L7%2C24.7l2.7%2C2.7L23%2C14.3L9.7%2C1C9.7%2C1%2C7%2C3.8%2C7%2C3.8z%22%2F%3E%3C%2Fsvg%3E)
+  background-image: url(data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xmlns%3Axlink%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2Fxlink%22%20version%3D%221.1%22%20id%3D%22Layer_1%22%20x%3D%220px%22%20y%3D%220px%22%20viewBox%3D%220%200%2028%2028%22%20enable-background%3D%22new%200%200%2028%2028%22%20xml%3Aspace%3D%22preserve%22%20width%3D%2228%22%20height%3D%2228%22%3E%3Cstyle%20type%3D%22text%2Fcss%22%3Ecircle%2Cellipse%2Cline%2Cpath%2Cpolygon%2Cpolyline%2Crect%2Ctext%7Bfill%3A%233E5ED6%20%21important%3B%20%7D%3C%2Fstyle%3E%3Cpath%20fill%3D%22%23329ECC%22%20d%3D%22M7%2C3.8l10.5%2C10.5L7%2C24.7l2.7%2C2.7L23%2C14.3L9.7%2C1C9.7%2C1%2C7%2C3.8%2C7%2C3.8z%22%2F%3E%3C%2Fsvg%3E)
 }
 
 .disabled .ico-next {
@@ -1431,7 +1437,7 @@ table .thumbnail-image {
 }
 
 .ico-notice {
-  background-image: url(data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%20enable-background%3D%22new%200%200%2024%2024%22%3E%3Cstyle%20type%3D%22text%2Fcss%22%3Ecircle%2Cellipse%2Cline%2Cpath%2Cpolygon%2Cpolyline%2Crect%2Ctext%7Bfill%3A%23479ccf%20%21important%3B%20%7D%3C%2Fstyle%3E%3Cpath%20d%3D%22M24%2010.1L20%20.3c-.2-.5-.7-.6-1.1-.2C14.3%205.5%208.6%200%203.2%203.8L2.9%203C2.6%202.2%201.8%201.8%201%202%20.2%202.3-.2%203.1.1%203.9l6.5%2018.9c.2.6.8%201%201.4%201%20.2%200%20.3%200%20.5-.1.8-.3%201.2-1.1.9-1.9l-2.6-7.5c5.7-3.4%2012.3%202.7%2017-3.4.2-.2.2-.5.2-.8z%22%2F%3E%3C%2Fsvg%3E);
+  background-image: url(data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%20enable-background%3D%22new%200%200%2024%2024%22%3E%3Cstyle%20type%3D%22text%2Fcss%22%3Ecircle%2Cellipse%2Cline%2Cpath%2Cpolygon%2Cpolyline%2Crect%2Ctext%7Bfill%3A%233E5ED6%20%21important%3B%20%7D%3C%2Fstyle%3E%3Cpath%20d%3D%22M24%2010.1L20%20.3c-.2-.5-.7-.6-1.1-.2C14.3%205.5%208.6%200%203.2%203.8L2.9%203C2.6%202.2%201.8%201.8%201%202%20.2%202.3-.2%203.1.1%203.9l6.5%2018.9c.2.6.8%201%201.4%201%20.2%200%20.3%200%20.5-.1.8-.3%201.2-1.1.9-1.9l-2.6-7.5c5.7-3.4%2012.3%202.7%2017-3.4.2-.2.2-.5.2-.8z%22%2F%3E%3C%2Fsvg%3E);
 }
 
 .ico-warning, .ico-alert {
@@ -1453,7 +1459,7 @@ table .thumbnail-image {
 }
 
 .ico-help-blue {
-  background-image: url(data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2296%22%20height%3D%2296%22%20viewBox%3D%220%200%2096%2096%22%3E%3Cpath%20fill%3D%22%23479CCF%22%20d%3D%22M48%200c-26.509%200-48%2021.49-48%2048s21.491%2048%2048%2048%2048-21.49%2048-48-21.491-48-48-48zm3.181%2076.696c-1.426%201.376-3.391%202.018-5.603%202.01l-.051.002c-2.107%200-4.001-.661-5.398-2.008-1.43-1.352-2.143-3.245-2.13-5.337-.013-2.092.701-3.983%202.141-5.309%201.411-1.325%203.32-1.969%205.439-1.961%202.204-.008%204.159.622%205.592%201.961%201.44%201.326%202.154%203.217%202.141%205.309.012%202.092-.701%203.985-2.131%205.333zm12.846-36.712c-.747%201.856-1.691%203.469-2.836%204.817-1.104%201.295-2.32%202.445-3.65%203.44-1.197.898-2.292%201.856-3.28%202.865-.948.978-1.755%202.103-2.427%203.401-.6%201.145-.945%202.727-.945%204.77v1.333h-11.209l-.115-1.206c-.091-.943-.138-1.84-.138-2.699%200-1.72.18-3.285.568-4.686.549-2.015%201.318-3.785%202.32-5.305.974-1.473%202.094-2.766%203.362-3.865%201.164-1.01%202.245-1.972%203.247-2.899.951-.872%201.724-1.769%202.333-2.685.514-.776.787-1.699.794-2.892-.01-1.583-.419-2.646-1.171-3.465-.585-.665-2.008-1.221-4.447-1.21-.737%200-1.536.077-2.396.243-.87.173-1.742.417-2.615.73-.887.32-1.732.685-2.535%201.103-.819.421-1.538.847-2.159%201.275l-1.243.859-5.146-9.881.977-.668c2.087-1.429%204.475-2.6%207.151-3.519%202.758-.944%206.013-1.397%209.762-1.397%205.093-.005%209.277%201.242%2012.341%203.874%203.06%202.604%204.622%206.268%204.604%2010.574.003%202.772-.36%205.132-1.147%207.093z%22%2F%3E%3C%2Fsvg%3E);
+  background-image: url(data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2296%22%20height%3D%2296%22%20viewBox%3D%220%200%2096%2096%22%3E%3Cpath%20fill%3D%22%233E5ED6%22%20d%3D%22M48%200c-26.509%200-48%2021.49-48%2048s21.491%2048%2048%2048%2048-21.49%2048-48-21.491-48-48-48zm3.181%2076.696c-1.426%201.376-3.391%202.018-5.603%202.01l-.051.002c-2.107%200-4.001-.661-5.398-2.008-1.43-1.352-2.143-3.245-2.13-5.337-.013-2.092.701-3.983%202.141-5.309%201.411-1.325%203.32-1.969%205.439-1.961%202.204-.008%204.159.622%205.592%201.961%201.44%201.326%202.154%203.217%202.141%205.309.012%202.092-.701%203.985-2.131%205.333zm12.846-36.712c-.747%201.856-1.691%203.469-2.836%204.817-1.104%201.295-2.32%202.445-3.65%203.44-1.197.898-2.292%201.856-3.28%202.865-.948.978-1.755%202.103-2.427%203.401-.6%201.145-.945%202.727-.945%204.77v1.333h-11.209l-.115-1.206c-.091-.943-.138-1.84-.138-2.699%200-1.72.18-3.285.568-4.686.549-2.015%201.318-3.785%202.32-5.305.974-1.473%202.094-2.766%203.362-3.865%201.164-1.01%202.245-1.972%203.247-2.899.951-.872%201.724-1.769%202.333-2.685.514-.776.787-1.699.794-2.892-.01-1.583-.419-2.646-1.171-3.465-.585-.665-2.008-1.221-4.447-1.21-.737%200-1.536.077-2.396.243-.87.173-1.742.417-2.615.73-.887.32-1.732.685-2.535%201.103-.819.421-1.538.847-2.159%201.275l-1.243.859-5.146-9.881.977-.668c2.087-1.429%204.475-2.6%207.151-3.519%202.758-.944%206.013-1.397%209.762-1.397%205.093-.005%209.277%201.242%2012.341%203.874%203.06%202.604%204.622%206.268%204.604%2010.574.003%202.772-.36%205.132-1.147%207.093z%22%2F%3E%3C%2Fsvg%3E);
 }
 
 .ico-products-page {
@@ -1465,11 +1471,11 @@ table .thumbnail-image {
 }
 
 .ico-calendar-blue {
-  background-image: url(data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%20enable-background%3D%22new%200%200%2024%2024%22%3E%3Cstyle%20type%3D%22text%2Fcss%22%3Ecircle%2Cellipse%2Cline%2Cpath%2Cpolygon%2Cpolyline%2Crect%2Ctext%7Bfill%3A%23479ccf%20%21important%3B%20%7D%3C%2Fstyle%3E%3Cpath%20d%3D%22M21%203h-1V2c0-1.1-.9-2-2-2s-2%20.9-2%202v1H8V2c0-1.1-.9-2-2-2S4%20.9%204%202v1H3C1.3%203%200%204.3%200%206v15c0%201.7%201.3%203%203%203h18c1.7%200%203-1.3%203-3V6c0-1.7-1.3-3-3-3zM3%2021V10h18v11H3z%22%2F%3E%3C%2Fsvg%3E);
+  background-image: url(data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%20enable-background%3D%22new%200%200%2024%2024%22%3E%3Cstyle%20type%3D%22text%2Fcss%22%3Ecircle%2Cellipse%2Cline%2Cpath%2Cpolygon%2Cpolyline%2Crect%2Ctext%7Bfill%3A%233E5ED6%20%21important%3B%20%7D%3C%2Fstyle%3E%3Cpath%20d%3D%22M21%203h-1V2c0-1.1-.9-2-2-2s-2%20.9-2%202v1H8V2c0-1.1-.9-2-2-2S4%20.9%204%202v1H3C1.3%203%200%204.3%200%206v15c0%201.7%201.3%203%203%203h18c1.7%200%203-1.3%203-3V6c0-1.7-1.3-3-3-3zM3%2021V10h18v11H3z%22%2F%3E%3C%2Fsvg%3E);
 }
 
 .ico-cancel-blue {
-  background-image: url(data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xmlns%3Axlink%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2Fxlink%22%20version%3D%221.1%22%20id%3D%22Layer_1%22%20x%3D%220px%22%20y%3D%220px%22%20viewBox%3D%220%200%2016%2016%22%20enable-background%3D%22new%200%200%2016%2016%22%20xml%3Aspace%3D%22preserve%22%3E%3Cstyle%20type%3D%22text%2Fcss%22%3Ecircle%2Cellipse%2Cline%2Cpath%2Cpolygon%2Cpolyline%2Crect%2Ctext%7Bfill%3A%23479ccf%20%21important%3B%20%7D%3C%2Fstyle%3E%3Cpath%20fill%3D%22%23BCCFDF%22%20d%3D%22M8%2C1C4.134%2C1%2C1%2C4.134%2C1%2C8s3.134%2C7%2C7%2C7s7-3.134%2C7-7S11.866%2C1%2C8%2C1z%20M13.25%2C8c0%2C1.131-0.361%2C2.179-0.971%2C3.037%20%20L4.963%2C3.721C5.821%2C3.111%2C6.869%2C2.75%2C8%2C2.75C10.895%2C2.75%2C13.25%2C5.105%2C13.25%2C8z%20M2.75%2C8c0-1.139%2C0.366-2.194%2C0.985-3.055l7.321%2C7.32%20%20C10.194%2C12.884%2C9.139%2C13.25%2C8%2C13.25C5.105%2C13.25%2C2.75%2C10.895%2C2.75%2C8z%22%2F%3E%3C%2Fsvg%3E);
+  background-image: url(data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xmlns%3Axlink%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2Fxlink%22%20version%3D%221.1%22%20id%3D%22Layer_1%22%20x%3D%220px%22%20y%3D%220px%22%20viewBox%3D%220%200%2016%2016%22%20enable-background%3D%22new%200%200%2016%2016%22%20xml%3Aspace%3D%22preserve%22%3E%3Cstyle%20type%3D%22text%2Fcss%22%3Ecircle%2Cellipse%2Cline%2Cpath%2Cpolygon%2Cpolyline%2Crect%2Ctext%7Bfill%3A%233E5ED6%20%21important%3B%20%7D%3C%2Fstyle%3E%3Cpath%20fill%3D%22%23BCCFDF%22%20d%3D%22M8%2C1C4.134%2C1%2C1%2C4.134%2C1%2C8s3.134%2C7%2C7%2C7s7-3.134%2C7-7S11.866%2C1%2C8%2C1z%20M13.25%2C8c0%2C1.131-0.361%2C2.179-0.971%2C3.037%20%20L4.963%2C3.721C5.821%2C3.111%2C6.869%2C2.75%2C8%2C2.75C10.895%2C2.75%2C13.25%2C5.105%2C13.25%2C8z%20M2.75%2C8c0-1.139%2C0.366-2.194%2C0.985-3.055l7.321%2C7.32%20%20C10.194%2C12.884%2C9.139%2C13.25%2C8%2C13.25C5.105%2C13.25%2C2.75%2C10.895%2C2.75%2C8z%22%2F%3E%3C%2Fsvg%3E);
 }
 
 /*.select-wrapper:after, .ico-down-gray {*/
