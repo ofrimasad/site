@@ -1,9 +1,9 @@
 <div class="card-container">
   <div id="modalYourInfo-bigcommerce" class="modal" style="width: 704px">
     <div class="modal-content">
-      <h1 x-large class="sample-content" style="display: inline-block">My Account</h1>
+      <h1 x-large class="sample-content" style="display: inline-block">{{userInfo.firstName}} Account</h1>
       <div class="user-label">Image credits left</div>
-      <div class="user-text-info">{{userInfo.userCredit}} Images left for download <span *ngIf="userInfo.userCredit > 0">until {{userInfo.creditExpires | date:shortDate}}</span></div>
+      <div class="user-text-info">{{userInfo.userCredit}} Images left for download <span *ngIf="userInfo.userCredit > 0">until {{userInfo.creditExpires | datenice}}</span></div>
 
       <div class="user-label">Subscription plan</div>
       <div class="user-text-info">
@@ -18,7 +18,7 @@
       <div class="user-label">Auto Renewal Date</div>
       <div class="user-text-info">
         <div *ngIf="hasSubscription">
-          {{subscription.endDate | date:shortDate}}
+          {{subscription.endDate | datenice}}
         </div>
         <div *ngIf="!hasSubscription">
           No active plan
@@ -37,7 +37,7 @@
       <h1 x-large class="sample-content" style="display: inline-block">Cancel Subscription Plan</h1>
 
       <p style="font-size: 14.5px">By canceling, your plan will not renew.<br>
-        You will be able to use the remaining image credits until {{subscription.endDate | date:shortDate}}.<br>
+        You will be able to use the remaining image credits until {{subscription.endDate | datenice}}.<br>
       </p>
 
     </div>

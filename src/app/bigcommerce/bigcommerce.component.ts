@@ -44,6 +44,8 @@ export class Bigcommerce {
   @ViewChild(Bigcommerceconfirmation) shopCon: Bigcommerceconfirmation;
   @ViewChild(Rateusbigcommerce) rateus: Rateusbigcommerce;
   @ViewChildren('ImageRow') imageRow;
+
+
   private currentUserState;
   private userShop:string;
   private updated_at_min;
@@ -96,12 +98,16 @@ export class Bigcommerce {
     this.appState.set("BigcommerceUser", true);
     this.appState.set("sessionToken", this.sessionToken);
     this.appState.set("customerId", this.customerId);
-    this.appState.set("planProductId", "454354000000052226");
+
     appState.set("paymentRedirectUrl", (parent !== window) ? document.referrer : document.location);
     this.windowRef.nativeWindow.ga('send', 'event', 'Site', 'bigcommerce app enter', "userId="+params.userId+"&shop="+this.userShop);
     this.windowRef.nativeWindow.ga('set', { page:'/bigcommerce',title:'Bigcommerce App'});
     this.windowRef.nativeWindow.ga('send', 'pageview');
-
+    this.appState.set("planProductId", "454354000000223025");
+    if(appState.getExact("isSandbox")){
+      console.log("Sandbox Shopify", appState.getExact("isSandbox"));
+      this.appState.set("planProductId", "402919000000318001"); // sandbox
+    }
     this.plansService.getPlans(this.appState.get("planProductId"))
     // .then(plan => this.plans = plan);
       .subscribe(
@@ -599,5 +605,9 @@ export class Bigcommerce {
 
   sendEventTrackId(product, message){
     this.windowRef.nativeWindow.camera51UserFunctions.sendEventTrackId(product.trackId, this.customerId,message );
+  }
+
+  openModalVideo() {
+    this.windowRef.nativeWindow.openModal('modal-video');
   }
 }

@@ -65,7 +65,13 @@ export class Yourinfobigcommerce {
       return;
     }
 
+    if(typeof  a["firstName"] === "undefined" ||  a.firstName == ""){
+      a.firstName = "Your"
+    } else {
+      a.firstName = a.firstName + "'s";
+    }
     this.userInfo = a;
+
     this.userService.updateAppState( a);
     if(a.hasOwnProperty("subscription") && typeof a.subscription === 'object' && a.subscription != ""){
       this.subscription = a.subscription;
@@ -168,6 +174,7 @@ export class Yourinfobigcommerce {
     this.windowRef.nativeWindow.openModal('modalYourInfo-bigcommerce');
 
   }
+
 
 }
 

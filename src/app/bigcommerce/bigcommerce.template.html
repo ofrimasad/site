@@ -1,16 +1,19 @@
 
 <div class="section-row">
   <div class="section-cell section-cell-override">
-    <label>Automatic background remover by Malabi</label>
+    <label style="color: #34313f;
+    font-size: 30px;
+    font-weight: 300;
+    line-height: 1.3334;
+    ">Automatic background remover by Malabi</label>
 
   </div>
   <div class="section-cell section-cell-override">
-    <div style="float: right">
-      <button class="btn-bigcommerce primary default">Refresh</button>
-      <button class="btn-bigcommerce primary default" (click)="openPlans()">Pricing</button>
-      <button class="btn-bigcommerce primary default">Get support</button>
-      <button class="btn-bigcommerce primary default">My account</button>
-      <button class="btn-bigcommerce primary primary ">Tutorial video</button>
+    <div style="float: right;line-height: 40px">
+      <button class="btn-bigcommerce primary default" style="margin-left: 8px;" (click)="openPlans()">Pricing</button>
+      <button class="btn-bigcommerce primary default" style="margin-left: 8px;">Get support</button>
+      <button class="btn-bigcommerce primary default" style="margin-left: 8px;" (click)="yourinfo.openModal()">My account</button>
+      <button class="btn-bigcommerce primary primary " style="margin-left: 8px;" (click)="openModalVideo()">Tutorial video</button>
     </div>
   </div>
 </div>
@@ -109,8 +112,15 @@
     z-index: 22;
     border: 1px lavender;
     border-style: groove;">
-  <img src="{{divToShowSrc}}" style="max-height: 300px;max-width: 300px" >rateusmodal
-<yourinfobigcommerce (yourinfomodal)="openModal()"></yourinfobigcommerce>
+  <img src="{{divToShowSrc}}" style="max-height: 300px;max-width: 300px" class="bgTransparent" >
+</div>
+<div id="modal-video" class="modal">
+  <div class="modal-content">
+    <iframe width="560" height="315" src="https://www.youtube.com/embed/mJjUjvae3ns?rel=0&amp;showinfo=0" frameborder="0" allowfullscreen></iframe>
+  </div>
+
+</div>
+<yourinfobigcommerce #yourinfo (yourinfomodal)="openModal()"></yourinfobigcommerce>
 <rateusbigcommerce (rateusmodal)="rateusmodal($event)"></rateusbigcommerce>
 <bigcommerceconfirmation (confirmReplace)="confirmReplace($event)"></bigcommerceconfirmation>
 <script type="text/javascript">

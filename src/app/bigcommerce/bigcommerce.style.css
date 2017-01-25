@@ -57,7 +57,7 @@
 .addIcon {
   background-repeat: no-repeat;
   background-position: right;
-  background-image: url(/assets/appimages/add.png);
+  background-image: url(/assets/appimages/add-bigcommerce.png);
   padding-left: 30px;
   margin-left: -10px;
   margin-right: 4px;
@@ -311,7 +311,6 @@ hr {
 .btn-bigcommerce.primary:hover, .btn-bigcommerce.primary:active {
   background-color: #93aafd;
   border: #93aafd 1px solid;
-  color: #FFFFFF;
   text-decoration: none;
 }
 
@@ -505,7 +504,7 @@ hr {
 *******************************************/
 
 .section {
-  border-bottom: #dee3e8 1px solid;
+  /*border-bottom: #dee3e8 1px solid;*/
   float: none;
   position: relative;
   display: -ms-flexbox;
@@ -927,7 +926,7 @@ hr {
 .tag.closable .close {
   position: absolute;
   background-repeat: no-repeat;
-  background-image: url(http://cdn.bigcommerce.com/s/assets/admin/icon-sprite-b80563bbfd69f535a5598b3208708dc5.png);
+  background-image: url(http://cdn.shopify.com/s/assets/admin/icon-sprite-b80563bbfd69f535a5598b3208708dc5.png);
   background-position: -9px -3363px;
   height: 100%;
   width: 22px;
@@ -975,7 +974,7 @@ hr {
 
 .input-search {
   padding-left: 28px;
-  background-image: url("https://cdn.bigcommerce.com/s/assets/admin/icon-sprite-69fb7315250564ab3a0142a102e7a18c.png");
+  background-image: url("https://cdn.shopify.com/s/assets/admin/icon-sprite-69fb7315250564ab3a0142a102e7a18c.png");
   background-repeat: no-repeat;
   background-position: -4px -960px;
 }
@@ -1449,7 +1448,7 @@ table .thumbnail-image {
 }
 
 .select-wrapper:after, .ico-down-gray{
-  background-image: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9Im5vIj8+CjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgeG1sbnM6c2tldGNoPSJodHRwOi8vd3d3LmJvaGVtaWFuY29kaW5nLmNvbS9za2V0Y2gvbnMiIHdpZHRoPSI5cHgiIGhlaWdodD0iNHB4IiB2aWV3Qm94PSIwIDAgOSA0IiB2ZXJzaW9uPSIxLjEiPjxzdHlsZSB0eXBlPSJ0ZXh0L2NzcyI+Y2lyY2xlLCBlbGxpcHNlLCBsaW5lLCBwYXRoLCBwb2x5Z29uLCBwb2x5bGluZSwgcmVjdCwgdGV4dCB7IGZpbGw6ICM0NzljY2YgIWltcG9ydGFudDsgfTwvc3R5bGU+CiAgICA8IS0tIEdlbmVyYXRvcjogU2tldGNoIDMuMC4zICg3ODkxKSAtIGh0dHA6Ly93d3cuYm9oZW1pYW5jb2RpbmcuY29tL3NrZXRjaCAtLT4KICAgIDx0aXRsZT5kaXNjbG9zdXJlLWljb248L3RpdGxlPgogICAgPGRlc2M+Q3JlYXRlZCB3aXRoIFNrZXRjaC48L2Rlc2M+CiAgICA8ZGVmcy8+CiAgICA8ZyBpZD0iUGFnZS0xIiBzdHJva2U9Im5vbmUiIHN0cm9rZS13aWR0aD0iMSIgZmlsbD0ibm9uZSIgZmlsbC1ydWxlPSJldmVub2RkIiBza2V0Y2g6dHlwZT0iTVNQYWdlIj4KICAgICAgICA8cG9seWdvbiBpZD0iZGlzY2xvc3VyZS1pY29uIiBmaWxsPSIjOTI5MjkyIiBza2V0Y2g6dHlwZT0iTVNTaGFwZUdyb3VwIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSg0LjUwMDAwMCwgMi4wMDAwMDApIHNjYWxlKDEsIC0xKSB0cmFuc2xhdGUoLTQuNTAwMDAwLCAtMi4wMDAwMDApICIgcG9pbnRzPSI0LjUgMCA5IDQgMCA0ICIvPgogICAgPC9nPgo8L3N2Zz4K);
+  background-image:url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAkAAAAECAYAAABcDxXOAAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAA3XAAAN1wFCKJt4AAAAB3RJTUUH4QEZDQQ1O7rBVgAAAGNJREFUCNdjtIu7xsrAwPCLATdgZjq0SOs3l+0vRgYGhndokm+4bH8xHlqk9Y8RJuIx+zzDt8PsbxkYGIQYGBjecdn+FN6RasjAwMDAwIis1X3WBYbvR9iec9r8ktyZZgAXBwD4mBrt6U+BkQAAAABJRU5ErkJggg==');
 
 }
 
