@@ -11,7 +11,7 @@
   <div class="section-cell section-cell-override">
     <div style="float: right;line-height: 40px">
       <button class="btn-bigcommerce primary default" style="margin-left: 8px;" (click)="openPlans()">Pricing</button>
-      <button class="btn-bigcommerce primary default" style="margin-left: 8px;">Get support</button>
+      <button class="btn-bigcommerce primary default" style="margin-left: 8px;" (click)="contactus.openModal()" >Get support</button>
       <button class="btn-bigcommerce primary default" style="margin-left: 8px;" (click)="yourinfo.openModal()">My account</button>
       <button class="btn-bigcommerce primary primary " style="margin-left: 8px;" (click)="openModalVideo()">Tutorial video</button>
     </div>
@@ -123,6 +123,7 @@
 <yourinfobigcommerce #yourinfo (yourinfomodal)="openModal()"></yourinfobigcommerce>
 <rateusbigcommerce (rateusmodal)="rateusmodal($event)"></rateusbigcommerce>
 <bigcommerceconfirmation (confirmReplace)="confirmReplace($event)"></bigcommerceconfirmation>
+<contactus #contactus (contactusmodal)="openModal()"></contactus>
 <script type="text/javascript">
   /* <![CDATA[ */
   var google_conversion_id = 882470777;

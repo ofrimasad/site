@@ -122,15 +122,23 @@ export class Contactus {
   }
 
   ngOnInit() {
-    var that = this;
-    this.windowRef.nativeWindow.ga('send', 'event', 'Site', 'open contactus');
 
+    if(this.appState.getExact("BigcommerceUser") == null){
+      this.openModal();
+    }
+
+
+  }
+
+  openModal(){
+
+    var that = this;
     this.windowRef.nativeWindow.openModal('modalContactus', {complete: function() {
       that.router.navigate(['/']);
     }});
+    this.windowRef.nativeWindow.ga('send', 'event', 'Site', 'open contactus');
     this.windowRef.nativeWindow.ga('set', 'page', '/contactus');
     this.windowRef.nativeWindow.ga('send', 'pageview');
-
   }
 
   ngOnDestroy(){
