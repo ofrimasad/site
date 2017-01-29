@@ -247,8 +247,8 @@ export class Bigcommerce {
     var divToShow = $("#popupBox");
     divToShow.css({
       position: "absolute",
-      left: ($(ev.fromElement).offset().left + $(ev.fromElement).width()) + "px",
-      top: $(ev.fromElement).offset().top + "px"
+      left: ($(ev.relatedTarget).offset().left + $(ev.relatedTarget).width()) + "px",
+      top: $(ev.relatedTarget).offset().top + "px"
     });
     this.divToShowSrc = ev.currentTarget.currentSrc;//ev.fromElement.children[0].getElementsByTagName('img')[0].src;
 

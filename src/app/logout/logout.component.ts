@@ -1,12 +1,6 @@
 import { Component } from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {WindowRef} from "../WindowRef";
-/*
- * We're loading this component asynchronously
- * We are using some magic with es6-promise-loader that will wrap the module with a Promise
- * see https://github.com/gdi2290/es6-promise-loader for more info
- */
-
 
 @Component({
   selector: 'logout',
@@ -22,8 +16,11 @@ export class Logout {
   ngOnInit() {
     this.windowRef.nativeWindow.ga('set', { page:'/logout',title:'Logout'});
     this.windowRef.nativeWindow.ga('send', 'pageview');
+    this.router.navigate(['/']);
+
     try {
       localStorage.setItem('camera51-login','');
+
     } catch (e){
 
     }
@@ -32,6 +29,4 @@ export class Logout {
       location.reload(true)
     }, 200);
   }
-
-
 }
