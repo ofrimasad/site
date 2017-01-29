@@ -79,10 +79,13 @@ export class UserService {
         if(!user.hasOwnProperty("userId")){
             return;
         }
+
         //  var view = this.eref;
-        view.nativeElement.ownerDocument.getElementById("loginLabel").style.display = "none";
-        view.nativeElement.ownerDocument.getElementById("registerLabel").style.display = "none";
-        view.nativeElement.ownerDocument.getElementById("myAccountDropdownLabel").style.display = "block";
+        view.nativeElement.ownerDocument.getElementsByClassName("loginLabel")[0].style.display = "none";
+        view.nativeElement.ownerDocument.getElementsByClassName("registerLabel")[0].style.display = "none";
+        if(view.nativeElement.ownerDocument.getElementsByClassName("myAccountDropdownLabel").length > 0){
+          view.nativeElement.ownerDocument.getElementsByClassName("myAccountDropdownLabel")[0].style.display = "block";
+        }
         var saveToLocalStorage = {};
 
             this.appState.set("userId", user.userId);
@@ -108,14 +111,21 @@ export class UserService {
         if(user.hasOwnProperty("lastName") && user.lastName.length > 1){
             this.appState.set("lastName", user.lastName);
         }
-        if(user.hasOwnProperty("firstName") && user.firstName.length > 1){
-            this.appState.set("firstName", user.firstName);
-            view.nativeElement.ownerDocument.getElementById("myAccountDropdown").innerHTML  =  user.firstName + '<i class="material-icons setting-icon">settings</i>';
-
-        } else {
-            view.nativeElement.ownerDocument.getElementById("myAccountDropdown").innerHTML  =  "My Account" + '<i class="material-icons setting-icon">settings</i>';
-            this.appState.set("firstName", "My Account");
-        }
+        // if(user.hasOwnProperty("firstName") && user.firstName.length > 1){
+        //     this.appState.set("firstName", user.firstName);
+        //   if(view.nativeElement.ownerDocument.getElementsByClassName("myAccountDropdown").length > 0){
+        //     view.nativeElement.ownerDocument.getElementsByClassName("myAccountDropdown")[0].innerHTML  =  user.firstName + '<i class="material-icons setting-icon">settings</i>';
+        //
+        //   }
+        //
+        // } else {
+        //   if(view.nativeElement.ownerDocument.getElementsByClassName("myAccountDropdown").length > 0 ){
+        //     view.nativeElement.ownerDocument.getElementsByClassName("myAccountDropdown").innerHTML  =  "My Account" + '<i class="material-icons setting-icon">settings</i>';
+        //
+        //   }
+        //
+        //     this.appState.set("firstName", "My Account");
+        // }
         this.windowRef.nativeWindow.setIsloggedIn(true);
         this.windowRef.nativeWindow.setUserloggedIn(user.userId, user.userToken);
         this.windowRef.nativeWindow.ga('set', 'userId', user.userId); // Set the user ID using signed-in user_id.
@@ -139,18 +149,26 @@ export class UserService {
     }
 
     setUserinfoIntoView(view){
-        view.nativeElement.ownerDocument.getElementById("loginLabel").style.display = "none";
-        view.nativeElement.ownerDocument.getElementById("registerLabel").style.display = "none";
-        view.nativeElement.ownerDocument.getElementById("myAccountDropdownLabel").style.display = "block";
+        view.nativeElement.ownerDocument.getElementsByClassName("loginLabel")[0].style.display = "none";
+        view.nativeElement.ownerDocument.getElementsByClassName("registerLabel")[0].style.display = "none";
 
-
-        var firstName =  this.appState.get("firstName");
-
-        if(firstName){
-            view.nativeElement.ownerDocument.getElementById("myAccountDropdown").innerHTML  =  firstName + '<i class="material-icons setting-icon">settings</i>';
-        } else {
-            view.nativeElement.ownerDocument.getElementById("myAccountDropdown").innerHTML  =  "My Account"+ '<i class="material-icons setting-icon">settings</i>';
+        if(view.nativeElement.ownerDocument.getElementsByClassName("myAccountDropdownLabel").length > 0){
+          view.nativeElement.ownerDocument.getElementsByClassName("myAccountDropdownLabel")[0].style.display = "block";
         }
+      if(view.nativeElement.ownerDocument.getElementsByClassName("myAccountDropdown").length > 0){
+        view.nativeElement.ownerDocument.getElementsByClassName("myAccountDropdown")[0].style.display = "block";
+
+
+        var firstName =  this.appState.getExact("firstName");
+
+        // if(firstName){
+        //
+        //   view.nativeElement.ownerDocument.getElementsByClassName("myAccountDropdown")[0].innerHTML  =  firstName + '<i class="material-icons setting-icon">settings</i>';
+        // } else {
+        //   view.nativeElement.ownerDocument.getElementsByClassName("myAccountDropdown")[0].innerHTML  =  "My Account"+ '<i class="material-icons setting-icon">settings</i>';
+        // }
+      }
+
     }
 
 

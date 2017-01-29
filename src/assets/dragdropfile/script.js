@@ -183,6 +183,13 @@ $(document).ready(function () {
     console.log(e);
   }
 
+  var numItems = $('.eachImage').length;
+
+  if(numItems > 0){
+    $("#download-images-wrapper").css('display', 'block');
+    $("#try-it-free").css('display', 'none');
+  }
+
   $('#imageList').on('DOMNodeInserted', function(e) {
     var numItems = $('.eachImage').length;
     if(numItems > 0){
@@ -207,8 +214,8 @@ $(document).ready(function () {
     "use strict";
 
     var download = function (options) {
-      var triggerDelay = (options && options.delay) || 100;
-      var cleaningDelay = (options && options.cleaningDelay) || 1000;
+      var triggerDelay = (options && options.delay) || 1500;
+      var cleaningDelay = (options && options.cleaningDelay) || 2000;
 
       this.each(function (index, item) {
         createIFrame(item, index * triggerDelay, cleaningDelay);
@@ -218,6 +225,7 @@ $(document).ready(function () {
     };
 
     var createIFrame = function (item, triggerDelay, cleaningDelay) {
+
       setTimeout(function () {
         var frame = $('<iframe style="display: none;" class="multi-download-frame"></iframe>');
         frame.attr('src', $(item).attr('href') || $(item).attr('src'));

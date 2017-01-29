@@ -60,7 +60,8 @@ export class AppComponent {
     }
 
     appState.set("paymentRedirectUrl", window.location.protocol + "//" + window.location.host + "/#/paymentreceived");
-    appState.set("sqsURL", this.windowRef.nativeWindow.camera51WithQueue.getSQSurl());
+
+   // appState.set("sqsURL", this.windowRef.nativeWindow.camera51WithQueue.getSQSurl());
 
 
     this.windowRef.nativeWindow.angularComponentApp = {

@@ -836,7 +836,7 @@
     this.setSQSurl = function(sync){
 
       if(this.sessionToken == null || this.customerId == null){
-        console.error("can not retrieve sqs url, sessionToken: " +this.sessionToken + " customerId " + this.customerId);
+        console.log("can not retrieve sqs url, sessionToken: " +this.sessionToken + " customerId " + this.customerId);
         return;
       }
 
