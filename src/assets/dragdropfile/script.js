@@ -285,7 +285,7 @@ create_box = function (e, file, size) {
   var template = '<div class="eachImage z-depth-1" id="eachImage-' + rand + '">';
   template += '<div class="save-option" onclick="updateRemoveImage()" >' +
     '<i id="save-option" style="font-size: 20px;margin: 5px;cursor: pointer !important;" title="remove" class="material-icons right" onclick="removeImage(this)">close</i></div>';
-  template += '<div class="preview" id="' + rand + '" ><span class="camera51-darken"><img src="' + src + '" style="opacity: 0.6"></span><span class="overlay"><div class="progress" id="'+rand+'"><div class="determinate" style="width: 70%"></div></div>';
+  template += '<div class="preview" id="' + rand + '" ><span class="camera51-darken"><img src="' + src + '" style="opacity: 0.6;margin: auto"></span><span class="overlay"><div class="progress" id="'+rand+'"><div class="determinate" style="width: 70%"></div></div>';
   template += '<div style="font-size: 14px;color: white; ">Uploading...</div></span>';
   template += '</div><div style="height: 20px;width: 100%"></div> ';
   template += '<div class="resultPreview" id="resultPreview-' + rand +

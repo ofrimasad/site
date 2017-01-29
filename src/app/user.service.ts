@@ -126,6 +126,20 @@ export class UserService {
         //
         //     this.appState.set("firstName", "My Account");
         // }
+
+      if(view.nativeElement.ownerDocument.getElementsByClassName("aboutMenuButton").length > 0){
+        view.nativeElement.ownerDocument.getElementsByClassName("aboutMenuButton")[0].style.display = "none";
+      }
+      if(view.nativeElement.ownerDocument.getElementsByClassName("getSupportMenuButton").length > 0){
+        view.nativeElement.ownerDocument.getElementsByClassName("getSupportMenuButton")[0].style.display = "block";
+      }
+      if(view.nativeElement.ownerDocument.getElementsByClassName("contactUsMenuButton").length > 0){
+        view.nativeElement.ownerDocument.getElementsByClassName("contactUsMenuButton")[0].style.display = "none";
+      }
+      if(view.nativeElement.ownerDocument.getElementsByClassName("chineslinkButton").length > 0){
+        view.nativeElement.ownerDocument.getElementsByClassName("chineslinkButton")[0].style.display = "none";
+      }
+
         this.windowRef.nativeWindow.setIsloggedIn(true);
         this.windowRef.nativeWindow.setUserloggedIn(user.userId, user.userToken);
         this.windowRef.nativeWindow.ga('set', 'userId', user.userId); // Set the user ID using signed-in user_id.

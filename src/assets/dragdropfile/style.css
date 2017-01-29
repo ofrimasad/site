@@ -265,7 +265,7 @@ div#dropZone {
   bottom: 0;
   left: 0;
   right: 0;
-  margin: auto;
+  margin: auto !important;
   position: absolute;
   background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAIAAABMXPacAAAACXBIWXMAAA7DAAAOwwHHb6hkAAABYElEQVR42u3ZwQmAMBQFQRU7Sv8lpKbYQI7Coswc5d2WD0LOtdaxM+fcfh9j2L+4vw5SAsQEiAkQEyAmQEyA2P2V/+W/7l1ATICYADEBYgLEBIgJEDu9B7R7FxATICZATICYADEBYgLEvAfEexcQEyAmQEyAmAAxAWICxLwHxHsXEBMgJkBMgJgAMQFiAsS8B8R7FxATICZATICYADEBYgLEvAfEexcQEyAmQEyAmAAxAWICxLwHxHsXEBMgJkBMgJgAMQFiAsS8B8R7FxATICZATICYADEBYgLEvAfEexcQEyAmQEyAmAAxAWICxLwHxHsXEBMgJkBMgJgAMQFiAsS8B8R7FxATICZATICYADEBYgLEvAfEexcQEyAmQEyAmAAxAWICxLwHxHsXEBMgJkBMgJgAMQFiAsS8B8R7FxATICZATICYADEBYgLEvAfEexcQEyAmQEyAmAAxAWICxB6KN5Q4wR/MdAAAAABJRU5ErkJggg==');
 
@@ -273,7 +273,7 @@ div#dropZone {
 }
 
 .eachImage {
-  background-color: #e8e8e8;
+  background-color: white;
   float: left;
   margin: 20px;
   position: relative;
@@ -439,7 +439,9 @@ div#dropZone {
 }
 
 /* Form colors */
-
+.input-field {
+  line-height: 1.5;
+}
 .input-field label {
   color: #44a6cb  !important;
 }
@@ -503,4 +505,9 @@ div#dropZone {
   top: 0;
   width: 100%;
   z-index: 99999;
+}
+
+/* for the wordpress */
+.col {
+  margin: auto;
 }
