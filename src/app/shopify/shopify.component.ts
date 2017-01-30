@@ -93,6 +93,7 @@ export class Shopify {
     this.appState.set("sqsURL", this.windowRef.nativeWindow.camera51WithQueue.getSQSurl());
     this.appState.set("userCredit", "");
     this.appState.set("ShopifyUser", true);
+    this.appState.set("ShowSubscriptionRow5", false);
     this.appState.set("sessionToken", this.sessionToken);
     this.appState.set("customerId", this.customerId);
     this.appState.set("planProductId", "454354000000052226");

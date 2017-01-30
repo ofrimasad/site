@@ -100,6 +100,7 @@ export class Bigcommerce {
     this.appState.set("sqsURL", this.windowRef.nativeWindow.camera51WithQueue.getSQSurl());
     this.appState.set("userCredit", "");
     this.appState.set("BigcommerceUser", true);
+    this.appState.set("ShowSubscriptionRow5", false);
     this.appState.set("sessionToken", this.sessionToken);
     this.appState.set("customerId", this.customerId);
 
@@ -289,7 +290,7 @@ export class Bigcommerce {
       this.userState.uploadState();
     }
     this.addToUserStateRateUs("bigcommerce-image-save-log",0);
-    this.showRateUs();
+    //this.showRateUs(); Disabled for now.
   }
 
   private addToUserStateRateUs(key, value){
