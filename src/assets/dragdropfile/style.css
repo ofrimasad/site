@@ -65,9 +65,7 @@ body{
 .font14-5{
   font-size: 14.5px;
 }
-.modal {
 
-}
 #dropdown1{
   width: 100px;
 }
@@ -90,6 +88,7 @@ body{
 }
 .modal-wider {
   max-height: 100%;
+  height: inherit !important;
   width: 80%;
   z-index: 3;
   top:5% !important;

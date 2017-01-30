@@ -46,7 +46,7 @@
                   </td>
                   <td class="col-center">
                     <div class="aspect-ratio aspect-ratio--square aspect-ratio--square--50 aspect-ratio--interactive" (click)="touchUp(product)" >
-                      <img id="res-img-id-{{product.imageId}}"  class="aspect-ratio__content materialboxed" style="z-index: 22;cursor: pointer; max-width: 118px;max-height: 115px;" src="{{product.imageRes}}" (mouseover)="resultImageMouseOver($event)" (mouseout)="resultImageMouseOver(false)">
+                      <img id="res-img-id-{{product.imageId}}"  class="aspect-ratio__content materialboxed bgTransparent" style="z-index: 22;cursor: pointer; max-width: 118px;max-height: 115px;" src="{{product.imageRes}}" (mouseover)="resultImageMouseOver($event)" (mouseout)="resultImageMouseOver(false)">
                     </div>
                   </td>
 
@@ -79,7 +79,7 @@
 <div id="modal-welcome-shopify" class="modal modal-small" style="display: none">
   <div class="modal-content" style="text-align: center">
     <h1 id="errorSubject" style="display: inline-block;font-size: 21px;margin: 0px">Welcome to Malabi image background removal</h1>
-    <div style="margin-top: 20px;margin-bottom: 20px;height: 60px;"><img src="https://cdn.shopify.com/s/files/applications/dc4b0d5a27a5f392b8d0e29e64097614.png?1478702023"></div>
+    <div style="margin-top: 20px;margin-bottom: 20px;height: 60px;"><img src="/assets/icon/malabi-logo-round.png"></div>
     <p id="" style="font-size: 19px;margin-top: 0px;">Enjoy {{this.appState.get("userCredit")}} image credits for FREE</p>
   </div>
   <div class="modal-footer">
@@ -87,10 +87,11 @@
   </div>
 </div>
 <div id="popupBox" [style.display]="divToShowDisplay" style="
+    display: table;
     z-index: 22;
     border: 1px lavender;
     border-style: groove;">
-  <img src="{{divToShowSrc}}" style="max-height: 300px;max-width: 300px" class="bgTransparent" >
+  <img src="{{divToShowSrc}}" style="max-height: 300px;max-width: 300px;display: table-row" class="bgTransparent" >
 </div>
 <yourinfoshopify></yourinfoshopify>
 <rateusshopify (rateusmodal)="rateusmodal($event)"></rateusshopify>

@@ -31,13 +31,14 @@ export class ProductsBigcommerceService {
 
   getProducts(userId:number, userToken:string, fields:string, limit:number, page:number,
               title:string,  published_status:string, updated_at_min:number
-      , productIds:string): Observable<Products[]> {
+      , productIds:string, sortBy:string): Observable<Products[]> {
     this.apiBigcommerceURL = this.appState.get("apiBigcommerceURL");
     //this.apiBigcommerceURL = "http://localhost:8080/UsersServer/bigcommerce";
     let body = JSON.stringify({
       userId:userId,
       userToken:userToken,
       fields:fields,
+      sortBy:sortBy,
       limit:limit, page:page, title:title, published_status:published_status,
       productIds:productIds, updated_at_min: updated_at_min
 

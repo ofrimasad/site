@@ -51,6 +51,7 @@ export class Bigcommerce {
   private currentUserState;
   private userShop:string;
   private updated_at_min;
+  private productSortBy: string;
   // TypeScript public modifiers
   constructor(public appState: AppState, private route: ActivatedRoute, private router: Router,
               private windowRef: WindowRef, private eref: ElementRef, private changeDetector: ChangeDetectorRef,
@@ -433,7 +434,7 @@ export class Bigcommerce {
 
     this.startLoader();
     this.productsService.getProducts(this.userId, this.userToken, this.pageReturnfields,
-      this.pageLimit, this.pageNumber, this.searchTitle, this.publishedStatus, this.updated_at_min, productIds)
+      this.pageLimit, this.pageNumber, this.searchTitle, this.publishedStatus, this.updated_at_min, productIds, this.productSortBy)
       .subscribe(
         products => {
           this.tableVisibility = "visible";
@@ -567,6 +568,9 @@ export class Bigcommerce {
     }
     else if (val == "main") {
       this.showALL = false;
+    }
+    else if (val == "date_modified") {
+      this.productSortBy = "date_modified";
     }
     else if (val.split("hours_").length >1 ) {
       this.updated_at_min =  val.split("hours_")[1];
