@@ -13,6 +13,7 @@ import {PlansComponentService} from "../shopify/mission.service";
 import {Bigcommerceconfirmation} from "./confirmation";
 
 import {Rateusbigcommerce} from "./rateusbigcommerce";
+import {DomSanitizer} from "@angular/platform-browser";
 declare  var $:any;
 
 @Component({
@@ -40,10 +41,11 @@ export class Bigcommerce {
   private customerId:number = 1;
   private sessionToken:string = "283f67b2-a5a5-11e6-80f5-76304dec7eb7";
   private tableVisibility = "hidden";
-
+  private videoSrc = "https://www.youtube.com/embed/mJjUjvae3ns?rel=0&enablejsapi=1";
   @ViewChild(Bigcommerceconfirmation) shopCon: Bigcommerceconfirmation;
   @ViewChild(Rateusbigcommerce) rateus: Rateusbigcommerce;
   @ViewChildren('ImageRow') imageRow;
+  youtubeIframe;
 
 
   private currentUserState;
@@ -54,14 +56,15 @@ export class Bigcommerce {
               private windowRef: WindowRef, private eref: ElementRef, private changeDetector: ChangeDetectorRef,
               private userService: UserService, private productsService: ProductsBigcommerceService, private zone:NgZone,
               private plansService: PlansService, private plansComponentService: PlansComponentService,
-              private userState:UserstateService ) {
+              private userState:UserstateService, private sanitizer: DomSanitizer ) {
 
     var params:any = this.route.params;
     params = params.getValue();
     this.eref.nativeElement.ownerDocument.getElementById("nav-bar").style.display = "none";
     this.eref.nativeElement.ownerDocument.getElementById("uploadload-container").style.display = "none";
 
-
+    this.youtubeIframe = null;// sanitizer.bypassSecurityTrustUrl(this.videoSrc);
+    this.youtubeIframe = this.sanitizer.bypassSecurityTrustResourceUrl(this.videoSrc);
     this.windowRef.nativeWindow.angularComponentBigcommerce = {
       zone: this.zone,
       componentFn: () => this.refreshBigcommerceProducts(),
@@ -607,7 +610,20 @@ export class Bigcommerce {
     this.windowRef.nativeWindow.camera51UserFunctions.sendEventTrackId(product.trackId, this.customerId,message );
   }
 
-  openModalVideo() {
-    this.windowRef.nativeWindow.openModal('modal-video');
+  openModalVideo(id="") {
+    var that = this;
+    this.windowRef.nativeWindow.openModal('modal-video', {complete: ()=> {
+      this.closeModalVideo();
+
+    }});
+  }
+
+  closeModalVideo(){
+    setTimeout(() => {
+      this.youtubeIframe = this.sanitizer.bypassSecurityTrustResourceUrl(this.videoSrc);;//
+      this.changeDetector.detectChanges();
+    }, 1000);
+
+
   }
 }
