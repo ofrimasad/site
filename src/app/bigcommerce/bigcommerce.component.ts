@@ -37,7 +37,7 @@ export class Bigcommerce {
   private publishedStatus:string = "any";
   private searchTitle:string;
   private pageReturnfields:string;
-  private imageReplaceUrl:string = "/assets/preloader.svg";
+  private imageReplaceUrl:string = "/assets/loader.gif";
   private localStorageName:string = "bigcommerce-malabi-image-id2-";
   private customerId:number = 1;
   private sessionToken:string = "283f67b2-a5a5-11e6-80f5-76304dec7eb7";
@@ -542,13 +542,14 @@ export class Bigcommerce {
     }
     this.windowRef.nativeWindow.ga('send', 'event', 'Site', 'bigcommerce touchUp',"shop="+this.userShop);
 
-    var onSaveWithResult = function (resultUrl) {
+    var onSaveWithResult = (resultUrl) => {
+      this.windowRef.nativeWindow.closeModal('modal1');
 
-      $('#modal1').closeModal();
     };
 
-    $('#modal1').openModal();
-
+    this.windowRef.nativeWindow.openModal('modal1');
+    this.windowRef.nativeWindow.document.getElementById("camera51-show-transparent").checked = false;
+    this.windowRef.nativeWindow.document.getElementById("camera51-show-shadow").checked = false;
     // open the editor
     this.windowRef.nativeWindow.camera51WithQueue.openEditorWithTrackId({
       'customerId': this.customerId,
@@ -558,8 +559,9 @@ export class Bigcommerce {
 
   showImgPreview(e) {
     var src = e.toElement.children[0].src;
-    $("#modal-show-img").openModal();
-    $("#preview-img-src").attr("src", src);
+    this.windowRef.nativeWindow.openModal('modal-show-img');
+    var img = this.windowRef.nativeWindow.document.getElementById("#preview-img-src");
+    img.src = src;
   }
 
   onInputFilter(val){
