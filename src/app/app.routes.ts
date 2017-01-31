@@ -24,7 +24,7 @@ export const ROUTES: Routes = [
   { path: 'shopify/:userId/:userToken',  component: Shopify },
   { path: 'shopify/:userId/:userToken/:shop',  component: Shopify },
   { path: 'bigcommerce/:userId/:userToken',  component: Bigcommerce },
-  { path: 'bigcommerce/:userId/:userToken/:shop/:a',  component: Bigcommerce },
+  { path: 'bigcommerce/:userId/:userToken/stores/:storeHash',  component: Bigcommerce },
   { path: 'login',  component: Login },
   { path: 'yourinfo',  component: Yourinfo },
 

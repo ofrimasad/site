@@ -54,6 +54,8 @@ export class Bigcommerce {
   private updated_at_min;
   private productSortBy: string;
   private iframeParentUrl: string;
+  private bigcommerceAppId: number = 8763;
+  private storeHash: string;
   // TypeScript public modifiers
   constructor(public appState: AppState, private route: ActivatedRoute, private router: Router,
               private windowRef: WindowRef, private eref: ElementRef, private changeDetector: ChangeDetectorRef,
@@ -86,6 +88,11 @@ export class Bigcommerce {
       this.windowRef.nativeWindow.setIsloggedIn(true);
     }
 
+    if (params.hasOwnProperty("storeHash")) {
+      this.storeHash = params.storeHash;
+      this.appState.set("storeHash", params.storeHash);
+    }
+
     if (params.hasOwnProperty("shop")) {
       this.userShop = params.shop;
       this.appState.set("userShop", params.shop);
@@ -104,11 +111,12 @@ export class Bigcommerce {
     this.appState.set("sqsURL", this.windowRef.nativeWindow.camera51WithQueue.getSQSurl());
     this.appState.set("userCredit", "");
     this.appState.set("BigcommerceUser", true);
+    this.appState.set("storeType", "Bigcommerce");
     //this.appState.set("ShowSubscriptionRow5", false);
     this.appState.set("sessionToken", this.sessionToken);
     this.appState.set("customerId", this.customerId);
 
-    appState.set("parentLocation", (parent !== window) ? document.referrer : document.location);
+
     this.windowRef.nativeWindow.ga('send', 'event', 'Site', 'bigcommerce app enter', "userId="+params.userId+"&shop="+this.userShop);
     this.windowRef.nativeWindow.ga('set', { page:'/bigcommerce',title:'Bigcommerce App'});
     this.windowRef.nativeWindow.ga('send', 'pageview');
@@ -204,7 +212,12 @@ export class Bigcommerce {
     this.userState.downloadState()
       .subscribe(
         res => this.renderAfterState(res)
-      );
+    );
+
+    // build payment url
+    var str = "https://store-" +this.storeHash + ".mybigcommerce.com/manage/app/"+this.bigcommerceAppId;
+    this.appState.set("paymentRedirectUrl", str);
+    console.log("paymentRedirectUrl", str);
   }
 
   private showRateUs(){

@@ -84,7 +84,7 @@ export class Contactus {
     responseMessage += "<br> userId: " + (this.appState.getExact("userId") != null) ? this.appState.getExact("userId") : " Not logged in";
     responseMessage += "<br> userEmail: " + (this.appState.getExact("userEmail") != null) ? this.appState.getExact("userEmail") : " Not logged in";
     responseMessage += "<br> subscription: " +JSON.stringify(this.appState.getExact("subscription"));
-    responseMessage += "<br> Shop: " +JSON.stringify(this.appState.getExact("userShop"));
+    responseMessage += "<br> Shop: " +JSON.stringify(this.appState.getExact("storeType"));
 
     var a = {
 
