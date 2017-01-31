@@ -519,6 +519,10 @@ function showUserError(mesg){
   Materialize.toast(mesg, 8000);
 }
 
+function showToast(mesg){
+  Materialize.toast(mesg, 4000);
+}
+
 window.closeModal = function(id){
   $('#'+id).closeModal();
 };

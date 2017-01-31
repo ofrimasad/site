@@ -12,6 +12,7 @@ import {
 import {isUndefined} from "util";
 import {PlansComponentService} from "../../shopify/mission.service";
 import {SubscriptionService} from "../../yourinfo/subscription.service";
+import {InvoiceService, Invoice} from "../../yourinfo/invoice.service";
 @Component({
   selector: 'yourinfobigcommerce',
   styleUrls: [ 'yourinfo-bigcommerce.style.css' ],
@@ -29,11 +30,12 @@ export class Yourinfobigcommerce {
   localState = { value: '' };
   plan:Object = {"name":"","description":""};
   subscription:Object = {"plan":{}};
+  invoices:Invoice[] = [];
   noInvoices:boolean = false;
 
   // TypeScript public modifiers
   constructor(public appState: AppState, private windowRef: WindowRef, private router: Router,
-              private userService: UserService, private eref: ElementRef, private zone:NgZone, private changeDetector: ChangeDetectorRef,
+              private userService: UserService, private invoiceService: InvoiceService, private eref: ElementRef, private zone:NgZone, private changeDetector: ChangeDetectorRef,
               private plansComponentService: PlansComponentService, private subscriptionService:SubscriptionService) {
 
     this.userInfo = appState.get();
@@ -175,6 +177,32 @@ export class Yourinfobigcommerce {
 
   }
 
+  showInvoices(){
+    var that = this;
+    this.windowRef.nativeWindow.ga('set', { page:'/myaccount/showinvoices',title:'Show Invoices'});
+    this.windowRef.nativeWindow.ga('send', 'pageview');
+    this.windowRef.nativeWindow.ga('send', 'event', 'Site', 'my account click invoices','userId='+this.appState.get("userId"));
+
+    this.windowRef.nativeWindow.closeModal('modalYourInfo');
+    this.windowRef.nativeWindow.startLoadingCursor();
+
+    this.invoiceService.getInvoices(this.appState.get("userId"), this.appState.get("userToken"))
+      .then(invoice => this.checkInvoices(invoice))
+      .then(    that.windowRef.nativeWindow.stopLoadingCursor());
+
+
+    this.windowRef.nativeWindow.openModal('modalShowInvoices');
+  }
+
+  checkInvoices(list){
+
+    if(list == null || list.length == 0){
+      this.noInvoices = true;
+    } else {
+      this.invoices = list;
+    }
+
+  }
 
 }
 

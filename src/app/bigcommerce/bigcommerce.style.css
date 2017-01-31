@@ -1,3 +1,12 @@
+
+#toast-container {
+  position: fixed !important;
+
+  display: flex !important;
+  justify-content: center !important;
+  width: 100% !important;
+}
+
 .img-small{
   height: 50px;
 }

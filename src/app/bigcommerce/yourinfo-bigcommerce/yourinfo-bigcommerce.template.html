@@ -29,6 +29,8 @@
         <button class="waves-effect waves-green btn-flat btn-yourinfo" (click)="changePlan()">Update plan</button>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         <button class="waves-effect waves-green btn-flat btn-yourinfo" [class.disabled]="!canCancelSubscription" (click)="cancelSubscriptionDialog()">Cancel plan</button>
+        <button class="waves-effect waves-green btn-flat btn-yourinfo" (click)="showInvoices()">Invoices</button>
+
       </div>
     </div>
   </div>
@@ -44,6 +46,7 @@
     <div class="modal-footer" [style.display]="showCancelRequest">
       <button class="  waves-effect waves-green btn-flat" (click)="cancelSubscription()">cancel plan</button>
       <button class=" waves-effect waves-green btn-flat" (click)="returnToYourInfo('modalCancelSubscription')">back</button>
+
     </div>
     <div class="modal-content" [style.display]="showCancelResponse">
       <h1 x-large class="sample-content" style="display: inline-block">Cancel Subscription Plan</h1>
@@ -57,5 +60,30 @@
     </div>
   </div>
 
+  <div id="modalShowInvoices" class="modal" style="width: 704px">
+    <div class="modal-content">
+      <h1 x-large class="sample-content" style="display: inline-block">Invoices</h1>
+      <table class="responsive-table highlight smaller-row" style="width: 500px">
+        <tr>
+          <th>Invoice no.</th>
+          <th>Amount</th>
+          <th>Date</th>
+          <th></th>
+        </tr>
+        <tr *ngFor="let invoice of invoices; let idx = index;">
+          <td>{{invoice.invoiceCode}}</td>
+          <td>$ {{invoice.invoiceTotal }}</td>
+          <td>{{invoice.invoiceDate | datenice}}</td>
 
+          <td><a href="{{invoice.invoiceURL}}"  target="_blank" style="color: #44a6cb">View Invoice</a></td>
+        </tr>
+      </table>
+      <div *ngIf="noInvoices">
+        No invoices found.
+      </div>
+      <div class="modal-footer" >
+        <button class=" waves-effect waves-green btn-flat" (click)="returnToYourInfo('modalShowInvoices')">Back</button>
+      </div>
+    </div>
+  </div>
 </div>

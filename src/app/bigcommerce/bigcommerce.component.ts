@@ -11,6 +11,7 @@ import {PlansService} from "../plans/plans.service";
 import {UserstateService} from "../userstate.service";
 import {PlansComponentService} from "../shopify/mission.service";
 import {Bigcommerceconfirmation} from "./confirmation";
+import {URLSearchParams} from "@angular/http";
 
 import {Rateusbigcommerce} from "./rateusbigcommerce";
 import {DomSanitizer} from "@angular/platform-browser";
@@ -52,6 +53,7 @@ export class Bigcommerce {
   private userShop:string;
   private updated_at_min;
   private productSortBy: string;
+  private iframeParentUrl: string;
   // TypeScript public modifiers
   constructor(public appState: AppState, private route: ActivatedRoute, private router: Router,
               private windowRef: WindowRef, private eref: ElementRef, private changeDetector: ChangeDetectorRef,
@@ -61,6 +63,8 @@ export class Bigcommerce {
 
     var params:any = this.route.params;
     params = params.getValue();
+    let paramse = router.parseUrl(router.url)
+    this.iframeParentUrl = paramse.queryParams["parentLocation"];
     this.eref.nativeElement.ownerDocument.getElementById("nav-bar").style.display = "none";
     this.eref.nativeElement.ownerDocument.getElementById("uploadload-container").style.display = "none";
 
@@ -100,17 +104,17 @@ export class Bigcommerce {
     this.appState.set("sqsURL", this.windowRef.nativeWindow.camera51WithQueue.getSQSurl());
     this.appState.set("userCredit", "");
     this.appState.set("BigcommerceUser", true);
-    this.appState.set("ShowSubscriptionRow5", false);
+    //this.appState.set("ShowSubscriptionRow5", false);
     this.appState.set("sessionToken", this.sessionToken);
     this.appState.set("customerId", this.customerId);
 
-    appState.set("paymentRedirectUrl", (parent !== window) ? document.referrer : document.location);
+    appState.set("parentLocation", (parent !== window) ? document.referrer : document.location);
     this.windowRef.nativeWindow.ga('send', 'event', 'Site', 'bigcommerce app enter', "userId="+params.userId+"&shop="+this.userShop);
     this.windowRef.nativeWindow.ga('set', { page:'/bigcommerce',title:'Bigcommerce App'});
     this.windowRef.nativeWindow.ga('send', 'pageview');
     this.appState.set("planProductId", "454354000000223025");
     if(appState.getExact("isSandbox")){
-      console.log("Sandbox Shopify", appState.getExact("isSandbox"));
+      console.log("Sandbox Bigcommerce", appState.getExact("isSandbox"));
       this.appState.set("planProductId", "402919000000318001"); // sandbox
     }
     this.plansService.getPlans(this.appState.get("planProductId"))
@@ -356,7 +360,8 @@ export class Bigcommerce {
               this.openPlans({"noImagesTitle":true});
             }
           } else {
-            parent.postMessage({"flashNotice":true,"text":'Image has been added to your product'},"*");
+            this.windowRef.nativeWindow.showToast("Image has been added to your product");
+
             this.sendEventTrackId(product, "accept_new_image");
             this.appState.set("userCredit", res.result.userCredit)
           }
@@ -407,7 +412,8 @@ export class Bigcommerce {
               setTimeout(() => {
                 this.changeDetector.detectChanges();
               }, 200);
-              parent.postMessage({"flashNotice":true,"text":'Image has been replaced'},"*");
+              this.windowRef.nativeWindow.showToast("Image has been replaced");
+
               this.stopLoader();
               product.btnTouchUpDisable = true;
             };
