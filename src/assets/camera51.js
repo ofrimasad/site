@@ -487,6 +487,7 @@
     this.callbackNewSQSRequestError = noop; // error during request sqs
 
     this.init = function(obj){
+
       this.customerId = obj.customerId;
       this.userId = obj.userId;
       this.sessionToken = obj.sessionToken;
@@ -511,7 +512,8 @@
         customerId: obj.customerId,
         userId: obj.userId,
         camera51Text: obj.camera51Text,
-        transparent: obj.transparent
+        transparent: obj.transparent,
+        showTutorial: obj.showTutorial
         //
       };
       if(obj.hasOwnProperty('decreaseInnerHeight') && obj.decreaseInnerHeight > 1){
