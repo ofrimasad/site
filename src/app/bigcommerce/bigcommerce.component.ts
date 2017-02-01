@@ -169,10 +169,10 @@ export class Bigcommerce {
       //console.log(elem, imgUrl , processingResultCode, trackId);
 
       if(processingResultCode >= 100){
-        imgUrl = "/assets/appimages/error.png";
+        imgUrl = "/assets/appimages/error.jpg";
       }
       if(processingResultCode == 103){
-        imgUrl = "/assets/appimages/errorsize.png";
+        imgUrl = "/assets/appimages/errorsize.jpg";
       }
       for(var i=0; i < that.products.length; i++){
         //ronen
@@ -201,7 +201,9 @@ export class Bigcommerce {
         var a = {"elem":elem,
           "imgUrl":imgUrl,
           "processingResultCode":processingResultCode,
-          "trackId":trackId};
+          "trackId":trackId,
+          "timestamp": new Date().getTime().toString()
+        };
 
         localStorage.setItem(this.localStorageName+elem, JSON.stringify(a));
       } else {
@@ -469,25 +471,30 @@ export class Bigcommerce {
   }
 
   private addToRequest(id, src){
+
     var res = {};
+    var one_day=1000*60*60*24;
+    var getInfoFromServer = false;
     var localStorageImage = localStorage.getItem(this.localStorageName +id);
     if (localStorageImage) {
       try {
         localStorageImage = JSON.parse(localStorageImage);
+        if(localStorageImage["timestamp"] === undefined ||
+          ((localStorageImage["timestamp"] - new Date().getTime() )/one_day) > 1 ){
+          localStorage.removeItem(this.localStorageName +id);
+
+        } else if (localStorageImage.hasOwnProperty("elem")) {
+          return localStorageImage;
+        }
       } catch (e) {
-
+        // no local storage
       }
-      if (localStorageImage.hasOwnProperty("elem")) {
-        return localStorageImage;
-      }
-    } else {
-      res['trackId'] = this.windowRef.nativeWindow.camera51WithQueue.requestAsync(src/*.split("?",1)[0]*/, id,
-        "", true, false, true, this.userId, this.userToken);
-
-      res['imgUrl'] = this.imageReplaceUrl;
-      return res;
-
     }
+    res['trackId'] = this.windowRef.nativeWindow.camera51WithQueue.requestAsync(src/*.split("?",1)[0]*/, id,
+      "", true, false, true, this.userId, this.userToken);
+
+    res['imgUrl'] = this.imageReplaceUrl;
+    return res;
 
   }
 
@@ -527,11 +534,16 @@ export class Bigcommerce {
         for(var i=0; i < b.images.length;i++){
 
           var res = this.addToRequest(b.images[i].id, b.images[i].url_standard);
-          newArray.push(this.createProduct(b, b.images[i], res));
+          newArray[b.images[i].sort_order] = this.createProduct(b, b.images[i], res);
         }
       } else {
-        var res = this.addToRequest(b.images[0].id, b.images[0].url_standard);
-        newArray.push(this.createProduct(b, b.images[0], res));
+
+        for(var i=0; i < b.images.length;i++){
+          if(b.images[i].is_thumbnail == true){
+            var res = this.addToRequest(b.images[i].id, b.images[i].url_standard);
+            newArray.push(this.createProduct(b, b.images[i], res));
+          }
+        }
       }
 
         return a.concat(newArray);
@@ -592,6 +604,7 @@ export class Bigcommerce {
       this.showALL = false;
     }
     else if (val == "date_modified") {
+      this.showALL = true;
       this.productSortBy = "date_modified";
     }
     else if (val.split("hours_").length >1 ) {

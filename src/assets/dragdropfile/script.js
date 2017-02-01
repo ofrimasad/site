@@ -44,6 +44,11 @@ $(document).ready(function () {
     });
 
   });
+
+  $('.menuPlanClick').click(function () {
+    window.angularComponentRef.component.toggelPlans();
+  });
+
   $("#download-images").click(function(){
     if(isloggedIn == false){
       window.location.href ="#/register";
@@ -478,10 +483,11 @@ var isIE;
 $(document).ready(function () {
 
   if (isIE) {
-    $('#show-token-error').openModal();
     $('#errorSubject').html("Internet Explorer is not supported");
     $('#errorMessage').html("We do not support Internet Explorer 11 and below. Please use a diffrent web browser.");
     $('.modal-footer').hide();
+    $('#show-token-error').openModal();
+
   }
 });
 

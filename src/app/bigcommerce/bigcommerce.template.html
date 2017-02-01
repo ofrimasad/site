@@ -28,7 +28,7 @@
               <div class="select-wrapper select-after" style="width: 210px;margin: 0px; min-width: 187px;">
                 <select class="btn-bigcommerce select filter-left" (change)="onSelectProduct($event.target.value)">
                   <option value="all" >All product images</option>
-                  <option value="main" >Product main images</option>
+                  <option value="main" >Thumbnail images only</option>
                   <option value="date_modified" >Sort by date last modified</option>
                 </select>
               </div>
@@ -96,7 +96,7 @@
 
 <div id="modal-welcome-bigcommerce" class="modal modal-small" style="display: none">
   <div class="modal-content" style="text-align: center">
-    <h1 id="errorSubject" style="display: inline-block;font-size: 21px;margin: 0px">Welcome to Malabi image background removal</h1>
+    <h1 style="display: inline-block;font-size: 21px;margin: 0px">Welcome to Malabi image background removal</h1>
     <div style="margin-top: 20px;margin-bottom: 20px;height: 60px;">
       <img src="/assets/icon/malabi-logo-round.png"></div>
     <p id="" style="font-size: 19px;margin-top: 0px;">Enjoy {{this.appState.get("userCredit")}} image credits for FREE</p>

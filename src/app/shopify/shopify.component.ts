@@ -185,7 +185,9 @@ export class Shopify {
         var a = {"elem":elem,
           "imgUrl":imgUrl,
           "processingResultCode":processingResultCode,
-          "trackId":trackId};
+          "trackId":trackId,
+          "timestamp": new Date().getTime().toString()
+        };
 
         localStorage.setItem(this.localStorageName+elem, JSON.stringify(a));
       } else {
@@ -445,25 +447,31 @@ export class Shopify {
 
   private addToRequest(id, src){
     var res = {};
+    var one_day=1000*60*60*24;
+    var getInfoFromServer = false;
     var localStorageImage = localStorage.getItem(this.localStorageName +id);
     if (localStorageImage) {
       try {
         localStorageImage = JSON.parse(localStorageImage);
+        if(localStorageImage["timestamp"] === undefined ||
+          ((localStorageImage["timestamp"] - new Date().getTime() )/one_day) > 1 ){
+          localStorage.removeItem(this.localStorageName +id);
+
+        } else if (localStorageImage.hasOwnProperty("elem")) {
+            return localStorageImage;
+        }
       } catch (e) {
-
+        // no local storage
       }
-      if (localStorageImage.hasOwnProperty("elem")) {
-        return localStorageImage;
-      }
-    } else {
-      res['trackId'] = this.windowRef.nativeWindow.camera51WithQueue.requestAsync(src/*.split("?",1)[0]*/, id,
-        "", true, false, true, this.userId, this.userToken);
-      this.windowRef.nativeWindow.ga('send', 'event', 'Site shopify request async', this.userId, src);
-
-      res['imgUrl'] = this.imageReplaceUrl;
-      return res;
-
     }
+
+    res['trackId'] = this.windowRef.nativeWindow.camera51WithQueue.requestAsync(src/*.split("?",1)[0]*/, id,
+      "", true, false, true, this.userId, this.userToken);
+    this.windowRef.nativeWindow.ga('send', 'event', 'Site shopify request async', this.userId, src);
+
+    res['imgUrl'] = this.imageReplaceUrl;
+    return res;
+
 
   }
 

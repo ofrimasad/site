@@ -81,8 +81,7 @@ export class UserService {
         }
 
         //  var view = this.eref;
-        view.nativeElement.ownerDocument.getElementsByClassName("loginLabel")[0].style.display = "none";
-        view.nativeElement.ownerDocument.getElementsByClassName("registerLabel")[0].style.display = "none";
+
         if(view.nativeElement.ownerDocument.getElementsByClassName("myAccountDropdownLabel").length > 0){
           view.nativeElement.ownerDocument.getElementsByClassName("myAccountDropdownLabel")[0].style.display = "block";
         }
@@ -127,18 +126,7 @@ export class UserService {
         //     this.appState.set("firstName", "My Account");
         // }
 
-      if(view.nativeElement.ownerDocument.getElementsByClassName("aboutMenuButton").length > 0){
-        view.nativeElement.ownerDocument.getElementsByClassName("aboutMenuButton")[0].style.display = "none";
-      }
-      if(view.nativeElement.ownerDocument.getElementsByClassName("getSupportMenuButton").length > 0){
-        view.nativeElement.ownerDocument.getElementsByClassName("getSupportMenuButton")[0].style.display = "block";
-      }
-      if(view.nativeElement.ownerDocument.getElementsByClassName("contactUsMenuButton").length > 0){
-        view.nativeElement.ownerDocument.getElementsByClassName("contactUsMenuButton")[0].style.display = "none";
-      }
-      if(view.nativeElement.ownerDocument.getElementsByClassName("chineslinkButton").length > 0){
-        view.nativeElement.ownerDocument.getElementsByClassName("chineslinkButton")[0].style.display = "none";
-      }
+        this.updateMenuOnLogin(view);
 
         this.windowRef.nativeWindow.setIsloggedIn(true);
         this.windowRef.nativeWindow.setUserloggedIn(user.userId, user.userToken);
@@ -163,8 +151,7 @@ export class UserService {
     }
 
     setUserinfoIntoView(view){
-        view.nativeElement.ownerDocument.getElementsByClassName("loginLabel")[0].style.display = "none";
-        view.nativeElement.ownerDocument.getElementsByClassName("registerLabel")[0].style.display = "none";
+      this.updateMenuOnLogin(view);
 
         if(view.nativeElement.ownerDocument.getElementsByClassName("myAccountDropdownLabel").length > 0){
           view.nativeElement.ownerDocument.getElementsByClassName("myAccountDropdownLabel")[0].style.display = "block";
@@ -183,6 +170,25 @@ export class UserService {
         // }
       }
 
+    }
+
+    private updateMenuOnLogin(view){
+
+      view.nativeElement.ownerDocument.getElementsByClassName("loginLabel")[0].style.display = "none";
+      view.nativeElement.ownerDocument.getElementsByClassName("registerLabel")[0].style.display = "none";
+
+      if(view.nativeElement.ownerDocument.getElementsByClassName("aboutMenuButton").length > 0){
+        view.nativeElement.ownerDocument.getElementsByClassName("aboutMenuButton")[0].style.display = "none";
+      }
+      if(view.nativeElement.ownerDocument.getElementsByClassName("getSupportMenuButton").length > 0){
+        view.nativeElement.ownerDocument.getElementsByClassName("getSupportMenuButton")[0].style.display = "block";
+      }
+      if(view.nativeElement.ownerDocument.getElementsByClassName("contactUsMenuButton").length > 0){
+        view.nativeElement.ownerDocument.getElementsByClassName("contactUsMenuButton")[0].style.display = "none";
+      }
+      if(view.nativeElement.ownerDocument.getElementsByClassName("chineslinkButton").length > 0){
+        view.nativeElement.ownerDocument.getElementsByClassName("chineslinkButton")[0].style.display = "none";
+      }
     }
 
 
