@@ -101,7 +101,7 @@ export class Plans {
 
     closeModal(){
         this.isOpen = false;
-      this.windowRef.nativeWindow.ga('send', 'event', 'Site', 'close plans');
+        this.windowRef.nativeWindow.ga('send', 'event', 'Site', 'close plans');
         this.windowRef.nativeWindow.closeModal('modalPlans');
     }
 
@@ -179,8 +179,12 @@ export class Plans {
         } else {
             this.noImagesTitle = false;
         }
-
-          this.windowRef.nativeWindow.openModal('modalPlans');
+        var that = this;
+          this.windowRef.nativeWindow.openModal('modalPlans', {
+            complete: function() {
+              that.isOpen = false;
+            }
+          });
 
 
       setInterval(() => {

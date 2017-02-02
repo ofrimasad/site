@@ -11,7 +11,8 @@ import {PlansService} from "../plans/plans.service";
 @Component({
   selector: 'home',  // <home></home>
   styleUrls: [ 'home.style.css' ],
-  templateUrl: 'home.template.html'
+  //templateUrl: 'home.template.html'
+  templateUrl: 'homeempty.template.html'
 })
 export class Home {
 
