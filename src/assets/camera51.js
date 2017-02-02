@@ -485,6 +485,8 @@
     this.callbackAsyncRequestError = noop;
     this.callbackAsyncRequest = noop;
     this.callbackNewSQSRequestError = noop; // error during request sqs
+    this.isInit = false; // if Camera51WithQueue as init run.
+    this.functionArrayToRunAferInit = []; // array of function to run after object is initialized.
 
     this.init = function(obj){
 
@@ -526,6 +528,26 @@
       initCamera51(initCamera51Object);
       this.apiUrl = window.camera51.apiUrl;
       this.setSQSurl(true);
+      this.isInitialized();
+    };
+
+    /*
+     Run after object has been initialized.
+     */
+    this.isInitialized = function () {
+      this.isInit = true;
+
+      this.functionArrayToRunAferInit.forEach(function (ele) {
+        var fn = this.camera51WithQueue[ele];
+        if(typeof fn === 'function') {
+          try {
+            this.camera51WithQueue[ele]();
+          } catch (e){
+            console.log(e);
+          }
+
+        }
+      })
     };
 
     this.loaded = function () {
@@ -555,6 +577,14 @@
     };
 
     this.checkUpdatesSQS = function(){
+      console.log("checkUpdatesSQS", this.sqsUrl);
+      if(this.sqsUrl == undefined){
+        this.functionArrayToRunAferInit.push("checkUpdatesSQS");
+        console.log("functionArrayToRunAferInit");
+        return;
+
+      }
+
       var callbackURL = this.sqsUrl+"?Action=ReceiveMessage&VisibilityTimeout=10";
       var _this = this;
 

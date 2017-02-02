@@ -23,12 +23,16 @@ export class Changepassword {
   passwordConfirmLabel;
   passwordError = false;
   passwordErrorLabel = false;
+  passwordLabDataError:string ="";
+  passwordConfirmLabError:string ="";
   passwordValidityMessage:string = "Use at least 6 characters.";
   localState = { value: '' };
   // TypeScript public modifiers
   constructor(private windowRef: WindowRef,private eref: ElementRef,private http: Http,
               private route: ActivatedRoute, private router: Router,  public appState: AppState, private userService: UserService) {
 
+    this.passwordLabDataError = "Use at least 8 characters. Include both an uppercase letter and a number.";
+    this.passwordConfirmLabError = "Use at least 8 characters.";
   }
 
   ngOnInit() {
@@ -51,25 +55,30 @@ export class Changepassword {
   }
 
   submitState(f: NgForm) {
-    this.passwordLabel.setAttribute("data-error",this.passwordValidityMessage);
-    this.passwordConfirmLabel.setAttribute("data-error",this.passwordValidityMessage);
+
+    this.passwordLabDataError = this.passwordValidityMessage;
+    this.passwordConfirmLabError = this.passwordValidityMessage;
+
 
     var password = f.value.password;
     var passwordConfirm = f.value.passwordConfirm;
     if(password == "" || password.length < 6){
-      this.passwordLabel.setAttribute("data-error","Use at least 6 characters.");
+
+      this.passwordLabDataError = "Use at least 6 characters.";
       $('#password').addClass("invalid");
       $('#passwordLabel').addClass("active");
       return false;
     }
     if(passwordConfirm == "" || passwordConfirm.length < 6){
-      this.passwordConfirmLabel.setAttribute("data-error",this.passwordValidityMessage);
+
+      this.passwordConfirmLabError = this.passwordValidityMessage ;
       $('#passwordConfirm').addClass("invalid");
       $('#passwordConfirmLabel').addClass("active");
       return false;
     }
     if(passwordConfirm != password){
-      this.passwordConfirmLabel.setAttribute("data-error","Passwords don't match");
+
+      this.passwordConfirmLabError ="Passwords don't match";
       $('#passwordConfirm').addClass("invalid");
       $('#passwordConfirmLabel').addClass("active");
       return false;

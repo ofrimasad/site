@@ -18,9 +18,10 @@ export class Forgotpassword {
   emailInvalid = false;
   localState = { value: '' };
   private emailLabel: any;
-  private passwordResetSuccess: any;
+  private passwordResetSuccess = "none";
   private passwordResetForm: any;
-  // TypeScript public modifiers
+  emailLabelDataError:string = "";
+
   constructor(private windowRef: WindowRef,private _eref: ElementRef,private http: Http, public appState: AppState) {
 
   }
@@ -49,7 +50,8 @@ export class Forgotpassword {
 
 
   submitState(f: NgForm) {
-    this.emailLabel.setAttribute("data-error","Enter valid email.");
+    //this.emailLabel.setAttribute("data-error","Enter valid email.");
+    this.emailLabelDataError = "Enter valid email.";
 
     var email = f.value.email;
 
@@ -57,13 +59,12 @@ export class Forgotpassword {
       .then(res => {
         if(res.status == "success"){
           this.userEmail = email;
-          this.passwordResetSuccess.style.display ="block";
-          this.passwordResetForm.style.display ="none";
+          this.passwordResetSuccess ="block";
+          this.passwordResetForm ="none";
         }
         if(res.status == "fail"){
           this.emailInvalid = true;
-          this.emailLabel.setAttribute("data-error","Email not found.");
-
+          this.emailLabelDataError = "Email not found.";
         }
 
       });
