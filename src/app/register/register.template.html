@@ -15,12 +15,12 @@
 
                     <div class="input-field col s12">
                         <input ngModel name="email" id="email" type="text" class="validate" [class.invalid]="emailError" >
-                        <label id="emailLabel" for="email" data-error="Enter valid email" [class.active]="emailErrorLabel" >Email</label>
+                        <label id="emailLabel" for="email" [attr.data-error]="emailLabelDataError" [class.active]="emailErrorLabel" >Email</label>
                     </div>
 
                     <div class="input-field col s12">
                         <input ngModel name="password" id="password" type="password" class="validate" [class.invalid]="passwordError">
-                        <label #passwordLab id="passwordLabel" for="password" data-error="Use at least 6 characters." [class.active]="passwordErrorLabel" >Password  <span style="font-size: x-small">(Use at least 6 characters)</span></label>
+                        <label id="passwordLabel" for="password" [attr.data-error]="passwordLabelDataError" [class.active]="passwordErrorLabel" >Password  <span style="font-size: x-small">(Use at least 6 characters)</span></label>
                     </div>
                 </div>
                 <div class="row">
@@ -42,7 +42,7 @@
             </form>
         </div>
       <div class="modal-content" style="text-align: center" [hidden]="!submitted">
-        <h1 style="display: inline-block;font-size: 21px;margin: 0px">Welcome to Malabi image background removal</h1>
+        <h1 id="errorSubject" style="display: inline-block;font-size: 21px;margin: 0px">Welcome to Malabi image background removal</h1>
         <div style="margin-top: 20px;margin-bottom: 20px;height: 60px;"><img src="https://cdn.shopify.com/s/files/applications/dc4b0d5a27a5f392b8d0e29e64097614.png?1478702023"></div>
         <p id="" style="font-size: 19px;margin-top: 0px;">Enjoy {{this.appState.get("userCredit")}} image credits for FREE</p>
       </div>

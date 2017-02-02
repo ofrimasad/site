@@ -28,7 +28,9 @@ export class Login {
     passwordError = "";
     localState = { email: '' };
     private headers = new Headers({'Content-Type': 'application/json'});
-  private passwordLabel: any;
+    private passwordLabel: any;
+    passwordLabelDataError = "Use at least 8 characters.";
+
 
     // TypeScript public modifiers
     constructor(private eref: ElementRef, private http: Http,
@@ -85,7 +87,7 @@ export class Login {
             return false;
         }
         if(password == ""){
-            this.passwordLabel.setAttribute("data-error","Use at least 8 characters.");
+            this.passwordLabelDataError = "Use at least 8 characters.";
             $('#password').addClass("invalid");
             $('#passwordLabel').addClass("active");
             return false;
@@ -110,8 +112,7 @@ export class Login {
                     $('#password').addClass("invalid");
                     $('#passwordLabel').addClass("active");
                     this.windowRef.nativeWindow.ga('send', 'event', 'Site', 'login fail', email);
-
-                    this.passwordLabel.setAttribute("data-error","The password you have entered is incorrect.");
+                  this.passwordLabelDataError = "The password you have entered is incorrect.";
                 }
             });
     }

@@ -35,6 +35,8 @@ export class Register {
   acceptsMail = true;
   private passwordLabel: any;
   emailLabel: any;
+  emailLabelDataError = "Enter valid email";
+  passwordLabelDataError = "Use at least 6 characters.";
   // TypeScript public modifiers
   constructor(private eref: ElementRef, private http: Http,
               public appState: AppState, private router: Router, private loginservice: UserService,
@@ -96,7 +98,8 @@ export class Register {
       return false;
     }
     if(password == ""){
-      this.passwordLabel.setAttribute("data-error","Use at least 6 characters.");
+
+      this.passwordLabelDataError = "Use at least 6 characters.";
       $('#password').addClass("invalid");
       $('#passwordLabel').addClass("active");
       return false;
@@ -134,8 +137,6 @@ export class Register {
           } else {
             this.submitted = true; // welcome popup
           }
-
-        //  this.router.navigate(['/plans']);
         }
 
         if(res.status = "fail"){
@@ -144,16 +145,13 @@ export class Register {
             this.windowRef.nativeWindow.ga('send', 'event', 'Site', 'register fail', "invalid_password,"+email);
             that.passwordErrorLabel = true;
             that.passwordError = true;
-            that.passwordLabel.setAttribute("data-error","Use at least 6 characters.");
-
+            that.passwordLabelDataError = "Invalid password, use at least 6 characters.";
           }
 
           if(res.error == "email_exists"){
             that.emailErrorLabel = true;
             that.emailError = true;
-
-            that.emailLabel.setAttribute("data-error","The email is already registered.");
-
+            that.emailLabelDataError = "The email is already registered.";
           }
         }
 

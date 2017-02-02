@@ -17,7 +17,7 @@
 
           <div class="input-field col s12">
             <input ngModel name="password" id="password" type="password" class="validate">
-            <label #passwordLab id="passwordLabel" for="password" data-error="Use at least 8 characters.">Password </label>
+            <label id="passwordLabel" for="password" [attr.data-error]="passwordLabelDataError">Password </label>
 
 
             <a href="#forgotpassword" (click)="closeModal()">Forgot password</a>
