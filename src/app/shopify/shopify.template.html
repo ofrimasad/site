@@ -62,7 +62,7 @@
           <div class="section-content">
             <div class="section-row">
               <div class="pagination" *ngIf="products.length > 9 && showMoreButton">
-                <button (click)="showMoreProducts()" class="btn-shopify default" href="#">show more</button>
+                <button style="margin: 0 auto" (click)="showMoreProducts()" class="btn-shopify default" href="#">show more</button>
               </div>
               <div class="pagination" *ngIf="showMoreButton == false">
                 <span>No products found</span>

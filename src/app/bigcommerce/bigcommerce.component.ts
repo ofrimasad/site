@@ -274,6 +274,7 @@ export class Bigcommerce {
       left: ($(ev.relatedTarget).offset().left + $(ev.relatedTarget).width()) + "px",
       top: $(ev.relatedTarget).offset().top + "px"
     });
+
     this.divToShowSrc = ev.currentTarget.currentSrc;//ev.fromElement.children[0].getElementsByTagName('img')[0].src;
 
   }

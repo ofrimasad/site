@@ -241,10 +241,12 @@ export class Shopify {
   }
 
   resultImageMouseOver(ev){
-    if(ev == false){
+
+    if(ev == false ){
       this.divToShowDisplay = "none";
       return;
     }
+
 
     this.divToShowDisplay = "block";
     var divToShow = $("#popupBox");
@@ -253,7 +255,9 @@ export class Shopify {
       left: ($(ev.relatedTarget).offset().left + $(ev.relatedTarget).width()) + "px",
       top: $(ev.relatedTarget).offset().top + "px"
     });
-    this.divToShowSrc = ev.currentTarget.currentSrc;//ev.fromElement.children[0].getElementsByTagName('img')[0].src;
+    //console.log(ev);
+    //console.log($(ev.relatedTarget).offset().left,$(ev.relatedTarget).width() );
+    this.divToShowSrc = ev.srcElement.currentSrc;//ev.fromElement.children[0].getElementsByTagName('img')[0].src;
 
   }
   updateProduct(index, attr, value){
