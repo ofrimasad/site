@@ -160,6 +160,7 @@ $(document).ready(function () {
           $('#show-token-error').openModal();
           $('#errorSubject').html("Images were not uploaded");
           $('#errorMessage').html("You may upload a MAXIMUM of "+MAX_FILES_TO_UPLOAD+" images");
+          e.stopPropagation();
           return false;
         }
         var img = new Image();
