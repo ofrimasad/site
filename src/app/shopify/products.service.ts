@@ -77,7 +77,7 @@ export class ProductsService {
       .catch(this.handleError);
   }
 
-  addProductImage(userId:number, userToken:string, productId:string, imagePosition:number, imageUrl:string, imgName:string){
+  addProductImage(userId:number, userToken:string, productId:string, imageId, imagePosition:number, imageUrl:string, imgName:string){
     this.apiShopifyURL = this.appState.get("apiShopifyURL");
     //this.apiShopifyURL = "http://localhost:8080/UsersServer/shopify";
     let body = JSON.stringify({
@@ -85,6 +85,7 @@ export class ProductsService {
       userToken:userToken,
       fileName:imgName,
       productId:productId,
+      imageId:imageId,
       imagePosition:imagePosition,
       resultImageURL:imageUrl
     });

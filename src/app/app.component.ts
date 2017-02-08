@@ -42,7 +42,7 @@ export class AppComponent {
     private router: Router, private windowRef: WindowRef,private _compiler: Compiler,
     private userState:UserstateService, private loginservice: UserService, private plansComponentService:PlansComponentService) {
 
-    appState.set("isSandbox", true);
+    appState.set("isSandbox", process.env.isSandbox);
     // clear cache
     _compiler.clearCache();
     appState.set("apiDownloadURL", "https://api.malabi.co");
@@ -51,12 +51,15 @@ export class AppComponent {
     appState.set("apiBigcommerceURL", "https://users.malabi.co/UsersServer/bigcommerce");
     appState.set("planProductId", "454354000000052180");
 
+
     if(appState.getExact("isSandbox")){
+
       console.log("Sandbox", appState.getExact("isSandbox"));
       appState.set("apiURL", "https://sandbox.users.malabi.co/UsersServer/v1");
       appState.set("apiShopifyURL", "https://sandbox.users.malabi.co/UsersServer/shopify");
+      //appState.set("apiShopifyURL", "http://localhost:8080/UsersServer/shopify");
       appState.set("apiBigcommerceURL", "https://sandbox.users.malabi.co/UsersServer/bigcommerce");
-      //appState.set("apiBigcommerceURL", "http://localhost:8080/UsersServer/bigcommerce");
+     // appState.set("apiBigcommerceURL", "http://localhost:8080/UsersServer/bigcommerce");
       appState.set("planProductId", "402919000000047078");
     }
 

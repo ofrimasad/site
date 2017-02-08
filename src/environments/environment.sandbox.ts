@@ -1,5 +1,4 @@
-
-process.env.isSandbox = false;
+process.env.isSandbox = true;
 
 
 export const environment = {

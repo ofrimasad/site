@@ -24,6 +24,7 @@
       "environments": {
         "source": "environments/environment.ts",
         "dev": "environments/environment.ts",
+        "sandbox": "environments/environment.sandbox.ts",
         "prod": "environments/environment.prod.ts"
       }
     }

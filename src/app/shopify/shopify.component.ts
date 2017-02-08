@@ -46,6 +46,7 @@ export class Shopify {
   private currentUserState;
   private userShop:string;
   private updated_at_min;
+  private currentScroll: number;
   // TypeScript public modifiers
   constructor(public appState: AppState, private route: ActivatedRoute, private router: Router,
               private windowRef: WindowRef, private eref: ElementRef, private changeDetector: ChangeDetectorRef,
@@ -257,8 +258,8 @@ export class Shopify {
     });
     //console.log(ev);
     //console.log($(ev.relatedTarget).offset().left,$(ev.relatedTarget).width() );
-    this.divToShowSrc = ev.srcElement.currentSrc;//ev.fromElement.children[0].getElementsByTagName('img')[0].src;
-
+    //this.divToShowSrc = ev.srcElement.currentSrc;//ev.fromElement.children[0].getElementsByTagName('img')[0].src;
+    this.divToShowSrc = ev.currentTarget.currentSrc;
   }
   updateProduct(index, attr, value){
     this.products[index][attr] = value;
@@ -350,7 +351,7 @@ export class Shopify {
     product.btnAddProductImageDisable = false;
     product.btnReplaceProductImageDisable = false;
     this.sendEventTrackId(product, "shopify_add_image");
-    this.productsService.addProductImage(this.userId, this.userToken, product.id,
+    this.productsService.addProductImage(this.userId, this.userToken, product.id,product.imageId,
       product.imagePosition, imgUrl, imgName )
       .subscribe(
         res => {
@@ -361,7 +362,11 @@ export class Shopify {
           } else {
             parent.postMessage({"flashNotice":true,"text":'Image has been added to your product'},"*");
             this.sendEventTrackId(product, "accept_new_image");
-            this.appState.set("userCredit", res.result.userCredit)
+            this.appState.set("userCredit", res.result.userCredit);
+            // for refresh page
+            // this.currentScroll = document.documentElement.scrollTop || document.body.scrollTop;
+            // this.products = [];
+            // this.getProducts();
           }
 
           this.stopLoader();
@@ -529,10 +534,14 @@ export class Shopify {
     } else {
       this.showMoreButton = true;
     }
-
     this.products.push(...res);
     setTimeout(() => {
       this.changeDetector.detectChanges();
+      // for refresh page to position
+      // if(this.currentScroll > 0){
+      //   this.windowRef.nativeWindow.document.documentElement.scrollTop = this.windowRef.nativeWindow.document.body.scrollTop = this.currentScroll;
+      //   this.currentScroll = 0;
+      // }
     }, 200);
   }
 
