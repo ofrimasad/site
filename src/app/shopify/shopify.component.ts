@@ -12,6 +12,9 @@ import {UserstateService} from "../userstate.service";
 import {PlansComponentService} from "./mission.service";
 import {Shopifyconfirmation} from "./confirmation";
 import {Rateusshopify} from "./rateusshopify";
+import {Observable, Subject} from "rxjs";
+import 'rxjs/Rx';
+import {validateConfig} from "@angular/router/src/config";
 declare var $: any;
 
 @Component({
@@ -39,6 +42,7 @@ export class Shopify {
   private customerId:number = 1;
   private sessionToken:string = "283f67b2-a5a5-11e6-80f5-76304dec7eb7";
   private tableVisibility = "hidden";
+  private KEY_PRODUCT_LIST = "shopify-addedimages";
 
   @ViewChild(Shopifyconfirmation) shopCon: Shopifyconfirmation;
   @ViewChild(Rateusshopify) rateus: Rateusshopify;
@@ -47,6 +51,9 @@ export class Shopify {
   private userShop:string;
   private updated_at_min;
   private currentScroll: number;
+  addToProductState$ = new Subject();
+  private listImagesChanged = [] ;
+
   // TypeScript public modifiers
   constructor(public appState: AppState, private route: ActivatedRoute, private router: Router,
               private windowRef: WindowRef, private eref: ElementRef, private changeDetector: ChangeDetectorRef,
@@ -102,9 +109,6 @@ export class Shopify {
       console.log("Sandbox Shopify", appState.getExact("isSandbox"));
       this.appState.set("planProductId", "402919000000206001"); // sandbox
     }
-
-
-
     appState.set("paymentRedirectUrl", (parent !== window) ? document.referrer : document.location);
     this.windowRef.nativeWindow.ga('send', 'event', 'Site', 'shopify app enter', "userId="+params.userId+"&shop="+this.userShop);
     this.windowRef.nativeWindow.ga('set', { page:'/shopify',title:'Shopify App'});
@@ -116,8 +120,23 @@ export class Shopify {
 
       );
 
-    //this.rateus.openModal();
+    var that = this;
+    this.addToProductState$.subscribe(value => {
+      this.listImagesChanged = [];
+       if(value != null){
+         this.listImagesChanged = this.listImagesChanged.concat(value);
+         this.setProductState();
+       }
+    });
+  }
 
+
+  private addToImagesChanged(value){
+    console.log(value);
+    this.listImagesChanged.push(Number(value));
+    this.userState.set(this.KEY_PRODUCT_LIST, this.listImagesChanged);
+    this.setProductState();
+    this.userState.uploadState();
   }
 
   refreshShopifyProducts(){
@@ -151,8 +170,6 @@ export class Shopify {
     var that = this;
     this.windowRef.nativeWindow.camera51WithQueue.showImageCallbackOverride = (elem, imgUrl , processingResultCode, trackId) => {
 
-      //console.log(elem, imgUrl , processingResultCode, trackId);
-
       if(processingResultCode >= 100){
         imgUrl = "/assets/appimages/error.jpg";
       }
@@ -160,7 +177,6 @@ export class Shopify {
         imgUrl = "/assets/appimages/errorsize.jpg";
       }
       for(var i=0; i < that.products.length; i++){
-        //ronen
 
         if(that.products[i].trackId == trackId){
           that.products[i].btnReplaceProductImageDisable = false;
@@ -169,12 +185,12 @@ export class Shopify {
             that.products[i].btnTouchUpDisable = true;
             that.products[i].btnAddProductImageDisable = true;
             that.products[i].btnReplaceProductImageDisable = true;
-
           }
           that.products[i]["processingResultCode"] = processingResultCode;
           that.products[i]["imageRes"] = imgUrl;
           setTimeout(() => {
             this.changeDetector.detectChanges();
+            this.setProductState();
           }, 1000);
           continue;
         }
@@ -241,6 +257,21 @@ export class Shopify {
     }
   }
 
+  setProductState(){
+    if(this.products.length == 0 || this.listImagesChanged.length == 0){
+      return;
+    }
+    var listOfImageIds = this.listImagesChanged;
+    for(var i=0; i < this.products.length; i++){
+      var prd = this.products[i];
+      if(listOfImageIds.indexOf(prd.imageId) >= 0 ){
+        this.products[i].btnAddProductImageDisable = true;
+        this.products[i].btnReplaceProductImageDisable = true;
+      }
+    }
+
+  }
+
   resultImageMouseOver(ev){
 
     if(ev == false ){
@@ -261,6 +292,7 @@ export class Shopify {
     //this.divToShowSrc = ev.srcElement.currentSrc;//ev.fromElement.children[0].getElementsByTagName('img')[0].src;
     this.divToShowSrc = ev.currentTarget.currentSrc;
   }
+
   updateProduct(index, attr, value){
     this.products[index][attr] = value;
   }
@@ -292,6 +324,11 @@ export class Shopify {
       this.userState.set("shopify-welcome-message", true);
       this.userState.uploadState();
     }
+
+    if(this.userState.get(this.KEY_PRODUCT_LIST) !== null){
+      this.addToProductState$.next(this.userState.get(this.KEY_PRODUCT_LIST));
+    }
+
     this.addToUserStateRateUs("shopify-image-save-log",0);
     this.showRateUs();
   }
@@ -363,6 +400,10 @@ export class Shopify {
             parent.postMessage({"flashNotice":true,"text":'Image has been added to your product'},"*");
             this.sendEventTrackId(product, "accept_new_image");
             this.appState.set("userCredit", res.result.userCredit);
+            this.addToImagesChanged(res.result.imageId);
+            this.addImageToTable(res, product );
+            //this.createProduct()
+
             // for refresh page
             // this.currentScroll = document.documentElement.scrollTop || document.body.scrollTop;
             // this.products = [];
@@ -374,6 +415,22 @@ export class Shopify {
 
         }
       )
+  }
+
+
+  private addImageToTable(res, productPlace){
+
+    //var newImage = this.createProduct(productPlace, res.result, res);
+    for(var i=0; i < this.products.length; i++){
+      if(this.products[i].imageId = res.result["imageId"]){
+        var newObject = Object.create(productPlace);
+        newObject["imageId"] = res.result["imageId"];
+        newObject["imageSrc"] = res.result["imageURL"];
+        newObject["showTransition"] = true;
+        this.products.splice(i-2, 0, newObject);
+        break;
+      }
+    }
   }
 
   private confirmReplace(product){
@@ -389,9 +446,10 @@ export class Shopify {
     product.btnTouchUpDisable = true;
     product.btnAddProductImageDisable = true;
     product.btnReplaceProductImageDisable = true;
-    this.sendEventTrackId(product, "shopify_replace_image")
 
-    this.productsService.replaceProductImage(this.userId, this.userToken, product.id, product.imageId, imgUrl )
+    this.sendEventTrackId(product, "shopify_replace_image");
+
+    this.productsService.replaceProductImage(this.userId, this.userToken, product.id, product.imageId, imgUrl, tempOriginalImage )
       .subscribe(
         res => {
           if (res.status == "fail") {
@@ -412,9 +470,10 @@ export class Shopify {
                 this.changeDetector.detectChanges();
               }, 200);
               parent.postMessage({"flashNotice":true,"text":'Image has been replaced'},"*");
-
+              this.addToImagesChanged(res.result.imageId);
               this.stopLoader();
-              product.btnTouchUpDisable = true;
+              product.displayUndo = true;
+              product.btnTouchUpDisable = false;
             };
             img.src = res.result.imageURL;
             this.appState.set("userCredit", res.result.userCredit);
@@ -535,6 +594,7 @@ export class Shopify {
       this.showMoreButton = true;
     }
     this.products.push(...res);
+    this.setProductState();
     setTimeout(() => {
       this.changeDetector.detectChanges();
       // for refresh page to position

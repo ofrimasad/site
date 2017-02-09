@@ -1,6 +1,38 @@
 .img-small{
   height: 50px;
 }
+.displayNone {
+  display: none !important;
+}
+@-webkit-keyframes fadeIt {
+  0%   { background-color: #FFFFFF; }
+  50%  { background-color: #CDEAFF; }
+  100% { background-color: #FFFFFF; }
+}
+@-moz-keyframes fadeIt {
+  0%   { background-color: #FFFFFF; }
+  50%  { background-color: #CDEAFF; }
+  100% { background-color: #FFFFFF; }
+}
+@-o-keyframes fadeIt {
+  0%   { background-color: #FFFFFF; }
+  50%  { background-color: #CDEAFF; }
+  100% { background-color: #FFFFFF; }
+}
+@keyframes fadeIt {
+  0%   { background-color: #FFFFFF; }
+  50%  { background-color: #CDEAFF; }
+  100% { background-color: #FFFFFF; }
+}
+
+.transitionNewImage{
+  background-image:none !important;
+  -webkit-animation: fadeIt 3s ease-in-out;
+  -moz-animation: fadeIt 3s ease-in-out;
+  -o-animation: fadeIt 3s ease-in-out;
+  animation: fadeIt 3s ease-in-out;
+}
+
 .aspect-ratio--square--50 {
   width: 120px;
   padding-bottom: 120px;
@@ -45,6 +77,14 @@
   white-space: initial;
   overflow:hidden !important;
   text-overflow: ellipsis;
+}
+.undoIcon {
+  background-repeat: no-repeat;
+  background-position: right;
+  background-image: url(/assets/appimages/ic_undo_black_24dp_2x.png);
+  padding-left: 30px;
+  margin-left: -10px;
+  margin-right: 4px;
 }
 .replaceIcon {
   background-repeat: no-repeat;
@@ -293,7 +333,7 @@ hr {
   text-transform: none;
   vertical-align: middle;
   -webkit-appearance: none;
-  margin: 0;
+  margin: 0 auto;
 }
 
 .btn-shopify:active {

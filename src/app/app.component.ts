@@ -53,7 +53,6 @@ export class AppComponent {
 
 
     if(appState.getExact("isSandbox")){
-
       console.log("Sandbox", appState.getExact("isSandbox"));
       appState.set("apiURL", "https://sandbox.users.malabi.co/UsersServer/v1");
       appState.set("apiShopifyURL", "https://sandbox.users.malabi.co/UsersServer/shopify");

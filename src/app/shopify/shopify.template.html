@@ -37,7 +37,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr *ngFor="let product of products; let idx = index;" id="tr-imageId-{{product.imageId}}" #ImageRow>
+                <tr *ngFor="let product of products; let idx = index;" id="tr-imageId-{{product.imageId}}" [ngClass]="{transitionNewImage: product.showTransition}" #ImageRow>
                   <td width="220" ><span class="threePoints">{{product.title}}</span></td>
                   <td class="col-center" >
                     <div class="aspect-ratio aspect-ratio--square aspect-ratio--square--50 aspect-ratio--interactive" >
@@ -51,7 +51,13 @@
                   </td>
 
                   <td class="col-center"><button (click)="touchUp(product)" name="touchUp" [ngClass]="{disabled: product.btnTouchUpDisable}" class="btn-shopify default touchUp" >Touch-up</button></td>
-                  <td class="col-center"><button (click)="replaceProductImage(product)" name="replaceProductImage" [ngClass]="{disabled: product.btnReplaceProductImageDisable}" class="btn-shopify primary replaceProductImage"><i class="replaceIcon"></i>Replace original image with enhanced image</button></td>
+                  <td class="col-center">
+                    <button (click)="replaceProductImage(product)" name="replaceProductImage" [ngClass]="{disabled: product.btnReplaceProductImageDisable}" [style.display]="!product.displayUndo ? 'block': 'none'" class="btn-shopify primary replaceProductImage">
+                      <i class="replaceIcon"></i>Replace original image with enhanced image
+                    </button>
+                    <button (click)="undoProductImage(product)" class="btn-shopify tooltipped" [style.display]="product.displayUndo ? 'block': 'none'" data-position="bottom" data-delay="50" data-tooltip="Enhanced image will be still one of the product images"><i class="undoIcon"></i>
+                      Bring back original image</button>
+                  </td>
                   <td class="col-center"><button (click)="addProductImage(product)" name="addProductImage" [ngClass]="{disabled: product.btnAddProductImageDisable}"  class="btn-shopify default addProductImage"><i class="addIcon"></i>Add enhanced image to product</button></td>
                 </tr>
                 </tbody>

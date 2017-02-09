@@ -8,6 +8,7 @@ import {Observable} from "rxjs";
 
 export class Products {
   id: number;
+  imageId: number;
   images: Object;
   title: string;
   trackId:string;
@@ -15,6 +16,8 @@ export class Products {
   btnTouchUpDisable:boolean;
   btnAddProductImageDisable:boolean;
   status:any;
+  showTransition:boolean=false;
+  displayUndo:boolean=false;
 
 }
 
@@ -54,7 +57,30 @@ export class ProductsService {
       .catch(this.handleError);
   }
 
-  replaceProductImage(userId:number, userToken:string, productId:string, imageId:string, imageUrl:string){
+  undoProductImage(userId:number, userToken:string, productId:string, imageId:string, imagePosition:string, filename:string){
+    this.apiShopifyURL = this.appState.get("apiShopifyURL");
+
+    let body = JSON.stringify({
+      userId:userId,
+      userToken:userToken,
+      productId:productId,
+      imagePosition:1,
+      imageId:imageId,
+      filename: "lala.jpg"
+    });
+
+    let headers = new Headers({'Content-Type': 'application/json'});
+    let options = new RequestOptions({headers: headers});
+
+    return this.http.put(this.apiShopifyURL + "/undoReplaceImage", body, options)
+      .map(response => {
+
+        return response.json();
+      })
+      .catch(this.handleError);
+  }
+
+  replaceProductImage(userId:number, userToken:string, productId:string, imageId:string, imageUrl:string, imageSrc:string){
     this.apiShopifyURL = this.appState.get("apiShopifyURL");
     //this.apiShopifyURL = "http://localhost:8080/UsersServer/shopify";
 
@@ -63,6 +89,7 @@ export class ProductsService {
       userToken:userToken,
       productId:productId,
       imageId:imageId,
+      originalImageURL:imageSrc,
       resultImageURL:imageUrl
     });
 
