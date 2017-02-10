@@ -66,7 +66,7 @@ export class ProductsService {
       productId:productId,
       imagePosition:1,
       imageId:imageId,
-      filename: "lala.jpg"
+      filename: filename
     });
 
     let headers = new Headers({'Content-Type': 'application/json'});

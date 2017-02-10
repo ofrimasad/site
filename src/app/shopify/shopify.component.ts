@@ -493,6 +493,40 @@ export class Shopify {
     this.shopCon.currentReplaceProduct(product);// currentReplaceProduct = product;
   }
 
+  private undoProductImage(product){
+    this.windowRef.nativeWindow.ga('send', 'event', 'Site', 'shopify undo enhanced image',"shop="+this.userShop);
+    this.startLoader();
+    this.windowRef.nativeWindow.ga('send', 'event', 'Site shopify UNDO orig image', this.userId,product.imageSrc);
+    this.windowRef.nativeWindow.ga('send', 'event', 'Site shopify UNDO result image', this.userId,product.imageRes);
+
+    var imgName = product.imageSrc.substring(product.imageSrc.lastIndexOf("/") + 1).split("?")[0];
+    this.productsService.undoProductImage(this.userId, this.userToken, product.id,product.imageId,
+      product.imagePosition, imgName )
+      .subscribe(
+        res => {
+          if (res.status == "fail") {
+            console.log(res);
+          } else {
+            parent.postMessage({"flashNotice":true,"text":'Image has been added to your product'},"*");
+            this.sendEventTrackId(product, "accept_new_image");
+            this.appState.set("userCredit", res.result.userCredit);
+            this.addToImagesChanged(res.result.imageId);
+            this.addImageToTable(res, product );
+            //this.createProduct()
+
+            // for refresh page
+            // this.currentScroll = document.documentElement.scrollTop || document.body.scrollTop;
+            // this.products = [];
+            // this.getProducts();
+          }
+
+          this.stopLoader();
+          //product.btnTouchUpDisable = true;
+
+        }
+      )
+
+  }
 
   private getProducts(productIds:string = "") {
     this.windowRef.nativeWindow.ga('send', 'event', 'Site', 'shopify search products',"shop="+this.userShop);
