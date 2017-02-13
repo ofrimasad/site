@@ -52,7 +52,8 @@ export class Shopify {
   private updated_at_min;
   private currentScroll: number;
   addToProductState$ = new Subject();
-  private listImagesChanged = [] ;
+  private arrayImagesAddedByUser = [] ;
+  private arrayImagesReplacedByUser = [];
 
   // TypeScript public modifiers
   constructor(public appState: AppState, private route: ActivatedRoute, private router: Router,
@@ -122,19 +123,31 @@ export class Shopify {
 
     var that = this;
     this.addToProductState$.subscribe(value => {
-      this.listImagesChanged = [];
+      this.arrayImagesAddedByUser = [];
+      this.arrayImagesReplacedByUser = [];
        if(value != null){
-         this.listImagesChanged = this.listImagesChanged.concat(value);
+         this.arrayImagesAddedByUser = this.arrayImagesAddedByUser.concat(value["added"]);
+         this.arrayImagesReplacedByUser = this.arrayImagesReplacedByUser.concat(value["replaced"]);
          this.setProductState();
        }
     });
   }
 
 
-  private addToImagesChanged(value){
-    console.log(value);
-    this.listImagesChanged.push(Number(value));
-    this.userState.set(this.KEY_PRODUCT_LIST, this.listImagesChanged);
+  private addToImagesChanged(type, value){
+    console.log(type, value);
+    if(type == "add"){
+      this.arrayImagesAddedByUser.push(Number(value));
+      //this.userState.set(this.KEY_PRODUCT_LIST, this.arrayImagesAddedByUser);
+    } else {
+      this.arrayImagesReplacedByUser.push(Number(value));
+     // this.userState.set(this.KEY_PRODUCT_LIST, this.arrayImagesReplacedByUser);
+    }
+    this.userState.set(this.KEY_PRODUCT_LIST,
+      {"added":   this.arrayImagesAddedByUser,
+        "replaced":   this.arrayImagesReplacedByUser,
+      });
+
     this.setProductState();
     this.userState.uploadState();
   }
@@ -257,16 +270,26 @@ export class Shopify {
     }
   }
 
+  /**
+   * Go over list of product image, and if they were added or replaced update the UI.
+   */
   setProductState(){
-    if(this.products.length == 0 || this.listImagesChanged.length == 0){
+    if(this.products.length == 0 ||
+      ( this.arrayImagesAddedByUser.length == 0 && this.arrayImagesReplacedByUser.length == 0)){
       return;
     }
-    var listOfImageIds = this.listImagesChanged;
+
     for(var i=0; i < this.products.length; i++){
       var prd = this.products[i];
-      if(listOfImageIds.indexOf(prd.imageId) >= 0 ){
+      if(this.arrayImagesAddedByUser.indexOf(prd.imageId) >= 0 ){
         this.products[i].btnAddProductImageDisable = true;
         this.products[i].btnReplaceProductImageDisable = true;
+      }
+      if(this.arrayImagesReplacedByUser.indexOf(prd.imageId) >= 0 ){
+        this.products[i].btnAddProductImageDisable = true;
+        this.products[i].btnReplaceProductImageDisable = true;
+        this.products[i].displayUndo = true;
+
       }
     }
 
@@ -384,9 +407,9 @@ export class Shopify {
 
     var imgName = product.imageSrc.substring(product.imageSrc.lastIndexOf("/") + 1).split("?")[0];
     var imgUrl = (product.imageRes.slice(0,4) == "http") ? product.imageRes : "https:"+product.imageRes;
-    product.btnTouchUpDisable = false;
-    product.btnAddProductImageDisable = false;
-    product.btnReplaceProductImageDisable = false;
+    product.btnTouchUpDisable = true;
+    product.btnAddProductImageDisable = true;
+    product.btnReplaceProductImageDisable = true;
     this.sendEventTrackId(product, "shopify_add_image");
     this.productsService.addProductImage(this.userId, this.userToken, product.id,product.imageId,
       product.imagePosition, imgUrl, imgName )
@@ -400,8 +423,11 @@ export class Shopify {
             parent.postMessage({"flashNotice":true,"text":'Image has been added to your product'},"*");
             this.sendEventTrackId(product, "accept_new_image");
             this.appState.set("userCredit", res.result.userCredit);
-            this.addToImagesChanged(res.result.imageId);
+            this.addToImagesChanged("add", res.result.imageId);
             this.addImageToTable(res, product );
+            product.btnAddProductImageDisable = true;
+            product.btnReplaceProductImageDisable = true;
+            product.btnTouchUpDisable = false;
             //this.createProduct()
 
             // for refresh page
@@ -421,16 +447,19 @@ export class Shopify {
   private addImageToTable(res, productPlace){
 
     //var newImage = this.createProduct(productPlace, res.result, res);
+    console.log(this.products);
     for(var i=0; i < this.products.length; i++){
-      if(this.products[i].imageId = res.result["imageId"]){
+      if(this.products[i].imageId == productPlace["imageId"]){
         var newObject = Object.create(productPlace);
+        console.log(newObject, productPlace);
         newObject["imageId"] = res.result["imageId"];
         newObject["imageSrc"] = res.result["imageURL"];
         newObject["showTransition"] = true;
-        this.products.splice(i-2, 0, newObject);
+        this.products.splice(i, 0, newObject);
         break;
       }
     }
+    console.log(this.products);
   }
 
   private confirmReplace(product){
@@ -470,7 +499,7 @@ export class Shopify {
                 this.changeDetector.detectChanges();
               }, 200);
               parent.postMessage({"flashNotice":true,"text":'Image has been replaced'},"*");
-              this.addToImagesChanged(res.result.imageId);
+              this.addToImagesChanged("replace",res.result.imageId);
               this.stopLoader();
               product.displayUndo = true;
               product.btnTouchUpDisable = false;
@@ -510,7 +539,7 @@ export class Shopify {
             parent.postMessage({"flashNotice":true,"text":'Image has been added to your product'},"*");
             this.sendEventTrackId(product, "accept_new_image");
             this.appState.set("userCredit", res.result.userCredit);
-            this.addToImagesChanged(res.result.imageId);
+            this.addToImagesChanged("add",res.result.imageId);
             this.addImageToTable(res, product );
             //this.createProduct()
 
