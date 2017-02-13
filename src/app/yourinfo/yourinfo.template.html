@@ -1,40 +1,6 @@
 <div class="card-container">
-    <div id="modalYourInfoShopify" class="modal" style="width: 704px">
-    <div class="modal-content">
-      <h1 x-large class="sample-content" style="display: inline-block">{{userInfo.firstName}}'s Account</h1>
-      <div class="user-label">Image credits left</div>
-      <div class="user-text-info">{{userInfo.userCredit }} Images left for download until <span *ngIf="userInfo.creditExpires != ''">{{userInfo.creditExpires | datenice}}</span></div>
-      <div class="user-label">Email</div>
-      <div class="user-text-info">{{userInfo.userEmail}} </div>
-      <div class="user-label">Subscription plan</div>
-      <div class="user-text-info">
-        <div *ngIf="hasSubscription">
-          {{subscription.plan.name | takefirst}} Plan -
-          {{subscription.plan.description}} <br>
-        </div>
-        <div *ngIf="!hasSubscription">
-          No active plan
-        </div>
-      </div>
-      <div class="user-label">Auto Renewal Date</div>
-      <div class="user-text-info">
-        <div *ngIf="hasSubscription">
-          {{subscription.endDate | date:shortDate}}
-        </div>
-        <div *ngIf="!hasSubscription">
-          No active plan
-        </div>
-      </div>
-      <br><br>
-      <div class="row">
-        <button class="waves-effect waves-green btn-flat btn-yourinfo" (click)="changePlan()">Update plan</button>
-        <button class="waves-effect waves-green btn-flat btn-yourinfo" [class.disabled]="!hasSubscription" (click)="cancelSubscriptionDialog()">Cancel plan</button>
-        <button class="waves-effect waves-green btn-flat btn-yourinfo" (click)="changePassword()">update password</button>
-        <button class="waves-effect waves-green btn-flat btn-yourinfo" (click)="showInvoices()">Invoices</button>
-      </div>
-    </div>
-  </div>
-    <div id="modalYourInfo" class="modal" style="width: 734px">
+
+    <div id="modalYourInfo" class="modal" style="width: 745px">
         <div class="modal-content">
           <h1 x-large class="sample-content" style="display: inline-block">{{userInfo.firstName}} Account</h1>
             <div class="user-label">Image credits left</div>

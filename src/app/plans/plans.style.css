@@ -23,6 +23,13 @@
     zoom: 0.7;
     -moz-transform: scale(0.7);
   }
+
+}
+@-moz-document url-prefix() {
+
+  .plans-list {
+    margin: -14px !important;
+  }
 }
 .fontcolor-free{
   color: #2bbbad;
