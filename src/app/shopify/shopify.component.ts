@@ -87,7 +87,7 @@ export class Shopify {
       this.userShop = params.shop;
       this.appState.set("userShop", params.shop);
     }
-    this.windowRef.nativeWindow.customerId = 1;
+    //this.windowRef.nativeWindow.customerId = 1;
     this.windowRef.nativeWindow.camera51WithQueue.init({
       "customerId": this.customerId,
       "showTutorial": true,

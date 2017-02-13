@@ -100,6 +100,7 @@ body{
 }
 .material-tooltip {
   width: 180px;
+  font-size: 14px;
 }
 .modal-footer-spec{
   height: 82px !important;

@@ -25,6 +25,9 @@ export class Home {
 
     this.userService.checkUserSession(eref);
     this.userService.setUserPageFormLocalStorage(eref);
+
+
+    this.plansService.getPlans(this.appState.get("planProductId")).subscribe();
   }
 
 

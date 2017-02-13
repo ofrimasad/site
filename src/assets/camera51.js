@@ -578,7 +578,7 @@
 
     this.checkUpdatesSQS = function(){
       console.log("checkUpdatesSQS", this.sqsUrl);
-      if(this.sqsUrl == undefined){
+      if(this.sqsUrl == undefined && this.functionArrayToRunAferInit.indexOf('checkUpdatesSQS') < 0){
         this.functionArrayToRunAferInit.push("checkUpdatesSQS");
         console.log("functionArrayToRunAferInit");
         return;
