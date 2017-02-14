@@ -15,6 +15,7 @@ export class Products {
   btnReplaceProductImageDisable:boolean;
   btnTouchUpDisable:boolean;
   btnAddProductImageDisable:boolean;
+  btnUndoDisable:boolean = false;
   status:any;
   showTransition:boolean=false;
   displayUndo:boolean=false;

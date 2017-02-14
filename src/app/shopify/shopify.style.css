@@ -31,6 +31,8 @@
   -moz-animation: fadeIt 3s ease-in-out;
   -o-animation: fadeIt 3s ease-in-out;
   animation: fadeIt 3s ease-in-out;
+  transition: 1.2s;
+  opacity: 1;
 }
 
 .aspect-ratio--square--50 {
@@ -81,10 +83,11 @@
 .undoIcon {
   background-repeat: no-repeat;
   background-position: right;
-  background-image: url(/assets/appimages/ic_undo_black_24dp_2x.png);
+  background-image: url(/assets/appimages/undo_replace.png);
   padding-left: 30px;
   margin-left: -10px;
   margin-right: 4px;
+
 }
 .replaceIcon {
   background-repeat: no-repeat;
