@@ -39,7 +39,7 @@ export class Bigcommerce {
   private pageReturnfields:string;
   private imageReplaceUrl:string = "/assets/loader.gif";
   private localStorageName:string = "bigcommerce-malabi-image-id2-";
-  private customerId:number = 1;
+  private customerId:number = 403;
   private sessionToken:string = "283f67b2-a5a5-11e6-80f5-76304dec7eb7";
   private tableVisibility = "hidden";
   private videoSrc = "https://www.youtube.com/embed/mJjUjvae3ns?rel=0&enablejsapi=1";
@@ -97,7 +97,7 @@ export class Bigcommerce {
       this.userShop = params.shop;
       this.appState.set("userShop", params.shop);
     }
-    this.windowRef.nativeWindow.customerId = 1;
+    this.windowRef.nativeWindow.customerId = this.customerId;
     this.windowRef.nativeWindow.camera51WithQueue.init({
       "customerId": this.customerId,
       "showTutorial": true,

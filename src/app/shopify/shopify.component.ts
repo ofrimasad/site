@@ -35,7 +35,7 @@ export class Shopify {
   private searchTitle:string;
   private pageReturnfields:string;
   private imageReplaceUrl:string = "/assets/loader.gif";
-  private localStorageName:string = "shopify-malabi-image-id2-";
+  private sessionStorageName:string = "shopify-malabi-image-id1-";
   private customerId:number = 1;
   private sessionToken:string = "283f67b2-a5a5-11e6-80f5-76304dec7eb7";
   private tableVisibility = "hidden";
@@ -80,7 +80,7 @@ export class Shopify {
       this.userShop = params.shop;
       this.appState.set("userShop", params.shop);
     }
-    //this.windowRef.nativeWindow.customerId = 1;
+    this.windowRef.nativeWindow.customerId = 1;
     this.windowRef.nativeWindow.camera51WithQueue.init({
       "customerId": this.customerId,
       "showTutorial": true,
@@ -182,7 +182,7 @@ export class Shopify {
       }
 
       if (typeof(Storage) !== "undefined") {
-        // Code for localStorage/sessionStorage.
+        // Code for sessionStorage/sessionStorage.
         var a = {"elem":elem,
           "imgUrl":imgUrl,
           "processingResultCode":processingResultCode,
@@ -190,7 +190,7 @@ export class Shopify {
           "timestamp": new Date().getTime().toString()
         };
 
-        localStorage.setItem(this.localStorageName+elem, JSON.stringify(a));
+        sessionStorage.setItem(this.sessionStorageName+elem, JSON.stringify(a));
       } else {
         // Sorry! No Web Storage support..
       }
@@ -271,7 +271,7 @@ export class Shopify {
         a => {
           if (a.status == "fail") {
             console.log("fail to retrieve info. Login again.");
-            localStorage.removeItem('camera51-login');
+            sessionStorage.removeItem('camera51-login');
             return;
           } else {
             this.userService.updateAppState( a);
@@ -458,16 +458,16 @@ export class Shopify {
     var res = {};
     var one_day=1000*60*60*24;
     var getInfoFromServer = false;
-    var localStorageImage = localStorage.getItem(this.localStorageName +id);
-    if (localStorageImage) {
+    var sessionStorageImage = sessionStorage.getItem(this.sessionStorageName +id);
+    if (sessionStorageImage) {
       try {
-        localStorageImage = JSON.parse(localStorageImage);
-        if(localStorageImage["timestamp"] === undefined ||
-          ((localStorageImage["timestamp"] - new Date().getTime() )/one_day) > 1 ){
-          localStorage.removeItem(this.localStorageName +id);
+        sessionStorageImage = JSON.parse(sessionStorageImage);
+        if(sessionStorageImage["timestamp"] === undefined ||
+          ((sessionStorageImage["timestamp"] - new Date().getTime() )/one_day) > 1 ){
+          sessionStorage.removeItem(this.sessionStorageName +id);
 
-        } else if (localStorageImage.hasOwnProperty("elem")) {
-            return localStorageImage;
+        } else if (sessionStorageImage.hasOwnProperty("elem")) {
+            return sessionStorageImage;
         }
       } catch (e) {
         // no local storage
