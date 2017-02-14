@@ -953,7 +953,7 @@
             _this.addSearchArray(element, res.response.sessionId);
             _this.startSQS();
           } else {
-            _this.callbackAsyncRequestError(JSON.stringify(res.response));
+            //_this.callbackAsyncRequestError(JSON.stringify(res.response));
             console.error(res.response);
           }
         }
