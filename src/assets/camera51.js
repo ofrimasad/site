@@ -895,7 +895,7 @@
             try {
               var errorM = res.response.errors;
               console.error("Error", errorM[0]);
-              _this.callbackNewSQSRequestError(errorM[0]);
+              //_this.callbackNewSQSRequestError(errorM[0]); not needed anymore for customers.
             } catch (er){
               console.error(er);
             }
@@ -953,7 +953,7 @@
             _this.addSearchArray(element, res.response.sessionId);
             _this.startSQS();
           } else {
-            _this.callbackAsyncRequestError(JSON.stringify(res.response));
+            //_this.callbackAsyncRequestError(JSON.stringify(res.response));
             console.error(res.response);
           }
         }
