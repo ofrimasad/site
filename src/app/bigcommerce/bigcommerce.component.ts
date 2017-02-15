@@ -42,7 +42,7 @@ export class Bigcommerce {
   private customerId:number = 403;
   private sessionToken:string = "283f67b2-a5a5-11e6-1234-76304dec7eb7";
   private tableVisibility = "hidden";
-  private videoSrc = "https://www.youtube.com/embed/mJjUjvae3ns?rel=0&enablejsapi=1";
+  private videoSrc = "https://www.youtube.com/embed/lKZgdAwZFDo?rel=0&enablejsapi=1";
   @ViewChild(Bigcommerceconfirmation) shopCon: Bigcommerceconfirmation;
   @ViewChild(Rateusbigcommerce) rateus: Rateusbigcommerce;
   @ViewChildren('ImageRow') imageRow;
