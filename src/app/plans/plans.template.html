@@ -14,7 +14,7 @@
       </div>
 
       <div style="text-align: center;">
-        <div [style.zoom]="this.planListZoom" [style.MozTransform]="this.planListZoomScale" class="plans-list z-depth-3" *ngFor="let plan of plans; let idx = index;" id="plan-{{plan.planId}}">
+        <div [style.zoom]="this.planListZoom" [style.MozTransform]="this.planListZoomScale" [style.margin]="this.planListMargin"   class="plans-list z-depth-3" *ngFor="let plan of plans; let idx = index;" id="plan-{{plan.planId}}">
           <div class="plan-bg fontcolor-{{plan.counter}} bold" style="font-size: 24px;line-height: 25px;height: 92px;"><br>
             <strong> {{plan.name | takefirst | uppercase}} PLAN</strong></div>
           <div >

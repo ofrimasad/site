@@ -493,6 +493,7 @@ export class Bigcommerce {
     }
     res['trackId'] = this.windowRef.nativeWindow.camera51WithQueue.requestAsync(src/*.split("?",1)[0]*/, id,
       "", true, false, true, this.userId, this.userToken);
+    this.windowRef.nativeWindow.ga('send', 'event', 'Site bigcommerce request async', this.userId, src);
 
     res['imgUrl'] = this.imageReplaceUrl;
     return res;
