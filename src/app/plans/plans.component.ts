@@ -49,7 +49,8 @@ export class Plans {
     subscription: Subscription;
     private plansCounter:number;
     private dateRenew: any;
-  private planListZoomScale: string;
+    private planListZoomScale: string;
+    planListMargin:string = "22px";
     //plans = [];
     // TypeScript public modifiers
     constructor(private http: Http, private windowRef: WindowRef, private _eref: ElementRef, public appState: AppState,
@@ -159,9 +160,14 @@ export class Plans {
       if(x.length > 3 ){
         this.planListZoom = 0.79;
         this.planListZoomScale = "scale(0.79)";
+        if(navigator.userAgent.toLowerCase().indexOf('firefox') > -1){
+          this.planListMargin = "-14px";
+        }
+
       } else {
         this.planListZoom = 1;
         this.planListZoomScale= "scale(1)";
+        this.planListMargin = "22px";
       }
       this.plans = x;
       return true;
