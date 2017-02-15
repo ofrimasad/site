@@ -160,9 +160,9 @@ export class Plans {
       if(x.length > 3 ){
         this.planListZoom = 0.79;
         this.planListZoomScale = "scale(0.79)";
-        if(navigator.userAgent.toLowerCase().indexOf('firefox') > -1){
-          this.planListMargin = "-14px";
-        }
+        // if(navigator.userAgent.toLowerCase().indexOf('firefox') > -1){
+        //   this.planListMargin = "-14px";
+        // }
 
       } else {
         this.planListZoom = 1;
