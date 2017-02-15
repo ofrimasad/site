@@ -9,6 +9,7 @@
         zoom: 1;
       -moz-transform: scale(1);
     }
+
 }
 @media screen and (min-width: 1050px) and (max-width: 1200px){
   #modalPlans{
@@ -25,12 +26,7 @@
   }
 
 }
-@-moz-document url-prefix() {
 
-  .plans-list {
-    margin: -14px !important;
-  }
-}
 .fontcolor-free{
   color: #2bbbad;
 }
