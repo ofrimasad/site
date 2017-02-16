@@ -135,7 +135,7 @@ export class Shopify {
 
 
   private addToImagesChanged(type, value){
-    console.log(type, value);
+
     if(type == "add"){
       this.arrayImagesAddedByUser.push(Number(value));
       //this.userState.set(this.KEY_PRODUCT_LIST, this.arrayImagesAddedByUser);
@@ -153,7 +153,7 @@ export class Shopify {
   }
 
   private removeFromImagesChanged(type, value){
-    console.log(type, value);
+
     if(type == "add"){
       var index = this.arrayImagesAddedByUser.indexOf(Number(value));
       if (index > -1) {
@@ -475,7 +475,7 @@ export class Shopify {
   private addImageToTable(res, productPlace){
 
     //var newImage = this.createProduct(productPlace, res.result, res);
-    console.log(this.products);
+
     for(var i=0; i < this.products.length; i++){
       if(this.products[i].imageId == productPlace["imageId"]){
         var newObject = Object.assign({},productPlace); //Object.create(productPlace);
@@ -491,14 +491,12 @@ export class Shopify {
         newObject['trackId'] = this.windowRef.nativeWindow.camera51WithQueue.requestAsync(res.result["imageURL"], res.result["imageId"],
           "", true, false, true, this.userId, this.userToken);
 
-        console.log(newObject, productPlace, res);
         this.products.splice(i, 0, newObject);
         //this.addToRequest(res.result["imageId"],res.result["imageURL"] );
 
         break;
       }
     }
-    console.log(this.products);
   }
 
   private confirmReplace(product){
