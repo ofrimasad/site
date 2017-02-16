@@ -204,7 +204,6 @@ export class Shopify {
 
   ngAfterViewInit() {
 // ShopifyOverRide
-    var that = this;
     this.windowRef.nativeWindow.camera51WithQueue.showImageCallbackOverride = (elem, imgUrl , processingResultCode, trackId) => {
 
       if(processingResultCode >= 100){
@@ -213,21 +212,23 @@ export class Shopify {
       if(processingResultCode == 103){
         imgUrl = "/assets/appimages/errorsize.jpg";
       }
-      for(var i=0; i < that.products.length; i++){
+      for(var i=0; i < this.products.length; i++){
 
-        if(that.products[i].trackId == trackId){
-          that.products[i].btnReplaceProductImageDisable = false;
-          that.products[i].btnAddProductImageDisable = false;
+        if(this.products[i].trackId == trackId){
+          this.products[i].btnReplaceProductImageDisable = false;
+          this.products[i].btnAddProductImageDisable = false;
           if(processingResultCode >= 100){
-            that.products[i].btnTouchUpDisable = true;
-            that.products[i].btnAddProductImageDisable = true;
-            that.products[i].btnReplaceProductImageDisable = true;
+            this.products[i].btnTouchUpDisable = true;
+            this.products[i].btnAddProductImageDisable = true;
+            this.products[i].btnReplaceProductImageDisable = true;
           }
-          that.products[i]["processingResultCode"] = processingResultCode;
-          that.products[i]["imageRes"] = imgUrl;
+          this.products[i]["processingResultCode"] = processingResultCode;
+          this.products[i]["imageRes"] = imgUrl;
           setTimeout(() => {
+            console.log("show image after sync");
+
             this.changeDetector.detectChanges();
-            this.setProductState();
+
           }, 1000);
           continue;
         }
@@ -247,7 +248,8 @@ export class Shopify {
       } else {
         // Sorry! No Web Storage support..
       }
-    }
+      this.setProductState();
+    };
 
     this.userState.downloadState()
       .subscribe(
@@ -305,12 +307,12 @@ export class Shopify {
 
     for(var i=0; i < this.products.length; i++){
       var prd = this.products[i];
-      if(this.arrayImagesAddedByUser.indexOf(prd.imageId) >= 0 ){
+      if(this.arrayImagesAddedByUser.indexOf(Number(prd.imageId)) >= 0 ){
         this.products[i].btnAddProductImageDisable = true;
         this.products[i].btnReplaceProductImageDisable = true;
         this.products[i].btnTouchUpDisable = true;
       }
-      if(this.arrayImagesReplacedByUser.indexOf(prd.imageId) >= 0 ){
+      if(this.arrayImagesReplacedByUser.indexOf(Number(prd.imageId)) >= 0 ){
         this.products[i].btnAddProductImageDisable = true;
         this.products[i].btnReplaceProductImageDisable = true;
         this.products[i].displayUndo = true;
@@ -458,13 +460,8 @@ export class Shopify {
             this.addImageToTable(res, product );
             product.btnAddProductImageDisable = true;
             product.btnReplaceProductImageDisable = true;
-            product.btnTouchUpDisable = false;
+            product.btnTouchUpDisable = true;
             //this.createProduct()
-
-            // for refresh page
-            // this.currentScroll = document.documentElement.scrollTop || document.body.scrollTop;
-            // this.products = [];
-            // this.getProducts();
           }
 
           this.stopLoader();
@@ -581,23 +578,17 @@ export class Shopify {
             console.log(res);
             parent.postMessage({"flashNotice":true,"text":'Can not bring back image, please upload image again.'},"*");
           } else {
-            parent.postMessage({"flashNotice":true,"text":'Original image added back to the product'},"*");
+            parent.postMessage({"flashNotice":true,"text":'Original image added back to product'},"*");
             this.sendEventTrackId(product, "accept_new_image");
-            this.appState.set("userCredit", res.result.userCredit);
             this.addToImagesChanged("add",res.result.imageId);
+            this.addToImagesChanged("add",product.imageId);
             this.removeFromImagesChanged("replace",product.imageId);
             this.addImageToTable(res, product );
             product.btnUndoDisable = true;
-
-
           }
-
           this.stopLoader();
-          //product.btnTouchUpDisable = true;
-
         }
       )
-
   }
 
   private getProducts(productIds:string = "") {

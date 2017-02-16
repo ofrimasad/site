@@ -363,7 +363,7 @@ hr {
   cursor: default;
   box-shadow: none;
   background: #fafbfc;
-  color: #c3cfd8;
+  color: #c3cfd8 !important;
   border: 1px solid #d3dbe2;
   text-decoration: none;
 }
