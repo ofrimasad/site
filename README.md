@@ -5,14 +5,15 @@
 Both the CLI and generated project have dependencies that require Node 6.9.0 or higher, together
 with NPM 3 or higher.
 
+download https://nodejs.org/en/ (Recommended version)
+
 ## Installation
 
-**BEFORE YOU INSTALL:** please read the [prerequisites](#prerequisites)
 ```bash
 npm install -g @angular/cli
 
-```bash
-git clone project
+git clone CURRENT PROJECT
+cd INTO PROJECT FOLDER
 npm install
 ng serve
 ```
