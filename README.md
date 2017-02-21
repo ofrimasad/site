@@ -1,14 +1,19 @@
 
+
+## Prerequisites
+
+Both the CLI and generated project have dependencies that require Node 6.9.0 or higher, together
+with NPM 3 or higher.
+
 ## Installation
 
 **BEFORE YOU INSTALL:** please read the [prerequisites](#prerequisites)
 ```bash
 npm install -g @angular/cli
 
-
-### Generating and serving an Angular project via a development server
-
 ```bash
+git clone project
+npm install
 ng serve
 ```
 Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
