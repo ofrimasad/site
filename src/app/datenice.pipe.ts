@@ -10,7 +10,7 @@ export class DateNice implements PipeTransform {
       }
 
       var tmpDateN = tmpDate.split(".")[0];
-      var dt = new Date(tmpDateN);
+      var dt = new Date(tmpDateN.replace(/-/g, "/"));
 
       var month = new Array();
       month[0] = "Jan";
