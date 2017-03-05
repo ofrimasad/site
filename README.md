@@ -9,7 +9,10 @@ download https://nodejs.org/en/ (Recommended version)
 
 ## Installation
 
+in windows Powershell run commands
+
 ```bash
+
 npm install -g @angular/cli
 
 git clone CURRENT PROJECT
