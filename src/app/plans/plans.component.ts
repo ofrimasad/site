@@ -274,7 +274,7 @@ export class Plans {
 
         //var paymentWindow = this.windowRef.nativeWindow.open("/assets/zoho-pay.html");
         var paymentRedirectUrl = this.appState.get("paymentRedirectUrl");
-      console.log(paymentRedirectUrl);
+      //console.log(paymentRedirectUrl);
         var sqs = this.windowRef.nativeWindow.camera51WithQueue.getSQSurl();
       var analyticsInfo = this.getAnalyticsInfo();
 

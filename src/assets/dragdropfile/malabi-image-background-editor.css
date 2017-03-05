@@ -496,7 +496,7 @@ div#dropZone {
   border: 2px solid #a3a3a3;
 }
 .camera51-preloader {
-  background: #fff url('/assets/preloader.svg') no-repeat center center;
+  background: #fff url('//assets-malabi.s3.amazonaws.com/website/assets/preloader.svg') no-repeat center center;
   bottom: 0;
   height: 100%;
   left: 0;
