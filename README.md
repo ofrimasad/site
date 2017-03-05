@@ -9,7 +9,10 @@ download https://nodejs.org/en/ (Recommended version)
 
 ## Installation
 
+in windows Powershell run commands
+
 ```bash
+
 npm install -g @angular/cli
 
 git clone CURRENT PROJECT
@@ -23,4 +26,13 @@ You can configure the default HTTP port and the one used by the LiveReload serve
 
 ```bash
 ng serve --host 0.0.0.0 --port 4201 --live-reload-port 49153
+```
+To build code
+
+```bash
+ng build --prod
+```
+For sandbox code
+```bash
+ng build --prod --env=sandbox
 ```
