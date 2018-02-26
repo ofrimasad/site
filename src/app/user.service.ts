@@ -62,6 +62,8 @@ export class UserService {
     setDbDataToAppState(user){
       if(user.hasOwnProperty("creditExpires")){
         this.appState.set("creditExpires", user.creditExpires);
+      } else {
+        this.appState.set("creditExpires", "");
       }
       if(user.hasOwnProperty("userCredit")){
         try {
