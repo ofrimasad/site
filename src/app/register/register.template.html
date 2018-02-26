@@ -3,7 +3,7 @@
         <div class="modal-content"  [hidden]="submitted">
             <div style="line-height: 40px">
                 <h1 x-large class="sample-content" style="display: inline-block;">Create Account</h1>
-              <span style="font-size: 15px;">&nbsp;for downloading 5 free images&nbsp;</span>
+              <span style="font-size: 15px;">&nbsp;</span>
                 <span style="float: right;">or&nbsp;&nbsp;&nbsp;<a href="#/login">Login</a></span>
             </div>
             <form #f="ngForm" (ngSubmit)="submitState(f)" autocomplete="on">
@@ -44,7 +44,7 @@
       <div class="modal-content" style="text-align: center" [hidden]="!submitted">
         <h1 id="errorSubject" style="display: inline-block;font-size: 21px;margin: 0px">Welcome to Malabi image background removal</h1>
         <div style="margin-top: 20px;margin-bottom: 20px;height: 60px;"><img src="https://cdn.shopify.com/s/files/applications/dc4b0d5a27a5f392b8d0e29e64097614.png?1478702023"></div>
-        <p id="" style="font-size: 19px;margin-top: 0px;">Enjoy {{this.appState.get("userCredit")}} image credits for FREE</p>
+        <p id="" style="font-size: 19px;margin-top: 0px;"></p>
       </div>
       <div class="modal-footer" [hidden]="!submitted">
         <button class=" modal-action modal-close waves-effect waves-green btn-flat font14" >start</button>

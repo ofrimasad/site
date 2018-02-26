@@ -258,7 +258,7 @@ export class UserService {
             .catch(this.handleError);
     }
 
-    retrieveUserData(userId, userToken ): Observable<any> {
+    public retrieveUserData(userId, userToken ): Observable<any> {
         let body = JSON.stringify({
             userId:userId,
             userToken:userToken

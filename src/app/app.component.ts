@@ -13,6 +13,7 @@ import {WindowRef} from "./WindowRef";
 import {PlansService} from "./plans/plans.service";
 import {UserstateService} from "./userstate.service";
 import {PlansComponentService} from "./shopify/mission.service";
+import {consoleTestResultHandler} from "tslint/lib/test";
 declare  var $:any;
 
 /*
@@ -87,21 +88,7 @@ export class AppComponent {
     };
   }
 
-
-
-  downloadImages(listImages){
-    if(this.appState.get("userCredit") == 0){
-      //this.router.navigate(['/plans/notenough']);
-      this.plansComponentService.openPlan({"noImagesTitle":true});
-      this.windowRef.nativeWindow.ga('send','event', 'Site', 'download request no credit','userId='+this.appState.get("userId"));
-
-      return;
-    }
-
-    if(listImages.length == 0){
-      this.windowRef.nativeWindow.Materialize.toast('No images to download', 5000);
-      return;
-    }
+  downloadImagesInt(listImages) {
     var obj = {
       userId:this.appState.get("userId"),
       userToken:this.appState.get("userToken"),
@@ -114,7 +101,38 @@ export class AppComponent {
       .subscribe(
         a => this.download(a)
       );
+  }
 
+  downloadImages(listImages){
+    if(this.appState.get("userCredit") == 0){
+      this.loginservice.retrieveUserData(this.appState.get("userId"), this.appState.get("userToken"))
+        .subscribe(
+          a => {
+            if(a.status == "fail"){
+              console.log("fail to retrieve info. Login again.");
+            } else {
+              this.appState.set("userCredit", a.userCredit);
+              if ( a.userCredit == 0) {
+                this.plansComponentService.openPlan({"noImagesTitle":true});
+                this.windowRef.nativeWindow.ga('send','event', 'Site', 'download request no credit','userId='+this.appState.get("userId"));
+
+                return;
+              } else {
+                this.downloadImagesInt(listImages);
+              }
+            }
+          }
+
+        );
+
+    } else {
+
+      if (listImages.length == 0) {
+        this.windowRef.nativeWindow.Materialize.toast('No images to download', 5000);
+        return;
+      }
+      this.downloadImagesInt(listImages);
+    }
   }
 
   download(res){
