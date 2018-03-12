@@ -115,7 +115,8 @@ export class Register {
       "firstName":f.value.firstName,
       "userEmail":f.value.email,
       "userPassword":f.value.password,
-      "acceptsMail":acceptsMail
+      "acceptsMail":acceptsMail,
+      "coupon":f.value.couponCode
     };
     var that = this;
     this.windowRef.nativeWindow.startLoadingCursor();

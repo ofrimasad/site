@@ -22,6 +22,11 @@
                         <input ngModel name="password" id="password" type="password" class="validate" [class.invalid]="passwordError">
                         <label id="passwordLabel" for="password" [attr.data-error]="passwordLabelDataError" [class.active]="passwordErrorLabel" >Password  <span style="font-size: x-small">(Use at least 6 characters)</span></label>
                     </div>
+
+                    <div class="input-field col s12">
+                      <input ngModel name="couponCode" id="couponCode" type="text" class="validate">
+                      <label id="couponLabel">Coupon Code</label>
+                    </div>
                 </div>
                 <div class="row">
                     <div class=" col s12">
