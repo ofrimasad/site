@@ -5,7 +5,7 @@ import {WindowRef} from "../WindowRef";
 import {UserService} from "../user.service";
 
 import {
-    CanActivate, Router,
+    CanActivate, Router,ActivatedRoute,
     ActivatedRouteSnapshot,
     RouterStateSnapshot
 }                           from '@angular/router';
@@ -25,6 +25,7 @@ export class Yourinfo {
   showCancelRequest:string = "block";
   showCancelResponse:string = "none";
   hasSubscription:boolean = false;
+  forCancel:boolean = false;
 
   cancelResponse:string = '';
   localState = { value: '' };
@@ -36,7 +37,7 @@ export class Yourinfo {
   // TypeScript public modifiers
   constructor(public appState: AppState, private windowRef: WindowRef, private router: Router,
               private userService: UserService, private eref: ElementRef, private invoiceService: InvoiceService,
-              private subscriptionService: SubscriptionService, private plansComponentService: PlansComponentService) {
+              private subscriptionService: SubscriptionService, private plansComponentService: PlansComponentService, private route: ActivatedRoute) {
 
     this.userService.checkUserSession(eref);
     this.userInfo = appState.get();
@@ -59,6 +60,7 @@ export class Yourinfo {
             a => this.updateUserInfoInApp(a)
         );
 
+    this.forCancel = ("true" == this.route.snapshot.queryParams["forCancel"]);
     // this.title.getData().subscribe(data => this.data = data);
   }
 
