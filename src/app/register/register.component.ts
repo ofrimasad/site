@@ -37,6 +37,7 @@ export class Register {
   emailLabel: any;
   emailLabelDataError = "Enter valid email";
   passwordLabelDataError = "Use at least 6 characters.";
+  couponCode:string = '';
   // TypeScript public modifiers
   constructor(private eref: ElementRef, private http: Http,
               public appState: AppState, private router: Router, private loginservice: UserService,
@@ -61,6 +62,11 @@ export class Register {
         $(".lean-overlay").remove();
       }
     });
+
+    var coupon = this.windowRef.nativeWindow.camera51WithQueue.getCookie("malabiCoupon");
+    if (coupon != null) {
+      this.couponCode = coupon;
+    }
   }
 
 

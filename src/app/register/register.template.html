@@ -24,8 +24,8 @@
                     </div>
 
                     <div class="input-field col s12">
-                      <input ngModel name="couponCode" id="couponCode" type="text" class="validate">
-                      <label id="couponLabel">Coupon Code</label>
+                      <input ngModel name="couponCode" id="couponCode" type="text" class="validate" [(ngModel)]='couponCode'>
+                      <label id="couponLabel" [ngClass]="(couponCode != null  && couponCode != '')? 'active' :''">Coupon Code</label>
                     </div>
                 </div>
                 <div class="row">

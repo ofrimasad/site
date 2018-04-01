@@ -440,6 +440,7 @@
   var utm_campaign = getParameterByName('utm_campaign');
   var utm_term = getParameterByName('utm_term');
   var utm_content = getParameterByName('utm_content');
+  var coupon = getParameterByName('coupon');
 
   if(utm_campaign != null){
     var objAnalytics = {
@@ -453,6 +454,9 @@
     setCookie("malabiCampaign", analytics,100);
   }
 
+  if (coupon != null) {
+    setCookie("malabiCoupon", coupon, 30);
+  }
 
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
       (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
