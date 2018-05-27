@@ -107,7 +107,7 @@
     if (obj.hasOwnProperty('iframeSrc') && obj.iframeSrc.length > 1) {
       iframeSrc = obj.iframeSrc;
     } else {
-      iframeSrc = window.location.protocol+"//assets-malabi.s3.amazonaws.com/version/"+editorVersion+"/index.html";
+      iframeSrc = window.location.protocol+"//d8tv8no6fkiw3.cloudfront.net/version/"+editorVersion+"/index.html";
       // For development, if working in local host, use local iframe file:
       //   if (document.location.hostname == "localhost" || document.location.hostname == "192.168.1.162"  ) {
       //     iframeSrc ="http://localhost:4200/index.html";

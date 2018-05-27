@@ -1,8 +1,16 @@
 <div class="card-container">
     <div id="modalRegister" class="modal modal-small">
         <div class="modal-content"  [hidden]="submitted">
-            <div style="line-height: 40px">
-                <h1 x-large class="sample-content" style="display: inline-block;">Create Account</h1>
+            <div [hidden]="showHeading">
+              <div style="width: 80%; line-height: 25px" >
+                      <span style="font-size: 18px;">A few details and you’re ready to go!
+                      <br>Complete the form below to start using the Malabi app.
+                      </span>
+              </div>
+              <span style="float: right;">or&nbsp;&nbsp;&nbsp;<a href="#/login">Login</a></span>
+            </div>
+            <div style="line-height: 40px" [hidden]="!showHeading">
+                <h1 x-large class="sample-content" style="display: inline-block">Create Account</h1>
               <span style="font-size: 15px;">&nbsp;</span>
                 <span style="float: right;">or&nbsp;&nbsp;&nbsp;<a href="#/login">Login</a></span>
             </div>
@@ -24,7 +32,7 @@
                     </div>
 
                     <div class="input-field col s12">
-                      <input ngModel name="couponCode" id="couponCode" type="text" class="validate" [(ngModel)]='couponCode'>
+                      <input ngModel name="couponCode" id="couponCode" type="text" class="validate" [(ngModel)]='couponCode' [disabled]="coupon != null ? 'disabled' : null">
                       <label id="couponLabel" [ngClass]="(couponCode != null  && couponCode != '')? 'active' :''">Coupon Code</label>
                     </div>
                 </div>
@@ -37,7 +45,7 @@
                   <br>
                   <div class=" col s12" style="margin-top:7px">
                       <input (change)="checkBoxChange($event)" type="checkbox" name="acceptsMail" class="filled-in " id="filled-in-box" checked="checked"/>
-                    <label for="filled-in-box" class="labelAfter" style="font-size: 12px">I agree to receive tips and updates by email once in a while.</label>
+                    <label for="filled-in-box" class="labelAfter" style="font-size: 12px">{{ checkboxLabel }}</label>
                   </div>
 
                 </div>

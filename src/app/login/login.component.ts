@@ -4,7 +4,7 @@ import { Headers, Http, Response } from '@angular/http';
 import {Observable}       from 'rxjs/Observable';
 import { AppState } from '../app.service';
 import {
-    CanActivate, Router,
+    CanActivate, Router,ActivatedRoute,
     ActivatedRouteSnapshot,
     RouterStateSnapshot
 }                           from '@angular/router';
@@ -30,12 +30,13 @@ export class Login {
     private headers = new Headers({'Content-Type': 'application/json'});
     private passwordLabel: any;
     passwordLabelDataError = "Use at least 8 characters.";
+    coupon:string = null;
 
 
     // TypeScript public modifiers
     constructor(private eref: ElementRef, private http: Http,
                 public appState: AppState, private router: Router, private loginservice: UserService,
-                private windowRef: WindowRef, private plansComponentService:PlansComponentService) {
+                private windowRef: WindowRef, private plansComponentService:PlansComponentService, private route: ActivatedRoute) {
         // this.passwordError = "Use at least 8 charaters";
     }
 
@@ -66,9 +67,15 @@ export class Login {
         $(".lean-overlay").remove();
       }});
 
+      this.coupon = this.route.snapshot.queryParams["coupon"];
+      if (this.coupon == null)
+         this.coupon = this.windowRef.nativeWindow.camera51WithQueue.getCookie("malabiCoupon");
 
-
-      this.windowRef.nativeWindow.ga('set', { page:'/login',title:'Login'});
+      if (this.coupon != null) {
+        this.windowRef.nativeWindow.ga('set', {page: '/login' + this.coupon, title: 'Login'+ this.coupon});
+      } else {
+        this.windowRef.nativeWindow.ga('set', {page: '/login', title: 'Login'});
+      }
       this.windowRef.nativeWindow.ga('send', 'pageview');
     }
 

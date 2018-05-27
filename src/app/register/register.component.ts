@@ -5,7 +5,7 @@ import {Observable}       from 'rxjs/Observable';
 import { AppState } from '../app.service';
 import 'rxjs/add/operator/toPromise';
 import {
-    CanActivate, Router,
+    CanActivate, Router, ActivatedRoute,
     ActivatedRouteSnapshot,
     RouterStateSnapshot
 }                           from '@angular/router';
@@ -38,10 +38,13 @@ export class Register {
   emailLabelDataError = "Enter valid email";
   passwordLabelDataError = "Use at least 6 characters.";
   couponCode:string = '';
+  checkboxLabel:string = "I agree to receive tips and updates by email once in a while.";
+  coupon:string = null;
+  showHeading:boolean = true;
   // TypeScript public modifiers
   constructor(private eref: ElementRef, private http: Http,
               public appState: AppState, private router: Router, private loginservice: UserService,
-              private windowRef: WindowRef,private plansComponentService:PlansComponentService) {
+              private windowRef: WindowRef,private plansComponentService:PlansComponentService, private route: ActivatedRoute) {
 
 
   }
@@ -53,15 +56,31 @@ export class Register {
   }
 
   openModal(){
+    this.coupon = this.route.snapshot.queryParams["coupon"];
+
     var that = this;
     this.windowRef.nativeWindow.ga('set', { page:'/register',title:'Register'});
     this.windowRef.nativeWindow.ga('send', 'pageview');
-    $('#modalRegister').openModal({
-      complete: function() {
-        that.router.navigate(['/']);
-        $(".lean-overlay").remove();
-      }
-    });
+
+    if (this.coupon != null) {
+      this.couponCode = this.coupon;
+      this.checkboxLabel = "Sign up to our emails for the latest news, promo codes, competitions and the latest Malabi hints and tips for even better clipping results.";
+      this.showHeading = false;
+      // $("#materialize-lean-overlay-1")[0].style.opacity = "1"
+      $('#modalRegister').openModal({dismissible:false, opacity: 0.75,
+        complete: function() {
+          that.router.navigate(['/']);
+          $(".lean-overlay").remove();
+        }
+      });
+    } else {
+      $('#modalRegister').openModal({
+        complete: function() {
+          that.router.navigate(['/']);
+          $(".lean-overlay").remove();
+        }
+      });
+    }
 
     var coupon = this.windowRef.nativeWindow.camera51WithQueue.getCookie("malabiCoupon");
     if (coupon != null) {
@@ -72,6 +91,10 @@ export class Register {
 
   ngOnInit() {
     this.openModal();
+  }
+
+  ngAfterViewChecked() {
+    //$("#materialize-lean-overlay-1")[0].style.opacity = "1";
   }
 
   checkBoxChange(ev){
