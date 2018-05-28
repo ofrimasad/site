@@ -50,10 +50,6 @@ $(document).ready(function () {
   });
 
   $("#download-images").click(function(){
-    if(isloggedIn == false){
-      window.location.href ="#/register";
-      return;
-    }
     imageArray = [];
 
     $(".eachImage").each(function(){

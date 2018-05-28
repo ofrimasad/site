@@ -104,6 +104,11 @@ export class AppComponent {
   }
 
   downloadImages(listImages){
+    if(this.appState.getExact("userId") == null) {
+      this.plansComponentService.openPlan({"noImagesTitle":false});
+      this.windowRef.nativeWindow.ga('send','event', 'Site', 'download request not logged in','userId=0');
+      return;
+    }
     if(this.appState.get("userCredit") == 0){
       this.loginservice.retrieveUserData(this.appState.get("userId"), this.appState.get("userToken"))
         .subscribe(
