@@ -74,7 +74,7 @@
   var injectStyleToIframe = null;
 
   function Camera51WithQueue(){
-    var searchFor = "sessionId";
+    var searchFor = "id";
     var searchArray = [];
     var arrayElements = [];
     var sqsUrl = "";
@@ -207,7 +207,7 @@
             }
             _this.checkUpdatesSQS();
           } else {
-            console.log("Error", xmlhttp.statusText);
+            console.log("Error", xhr.statusText);
             _this.checkUpdatesSQS();
           }
         }
@@ -220,39 +220,44 @@
 
     this.showResponse = function(response_element){
       var img = null;
-      var trackId = null;
-      var processingResultCode = null;
+      var imageId = null;
+      var secret = null;
+      var processingResultCode = 0;
       var res = JSON.parse(response_element.messageBody);
       var elem = response_element.arrayElement;
-      if( typeof res.resultImageURL === 'string'){
-        var str = res.resultImageURL;
+      if (res.hasOwnProperty("image"))
+        res = res.image;
+      if( typeof res.result_image_url === 'string'){
+        var str = res.result_image_url;
+
         //str = str.replace("s3.amazonaws.com/cam51-img-proc", "d2f1mfcynop4j.cloudfront.net");
         img = str;
       }
-      if( typeof res.ProcessingResult === 'number'){
-        processingResultCode = res.ProcessingResult;
+
+      if( typeof res.id === 'number'){
+        imageId = res.id;
       }
-      if( typeof res.trackId === 'string'){
-        trackId = res.trackId;
+      if( typeof res.secret === 'string'){
+        secret = res.secret;
       }
       var imga = new Image();
       var _this = this;
       imga.onload = function () {
-        _this.showImageCallback(elem, img , processingResultCode, trackId);
+        _this.showImageCallback(elem, img , processingResultCode, imageId, secret);
       };
       if(processingResultCode == 0){
         imga.src = img;
       } else {
-        this.showImageCallback(elem, img , processingResultCode, trackId);
+        this.showImageCallback(elem, img , processingResultCode, imageId, secret);
       }
 
 
     };
 
     // Can be overridden. using camera51.showImageCallbackOverride
-    this.showImageCallback = function(elem, imgUrl , processingResultCode, trackId){
+    this.showImageCallback = function(elem, imgUrl , processingResultCode, imageId, secret){
       if ( typeof this.showImageCallbackOverride === 'function' ) {
-        this.showImageCallbackOverride(elem, imgUrl , processingResultCode, trackId);
+        this.showImageCallbackOverride(elem, imgUrl , processingResultCode, imageId, secret);
 
       } else {
         var elementHeight = elem.clientHeight;
@@ -275,7 +280,7 @@
           // img.onclick =  function () {
           //   camera51OpenEditor(trackId,elem.id);
           // };
-          wrapper.setAttribute("onclick","camera51OpenEditor('" + trackId + "','"+ elem.id+ "');");
+          wrapper.setAttribute("onclick","camera51OpenEditor('" + imageId + "','" + secret+ "','"+ elem.id+ "');");
 
           wrapper.style.cursor = "pointer";
           elem.innerHTML = "";
@@ -303,7 +308,7 @@
             // wrapper.onclick =  function () {
             //   camera51OpenEditor(trackId,elem.id);
             // };
-            wrapper.setAttribute("onclick","camera51OpenEditor('" + trackId + "','"+ elem.id+ "');");
+            wrapper.setAttribute("onclick","camera51OpenEditor('" + imageId + "','"+ secret + "','"+ elem.id+ "');");
 
             wrapper.style.cursor = "pointer";
             wrapper.style.height = "inherit";
@@ -343,7 +348,7 @@
           // btn.onclick =  function () {
           //   camera51OpenEditor(trackId,elem.id);
           // };
-          btn.setAttribute("onclick","camera51OpenEditor('" + trackId + "','"+ elem.id+ "');");
+          btn.setAttribute("onclick","camera51OpenEditor('" + imageId + "','"+ secret + "','"+ elem.id+ "');");
 
           btn.className = "btn btn-touchup";
 
@@ -378,7 +383,7 @@
         }
         var searchValue;
         for(searchValue in searchArray){
-          if(obj[searchKey] == searchArray[searchValue]){
+          if(obj.image[searchKey] == searchArray[searchValue]){
             searchArray.splice(searchValue, 1);
             var arrayElement = arrayElements[searchValue]
             arrayElements.splice(searchValue, 1);
@@ -532,8 +537,8 @@
 
           var res = JSON.parse(xhttp.responseText);
           _this.callbackAsyncRequest(res);
-          if(res.hasOwnProperty("response") && res.response.hasOwnProperty("sessionId")){
-            _this.addSearchArray(element, res.response.sessionId);
+          if(res.hasOwnProperty("image") && res.image.hasOwnProperty("id")){
+            _this.addSearchArray(element, res.image.id);
             _this.startSQS();
           } else {
             //_this.callbackAsyncRequestError(JSON.stringify(res.response));
@@ -541,22 +546,20 @@
           }
         }
       };
-      xhttp.open("POST", this.apiUrl + "/Camera51Server/processImageAsync");
-      xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+      xhttp.open("POST", this.apiUrl + "/images");
+      xhttp.setRequestHeader("Content-type", "application/json;charset=UTF-8");
+      xhttp.setRequestHeader("x-api-key", "k0146ax0gd");
 
-      var requestBodyObject = { "token" : token ,
-        "customerId":this.customerId,
-        "trackId":uniqueTrackId,
-        "originalImageURL":origImgUrl,
-        "callbackURL":this.sqsUrl,
-        "forceResultImage":forceResultImage,
-        "transparent":transparent,
-        "shadow":shadow,
-        "userId":userId
+      var requestBodyObject = {
+        "image_url":origImgUrl,
+        "callback_url":this.sqsUrl,
+        "settings": {
+          "background": transparent ? "transparent" : "white",
+          "shadow": shadow ? "drop" : "none"
+        }
       };
-      var requestBodyObject = mergeObject(requestBodyObject).join("&");
 
-      xhttp.send(requestBodyObject);
+      xhttp.send(JSON.stringify(requestBodyObject));
       return uniqueTrackId;
     };
 

@@ -144,7 +144,7 @@
       if (this.settings.hasOwnProperty('iFrameSrc') && this.settings.iFrameSrc.length > 1) {
         iFrameSrc = this.settings.iFrameSrc;
       } else {
-        iFrameSrc = window.location.protocol + "//d8tv8no6fkiw3.cloudfront.net/version/" + editorVersion + "/index.html";
+        iFrameSrc = window.location.protocol + "//localhost:4201/index.html";//d8tv8no6fkiw3.cloudfront.net/version/" + editorVersion + "/index.html";
       }
 
       frameDomain = camera51HelperExtractDomain(iFrameSrc);
@@ -243,16 +243,17 @@
 
       if (responseOnSave) {
         this.responseOnSave = responseOnSave;
-        this.responseOnSave.trackId = obj.trackId;
+        this.responseOnSave.imageId = obj.imageId;
         this.responseOnSave.responseElement = responseElement;
+        this.responseOnSave.secret = obj.secret;
       } else {
         this.responseOnSave = null;
       }
       editorFrame.contentWindow.postMessage({
-        'action': 'openEditorWithTrackId',
+        'action': 'openEditor',
         'customerId': obj.customerId,
-        'trackId': obj.trackId,
-        'objInJsonString': JSON.stringify(obj)
+        'imageId': obj.imageId,
+        'secret': obj.secret
       }, frameDomain);
       return true;
     };
@@ -352,7 +353,7 @@
         } else {
           if (typeof _this.responseOnSave === 'function') {
             _this.responseOnSave(data.url);
-            camera51WithQueue.showImageCallback(_this.responseOnSave.responseElement, data.url, 0, _this.responseOnSave.trackId);
+            camera51WithQueue.showImageCallback(_this.responseOnSave.responseElement, data.url, 0, _this.responseOnSave.imageId, _this.responseOnSave.secret);
           } else {
             console.error("No function to run on save. Implment 'callbackFuncSave', recieves url.");
           }
