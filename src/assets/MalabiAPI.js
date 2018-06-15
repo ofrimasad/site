@@ -7,24 +7,11 @@
 
   window.malabiAPI = malabiAPI;
 
-  camera51Text = {
+  var camera51Text = {
     "show-result": "preview result",
     "back-to-edit": "back to edit",
-    "click-to-fix": "Click to edit",
     "tooltip-mark-background": "Draw lines to mark areas you want to remove from the image",
     "tooltip-mark-object": "Draw lines to mark areas you want to keep in the image",
-
-    "error-header-default": "Press here for manual background removal",
-    "error-header-image-failure": "Image error",
-    "error-text-7": "<b>GRAPHIC BANNER</b>",
-    "error-text-6": "<b>GRAPHIC BANNER</b>",
-    "error-text-100": "<b>GRAPHIC BANNER</b>",
-    "error-text-5": "<b>CLEAR BACKGROUND</b>",
-    "error-text-2": "<b>LOW CONTRAST</b>",
-    "error-text-4": "<b>CLUTTERED IMAGE</b>",
-    "error-text-103": "Image <b>too small</b> to be processed<br><font size='2'>(image size should be at least 70x70px)</font>",
-    "error-text-101": "Image cannot be processed",
-    "error-text-default": "Background was not automatically removed, you may remove it manually"
   };
   window.camera51Text = camera51Text;
 
@@ -42,7 +29,8 @@
     this.iframeElement = null;
     this.isInit = false; // if Camera51WithQueue as init run.
     this.functionArrayToRunAferInit = []; // array of function to run after object is initialized.
-    this.settings;
+    this.settings = {};
+    this.editorFrame = {};
 
     var frameDomain;
     var iFrame;
@@ -80,7 +68,7 @@
         domain = arr[0] + "//" + arr[2];
         return domain;
       } else {
-        return window.location.protocol + "//" + domain[1];
+        return "http://" + domain[1];//window.location.protocol + "//" + domain[1]; //TODO
       }
     };
 
@@ -125,12 +113,34 @@
 
     };
 
-    this.init = function (_settings) {
+    var setGoogleAnalytics = function() {
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+          (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
 
+      ga('create', 'UA-75726540-1', 'auto');
+      ga('send', 'pageview');
+      ga(function(tracker) {
+        var clientId = tracker.get('clientId');
+        ga('set', 'dimension1', clientId);
+      });
+    };
+
+    this.init = function (customerId, _settings) {
+
+      if (this.isInit) {
+        return;
+      }
+
+      setGoogleAnalytics();
+
+      this.isInit = true;
+
+      this.customerId = customerId;
       this.settings = _settings;
-
-      _settings.RETURN_IFRAME = 1;
-      _settings.RETURN_EDITOR = 2;
+      this.settings.RETURN_IFRAME = 1;
+      this.settings.RETURN_EDITOR = 2;
 
       if (this.settings.hasOwnProperty('camera51Text')) {
         this.camera51Text = Object.assign(this.camera51Text, this.settings.camera51Text);
@@ -139,75 +149,113 @@
         this.transparent = true;
       }
 
+      addDiv(this);
+
       this.apiUrl = apiUrl;
 
-      if (this.settings.hasOwnProperty('iFrameSrc') && this.settings.iFrameSrc.length > 1) {
-        iFrameSrc = this.settings.iFrameSrc;
-      } else {
-        iFrameSrc = window.location.protocol + "//localhost:4201/index.html";//d8tv8no6fkiw3.cloudfront.net/version/" + editorVersion + "/index.html";
-      }
-
-      frameDomain = camera51HelperExtractDomain(iFrameSrc);
-      iFrame = document.createElement('iFrame');
-      this.iframeElement = iFrame;
-
-      // For development, make API calls to local host - for Camera51 internal use only.
-      if (window.location.search.indexOf('camera51api=local') > -1) {
-        console.log("camera51api=localhost8080");
-        this.settings.apiUrl = "http://localhost:8080";
-      }
-
-      if (!this.settings.hasOwnProperty('camera51EditorIframe')) {
-        console.log('Camera51 Error: Please specify camera51EditorIframe');
-        return;
-      } else {
-        if (document.getElementById(this.settings.camera51EditorIframe) == null) {
-          console.log('Camera51 Error: Cannot find camera51EditorIframe in dom ' + this.settings.camera51EditorIframe);
-          return;
-        }
-      }
-
-      var element = document.getElementById('camera51Frame');
-      if (element == null || typeof(element) == 'undefined') {   // If iFrame doesn't exist, create it.
-
-        // this.startLoader();
-        iFrame.frameBorder = 0;
-        iFrame.width = "100%";
-        iFrame.height = "100%";
-        iFrame.id = "camera51Frame";
-        iFrame.setAttribute("src", iFrameSrc);
-        iFrame.style = "border:0;";
-
-        if (this.settings != null)
-          document.getElementById(this.settings.camera51EditorIframe).appendChild(iFrame);
-
-
-        //  this.iframeElement =  document.getElementById(this.settings.elementId);
-      }
-
-      var _this = this;
-
-      iFrame.addEventListener("load", function () {
-        editorFrame = document.getElementById('camera51Frame');
-        stopLoader(_this.settings.RETURN_IFRAME);
-        enableButtons();
-        setEditorText();
-        if (_this.settings.hasOwnProperty('apiUrl')) {
-          editorFrame.contentWindow.postMessage({'initCamera51': JSON.stringify(_settings)}, frameDomain);
-        }
-        if (_this.settings.hasOwnProperty('backgroundColor')) {
-          editorFrame.contentWindow.postMessage({'backgroundColor': _this.settings.backgroundColor}, frameDomain);
-        }
-        if (_this.injectStyleToIframe) {
-          _this.iframeElement.contentDocument.head.appendChild(_this.injectStyleToIframe);
-        }
-        if (_this.overrideTutorialElement) {
-          _this.iframeElement.contentDocument.getElementById("show-tutorial-first-time").innerHTML = "";
-          _this.iframeElement.contentDocument.getElementById("show-tutorial-first-time").appendChild(_this.overrideTutorialElement);
-        }
-
-      });
     };
+
+    var addStyleSheet = function (url) {
+      var sc = document.createElement("link");
+      sc.setAttribute("href", url);
+      sc.setAttribute("rel", "stylesheet");
+      document.head.appendChild(sc);
+    };
+
+    var addDiv = function(_this) {
+
+      addStyleSheet("https://fonts.googleapis.com/icon?family=Material+Icons"); //TODO - check if required
+      addStyleSheet("https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/css/materialize.min.css");//TODO - check if required
+      addStyleSheet("https://assets-malabi.s3.amazonaws.com/temp/malabi-image-background-editor.css");
+
+      var newDiv = document.createElement('div');
+      newDiv.id="modal1";
+      newDiv.setAttribute("class", "modal modal-wider");
+
+      newDiv.setAttribute("style", "margin-bottom: -8px;display: none;");
+      document.body.appendChild(newDiv);
+
+      var request = new XMLHttpRequest();
+      request.open('GET', "https://assets-malabi.s3.amazonaws.com/temp/modal.html", true);
+      request.send(null);
+
+      request.onreadystatechange = function () {
+        if (request.readyState === 4 && request.status === 200) {
+          var type = request.getResponseHeader('Content-Type');
+          if (type.indexOf("text") !== 1) {
+            newDiv.innerHTML = request.responseText.trim();
+
+            if (_this.settings.hasOwnProperty('iFrameSrc') && _this.settings.iFrameSrc.length > 1) {
+              iFrameSrc = _this.settings.iFrameSrc;
+            } else {
+              iFrameSrc = "http://localhost:4201/index.html";//window.location.protocol + d8tv8no6fkiw3.cloudfront.net/version/" + editorVersion + "/index.html"; //TODO
+            }
+
+            frameDomain = camera51HelperExtractDomain(iFrameSrc);
+            iFrame = document.createElement('iFrame');
+            _this.iframeElement = iFrame;
+
+            // For development, make API calls to local host - for Camera51 internal use only.
+            if (window.location.search.indexOf('camera51api=local') > -1) {
+              console.log("camera51api=localhost8080");
+              _this.settings.apiUrl = "http://localhost:8080";
+            }
+
+            if (!_this.settings.hasOwnProperty('camera51EditorIframe')) {
+              console.log('Camera51 Error: Please specify camera51EditorIframe');
+              return;
+            } else {
+              if (document.getElementById(_this.settings.camera51EditorIframe) == null) {
+                console.log('Camera51 Error: Cannot find camera51EditorIframe in dom ' + _this.settings.camera51EditorIframe);
+                return;
+              }
+            }
+
+            var element = document.getElementById('camera51Frame');
+            if (element == null || typeof(element) == 'undefined') {   // If iFrame doesn't exist, create it.
+
+              // _this.startLoader();
+              iFrame.frameBorder = 0;
+              iFrame.width = "100%";
+              iFrame.height = "100%";
+              iFrame.id = "camera51Frame";
+              iFrame.setAttribute("src", iFrameSrc);
+              iFrame.style = "border:0;";
+
+              if (_this.settings != null)
+                document.getElementById(_this.settings.camera51EditorIframe).appendChild(iFrame);
+
+
+              //  _this.iframeElement =  document.getElementById(_this.settings.elementId);
+            }
+
+            var __this = _this;
+
+            iFrame.addEventListener("load", function () {
+              __this.editorFrame = document.getElementById('camera51Frame');
+              stopLoader(__this.settings.RETURN_IFRAME);
+              enableButtons();
+              setEditorText();
+              if (__this.settings.hasOwnProperty('apiUrl')) {
+                __this.editorFrame.contentWindow.postMessage({'initCamera51': JSON.stringify(__this.settings)}, frameDomain);
+              }
+              if (__this.settings.hasOwnProperty('backgroundColor')) {
+                __this.editorFrame.contentWindow.postMessage({'backgroundColor': __this.settings.backgroundColor}, frameDomain);
+              }
+              if (__this.injectStyleToIframe) {
+                __this.iframeElement.contentDocument.head.appendChild(__this.injectStyleToIframe);
+              }
+              if (__this.overrideTutorialElement) {
+                __this.iframeElement.contentDocument.getElementById("show-tutorial-first-time").innerHTML = "";
+                __this.iframeElement.contentDocument.getElementById("show-tutorial-first-time").appendChild(__this.overrideTutorialElement);
+              }
+
+            });
+          }
+        }
+      }
+    };
+
 
     var enableButtons = function () {
         var elms = document.querySelectorAll('*[id^="camera51-btn"]');
@@ -239,38 +287,60 @@
       }
     };
 
-    this.openEditorWithTrackId = function (obj, responseOnSave, responseElement) {
+    // this.openEditorWithTrackId = function (obj, responseOnSave, responseElement) {
+    //
+    //   ga('send', 'event', 'Site', 'open editor','customerId='+customerId+'imageId='+imageId);
+    //
+    //
+    //   if (responseOnSave) {
+    //     this.responseOnSave = responseOnSave;
+    //     this.responseOnSave.imageId = obj.imageId;
+    //     this.responseOnSave.responseElement = responseElement;
+    //     this.responseOnSave.secret = obj.secret;
+    //   } else {
+    //     this.responseOnSave = null;
+    //   }
+    //   editorFrame.contentWindow.postMessage({
+    //     'action': 'openEditor',
+    //     'customerId': obj.customerId,
+    //     'imageId': obj.imageId,
+    //     'secret': obj.secret
+    //   }, frameDomain);
+    //   return true;
+    // };
 
-      if (responseOnSave) {
-        this.responseOnSave = responseOnSave;
-        this.responseOnSave.imageId = obj.imageId;
-        this.responseOnSave.responseElement = responseElement;
-        this.responseOnSave.secret = obj.secret;
-      } else {
+    this.edit = function (imageId, secret, callbackFunc) {
+
+      $('#modal1').openModal();
+
+      ga('send', 'event', 'Site', 'open editor','customerId='+customerId+'imageId='+imageId);
+
+      if (callbackFunc && typeof callbackFunc === "function")
+        this.responseOnSave = callbackFunc;
+      else
         this.responseOnSave = null;
-      }
-      editorFrame.contentWindow.postMessage({
+
+      this.editorFrame.contentWindow.postMessage({
         'action': 'openEditor',
-        'customerId': obj.customerId,
-        'imageId': obj.imageId,
-        'secret': obj.secret
+        'customerId': this.customerId,
+        'imageId': imageId,
+        'secret': secret
       }, frameDomain);
       return true;
     };
 
     this.setColor = function (color) {
-      editorFrame.contentWindow.postMessage('setColor_' + color, frameDomain);
+      this.editorFrame.contentWindow.postMessage('setColor_' + color, frameDomain);
       return 1;
     };
 
     this.backToEdit = function () {
       var run = {"action": "backToEdit"};
-      editorFrame.contentWindow.postMessage(run, frameDomain);
+      this.editorFrame.contentWindow.postMessage(run, frameDomain);
       return 1;
     };
 
     this.showResult = function () {
-      console.log("showResult");
       var removeShadow = false;
       var applyTransparent = false;
       if (document.getElementById("camera51-show-shadow")) {
@@ -280,7 +350,7 @@
         applyTransparent = document.getElementById("camera51-show-transparent").checked;
       }
       var run = {"action": "showResult", removeShadow: removeShadow, applyTransparent: applyTransparent};
-      editorFrame.contentWindow.postMessage(run, frameDomain);
+      this.editorFrame.contentWindow.postMessage(run, frameDomain);
       return 1;
     };
 
@@ -294,43 +364,43 @@
         applyTransparent = document.getElementById("camera51-show-transparent").checked;
       }
       var run = {"action": "saveImage", removeShadow: removeShadow, applyTransparent: applyTransparent};
-      editorFrame.contentWindow.postMessage(run, frameDomain);
+      this.editorFrame.contentWindow.postMessage(run, frameDomain);
       return 1;
     };
 
     this.zoomIn = function () {
       /** @namespace editorFrame.contentWindow */
-      editorFrame.contentWindow.postMessage('zoomIn', frameDomain);
+      this.editorFrame.contentWindow.postMessage('zoomIn', frameDomain);
       return 1;
     };
 
     this.zoomOut = function () {
-      editorFrame.contentWindow.postMessage('zoomOut', frameDomain);
+      this.editorFrame.contentWindow.postMessage('zoomOut', frameDomain);
       return 1;
     };
 
     this.onclickLongZoomIn = function () {
-      editorFrame.contentWindow.postMessage('onclickLongZoomIn', frameDomain);
+      this.editorFrame.contentWindow.postMessage('onclickLongZoomIn', frameDomain);
       return 1;
     };
 
     this.onmouseupLongZoomIn = function () {
-      editorFrame.contentWindow.postMessage('onmouseupLongZoomIn', frameDomain);
+      this.editorFrame.contentWindow.postMessage('onmouseupLongZoomIn', frameDomain);
       return 1;
     };
 
     this.onclickLongZoomOut = function () {
-      editorFrame.contentWindow.postMessage('onclickLongZoomOut', frameDomain);
+      this.editorFrame.contentWindow.postMessage('onclickLongZoomOut', frameDomain);
       return 1;
     };
 
     this.onmouseupLongZoomOut = function () {
-      editorFrame.contentWindow.postMessage('onmouseupLongZoomOut', frameDomain);
+      this.editorFrame.contentWindow.postMessage('onmouseupLongZoomOut', frameDomain);
       return 1;
     };
 
     this.undo = function () {
-      editorFrame.contentWindow.postMessage('undo', frameDomain);
+      this.editorFrame.contentWindow.postMessage('undo', frameDomain);
       return 1;
     };
 
@@ -351,9 +421,10 @@
         if (window.malabiAPI.settings.hasOwnProperty('callbackFuncSave')) {
           window.malabiAPI.settings.callbackFuncSave(data.url, _this.responseOnSave);
         } else {
+          $('#modal1').closeModal();
           if (typeof _this.responseOnSave === 'function') {
             _this.responseOnSave(data.url);
-            camera51WithQueue.showImageCallback(_this.responseOnSave.responseElement, data.url, 0, _this.responseOnSave.imageId, _this.responseOnSave.secret);
+            //camera51WithQueue.showImageCallback(_this.responseOnSave.responseElement, data.url, 0, _this.responseOnSave.imageId, _this.responseOnSave.secret);
           } else {
             console.error("No function to run on save. Implment 'callbackFuncSave', recieves url.");
           }
@@ -377,7 +448,7 @@
           return;
         }
         if (document.getElementById("camera51-btn-show-result")) {
-          document.getElementById("camera51-btn-show-result").innerText = _this.camera51Text['show-result'];
+          document.getElementById("camera51-btn-show-result").innerText = camera51Text['show-result'];
         }
         enableButtons();
       }
@@ -397,7 +468,7 @@
         enableButtons();
         disableUndo();
         if (document.getElementById("camera51-btn-show-result")) {
-          document.getElementById("camera51-btn-show-result").innerText = _this.camera51Text['back-to-edit'];
+          document.getElementById("camera51-btn-show-result").innerText = camera51Text['back-to-edit'];
         }
       }
     });

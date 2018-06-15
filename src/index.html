@@ -109,60 +109,6 @@
   </div>
 
 </div>
-<!-- Modal Structure -->
-<div id="modal1" class="modal modal-wider" style="margin-bottom: -8px;display: none;">
-  <div class="modal-content" style="padding-top: 20px;padding-bottom: 5px;background-color: #393b4b;">
-    <a style="position: absolute; right: 11px; top: 16px;"
-       class="btn-floating modal-action modal-close waves-effect waves-light btn-flat">
-      <i style="font-size: 24px;color: white" class="material-icons right">close</i>
-    </a>
-    <div style="font-family: Roboto, sans-serif; font-size: 24px; color: white;margin-bottom: 6px;">Background Remover Edit
-    </div>
-    <a id="camera51-btn-mark-object" class="waves-effect waves-light btn-flat roboto tooltipped"
-       data-position="bottom" data-delay="50" data-tooltip="Draw lines to mark areas you want to keep in the image"
-       style="color:#7cb342;font-size: 14px;padding-right: 10px; padding-left: 10px;" onclick="malabiAPI.setColor('colorFG');">
-      <i class="material-icons left" style="color:#7cb342;padding-right: 0px;margin-right: 10px;font-size: 24px;">add_circle</i>
-      Mark Object
-    </a>
-    <a id="camera51-btn-mark-background" class="waves-effect waves-light  btn-flat roboto tooltipped"
-       data-position="bottom" data-delay="50" data-tooltip="Draw lines to mark areas you want to remove from the image"
-       style="margin-left:10px;color:#f44336;font-size: 14px;padding-right: 10px; padding-left: 10px;" onclick="malabiAPI.setColor('colorBG');">
-      <i class="material-icons left" style="color:#f44336;padding-right: 0px;margin-right: 10px;font-size: 24px;">remove_circle</i>
-      Mark Background
-    </a>
-    <a id="camera51-btn-undo" class="waves-effect waves-light btn-flat roboto" style="color: white;font-size: 14px;"
-       onclick="malabiAPI.undo()">UNDO</a>
-    <br>
-    <a id="camera51-zoom-in" class="waves-effect waves-circle transparent"
-       style="position: absolute;top: 141px;left: 36px" onmousedown="malabiAPI.onclickLongZoomIn()"
-       onmouseup="malabiAPI.onmouseupLongZoomIn()">
-      <i class="material-icons right small zoomRippel" style="color:#393b4b;">zoom_in</i>
-    </a>
-    <a id="camera51-zoom-out" class="waves-effect waves-circle transparent"
-       style="position: absolute;top: 194px;left: 36px" onmousedown="malabiAPI.onclickLongZoomOut()"
-       onmouseup="malabiAPI.onmouseupLongZoomOut()">
-      <i class="material-icons right small zoomRippel" style="color:#393b4b;">zoom_out</i>
-    </a>
-  </div>
-  <div class="progress" style="margin: 0px;visibility: hidden;height: 3px" id="camera51-loader">
-    <div class="indeterminate"></div>
-  </div>
-  <div>
-    <div id="camera51Iframe" style="height:500px;width:100%"></div>
-  </div>
-  <div class="modal-footer" style="background-color: white ">
-    <input type="checkbox" class="filled-in" id="camera51-show-transparent" />
-    <label for="camera51-show-transparent" style="top: 23px;left: 20px; padding-left: 28px;" onclick="malabiAPI.backToEdit();window.ga('send', 'event', 'Site','btn transparent', 'editor')">Transparent</label>
-    <input type="checkbox" class="filled-in" id="camera51-show-shadow" />
-    <label for="camera51-show-shadow" style="top: 23px;left: 42px; padding-left: 28px;" onclick="malabiAPI.backToEdit();window.ga('send', 'event', 'Site','btn shadow', 'editor')">Remove shadow</label>
-    <a id="camera51-btn-save-image" class=" btn white-text   waves-light btn-flat btn-large malabiBG "
-       onclick="malabiAPI.saveImage()"
-       style="font-size: 14px;margin-right: 9px; margin-left: 23px;">Save Changes</a>
-    <a id="camera51-btn-show-result" class="waves-effect waves-teal btn-flat btn "
-       style="font-size: 14px; margin-left: 10px; margin-top: 17px;"
-       onclick="malabiAPI.showResult()">preview result</a>
-  </div>
-</div>
 
 <app>
   <div class="camera51-preloader "></div>
@@ -243,7 +189,7 @@
       "wrappermarginTop":10,
       "apiUrl":apiUrl
     });
-    malabiAPI.init({
+    malabiAPI.init(customerId, {
       "customerId": customerId,
       "showTutorial": true,
       "sessionToken": customerSessionToken,
@@ -387,49 +333,16 @@
     camera51WithQueue.requestAsync( origImgUrl, responseElement, "", true,false, false, siteUserId, siteUserToken );
   }
 
-  /*
-   implement this function to open Camera51 Editor.
-   function name must be camera51OpenEditor in order to use camera51 builtin callback.
-   function receives a trackId and imgElementId to set the src to the resultUrl.
-   */
   function camera51OpenEditor(imageId, secret , responseElementId) {
-    var showWatermark = false;
-
-    if(isloggedIn){
-      ga('send', 'event', 'Site', 'open editor','isloggedIn=true&userId='+siteUserId+'customerId='+customerId);
-    } else {
-      showWatermark= true;
-
-      ga('send', 'event', 'Site', 'open editor','isloggedIn=false&customerId='+customerId+'imageId='+imageId);
-    }
-
-    //reset transparent, shadow
-    document.getElementById("camera51-show-transparent").checked = false;
-    document.getElementById("camera51-show-shadow").checked = false;
 
     var responseElement = document.getElementById(responseElementId);
-    /*
-     implement the onSaveWithResult and pass it to Camera51.openEditorWithTrackId.
-     this function specify what to do once the user selected an image in the editor.
-     */
+
     var onSaveWithResult = function (resultUrl) {
-      $('#modal1').closeModal();
+      camera51WithQueue.showImageCallback(responseElement, resultUrl, 0, imageId, secret);
     };
 
-    $('#modal1').openModal();
-
-    // open the editor//camera51WithQueue
-    malabiAPI.openEditorWithTrackId({
-      'customerId': customerId,
-      'imageId': imageId,
-      'secret': secret,
-      'showWatermark':showWatermark,
-      // 'wrappermarginTop': "10"
-    }, onSaveWithResult, responseElement);
+    malabiAPI.edit(imageId,secret, onSaveWithResult);
   }
-
-
-
 
 
 </script>

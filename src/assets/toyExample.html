@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Malabi Toy Example</title>
+</head>
+<body>
+
+<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/js/materialize.min.js"></script>
+<script src="https://assets-malabi.s3.amazonaws.com/temp/MalabiAPI.js"></script>
+
+
+<script>
+  var customerId = 5;
+  var camera51EditorIframe = "camera51Iframe";
+  var image;
+
+  $(document).ready(function () {
+    malabiAPI.init(customerId, {
+      "customerId": customerId,
+      "showTutorial": true,
+      "camera51EditorIframe": camera51EditorIframe,
+      "decreaseInnerHeight": 20,
+      "wrappermarginTop":10,
+      "apiUrl": "http://localhost:8080/MalabiAPI" //TODO
+    });
+  });
+
+
+  // This is the function calling the API for automatic processing of the image.
+  function processImage(origImgUrl) {
+    var request = new XMLHttpRequest();
+    request.open('POST', "http://localhost:8080/MalabiAPI/images", true); // TODO
+    request.setRequestHeader("Content-type", "application/json");
+    request.setRequestHeader("x-api-key", "k0146ax0gd");
+
+    var requestBody = {
+      "image_url": origImgUrl
+    };
+
+    request.send(JSON.stringify(requestBody));
+
+    request.onreadystatechange = function () {
+      if (request.readyState === 4 && request.status === 200) {
+        image = JSON.parse(request.response).image;
+        document.getElementById("resultImage").setAttribute("src", image.result_image_url);
+      }
+    };
+  }
+
+  function edit() {
+    if (image == null)
+      return;
+
+    var onSaveWithResult = function (resultUrl) {
+      document.getElementById("resultImage").setAttribute("src", resultUrl);
+    };
+
+    malabiAPI.edit(image.id, image.secret, onSaveWithResult);
+  }
+</script>
+
+
+
+<h1 style="color: #5e9ca0;"><strong>Malabi toy example</strong></h1>
+<p><img src="https://assets-malabi.s3.amazonaws.com/temp/image.jpg" alt="" width="400" height="" />&nbsp;&nbsp;
+  <img id="resultImage" src="a" alt="result image" width="400" height=""/></p>
+<button onclick="processImage('https://assets-malabi.s3.amazonaws.com/temp/image.jpg')">Process Image</button>
+<button onclick="edit()">Edit</button>
+</body>
+</html>

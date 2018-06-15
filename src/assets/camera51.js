@@ -138,10 +138,6 @@
 
     };
 
-    this.openEditorWithTrackId = function (obj, onSaveWithResult , responseElement ) {
-      window.camera51.openEditorWithTrackId(obj, onSaveWithResult, responseElement);
-    };
-
     this.addSearchArray = function(ele, str){
       searchArray.push(str);
       arrayElements.push(ele);
