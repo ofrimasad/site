@@ -281,7 +281,7 @@
 
       var elms = document.querySelectorAll('*[id^="malabi-btn"]');
       if (elms.length > 0) {
-        for (i = 0; i < elms.length; i++) {
+        for (var i = 0; i < elms.length; i++) {
           uclass.add(elms[i], 'disabled');
         }
       }
