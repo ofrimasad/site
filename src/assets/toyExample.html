@@ -1,32 +1,41 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Malabi Toy Example</title>
-</head>
 <body>
 
-<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+<!--This is a simple example of Malabi API integration in web client.-->
+<!--Please read the documentation and implementation notes before implementing the client side.-->
+
+<!--Start by including the following 3 Javascript files. -->
+<!--note that the first two are the original jquery and materialize
+Javascript files, which may already be included in your web page.  -->
+<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/js/materialize.min.js"></script>
-<script src="https://assets-malabi.s3.amazonaws.com/temp/MalabiAPI.js"></script>
+<script src="https://api.v1.malabi.co/Malabi.js"></script>
 
 
 <script>
-  var customerId = "k0146ax0gd";
+  var apiId = 'k0146ax0gd';
+  var yourOwnBackendUrl = 'https://oqj08cxe4e.execute-api.us-east-1.amazonaws.com/v1';
   var image;
 
+  //  before any call to malabi.edit(), initialize the malabi object by calling malabi.init() and
+  // passing an object containing your "apiId" (this is the 10 notes id you got when registering).
   $(document).ready(function () {
-    malabiAPI.init({
-      "customerId": customerId,
-      "apiUrl": "http://localhost:8080/MalabiAPI" //TODO
+    malabi.init({
+      "apiId": apiId
     });
   });
 
-  // This is the function calling the API for automatic processing of the image.
+  // This is the function requesting the automatic processing of the image.
+  // Note that this function does not call the Malabi API URL directly, since
+  // processing calls to the API requires the SECRET API key. Instead, you call
+  // your own backend, which holds the secret key and which will pass the request
+  // along with the secret key to Malabi API.
   function processImage(origImgUrl) {
     var request = new XMLHttpRequest();
-    request.open('POST', "http://localhost:8080/MalabiAPI/images", true); // TODO
+    request.open('POST', yourOwnBackendUrl, true);
     request.setRequestHeader("Content-type", "application/json");
+    request.setRequestHeader("x-api-id", apiId);
 
     var requestBody = {
       "image_url": origImgUrl
@@ -42,6 +51,11 @@
     };
   }
 
+  // Call malabi.edit() to open up the popup window and edit the image.
+  // Pass the function the image id and secret (which you got from the response of the
+  // automatic processing request), and a callback function to be triggered after the
+  // editing was completed.
+  // the callback function accepts a string containing the URL for the newly created result image.
   function edit() {
     if (image == null)
       return;
@@ -50,16 +64,20 @@
       document.getElementById("resultImage").setAttribute("src", resultUrl);
     };
 
-    malabiAPI.edit(image.id, image.secret, onSaveWithResult);
+    malabi.edit(image.id, image.secret, onSaveWithResult);
   }
 </script>
 
 
 
 <h1 style="color: #5e9ca0;"><strong>Malabi toy example</strong></h1>
-<p><img src="https://assets-malabi.s3.amazonaws.com/temp/image.jpg" alt="" width="400" height="" />&nbsp;&nbsp;
-  <img id="resultImage" src="https://assets-malabi.s3.amazonaws.com/temp/place_holder.jpg" alt="result image" width="400" height=""/></p>
-<button onclick="processImage('https://assets-malabi.s3.amazonaws.com/temp/image.jpg')">Process Image</button>
+<p><img src="https://api.v1.malabi.co/image.jpg" alt="" width="400" height="" />&nbsp;&nbsp;
+  <img id="resultImage" src="https://api.v1.malabi.co/place_holder.jpg" alt="result image" width="400" height=""/></p>
+<button onclick="processImage('https://api.v1.malabi.co/image.jpg')">Process Image</button>
 <button onclick="edit()">Edit</button>
 </body>
+<head>
+    <meta charset="UTF-8">
+    <title>Malabi Toy Example</title>
+</head>
 </html>

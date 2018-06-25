@@ -7,27 +7,27 @@
     </div>
     <a id="malabi-btn-mark-object" class="waves-effect waves-light btn-flat malabiFont tooltipped"
        data-position="bottom" data-delay="50" data-tooltip="Draw lines to mark areas you want to keep in the image"
-       style="color:#7cb342;font-size: 14px;padding-right: 10px; padding-left: 10px;" onclick="malabiAPI.setColor('colorFG');">
+       style="color:#7cb342;font-size: 14px;padding-right: 10px; padding-left: 10px;" onclick="malabi.setColor('colorFG');">
       <i class="material-icons left" style="color:#7cb342;padding-right: 0px;margin-right: 10px;font-size: 24px;">add_circle</i>
       Mark Object
     </a>
     <a id="malabi-btn-mark-background" class="waves-effect waves-light  btn-flat malabiFont tooltipped"
        data-position="bottom" data-delay="50" data-tooltip="Draw lines to mark areas you want to remove from the image"
-       style="margin-left:10px;color:#f44336;font-size: 14px;padding-right: 10px; padding-left: 10px;" onclick="malabiAPI.setColor('colorBG');">
+       style="margin-left:10px;color:#f44336;font-size: 14px;padding-right: 10px; padding-left: 10px;" onclick="malabi.setColor('colorBG');">
       <i class="material-icons left" style="color:#f44336;padding-right: 0px;margin-right: 10px;font-size: 24px;">remove_circle</i>
       Mark Background
     </a>
     <a id="malabi-btn-undo" class="waves-effect waves-light btn-flat malabiFont" style="color: white;font-size: 14px;"
-       onclick="malabiAPI.undo()">UNDO</a>
+       onclick="malabi.undo()">UNDO</a>
     <br>
     <a id="malabi-zoom-in" class="waves-effect waves-circle transparent"
-       style="position: absolute;top: 141px;left: 36px" onmousedown="malabiAPI.onclickLongZoomIn()"
-       onmouseup="malabiAPI.onmouseupLongZoomIn()">
+       style="position: absolute;top: 141px;left: 36px" onmousedown="malabi.onclickLongZoomIn()"
+       onmouseup="malabi.onmouseupLongZoomIn()">
       <i class="material-icons right small malabiZoomRipple" style="color:#393b4b;">zoom_in</i>
     </a>
     <a id="malabi-zoom-out" class="waves-effect waves-circle transparent"
-       style="position: absolute;top: 194px;left: 36px" onmousedown="malabiAPI.onclickLongZoomOut()"
-       onmouseup="malabiAPI.onmouseupLongZoomOut()">
+       style="position: absolute;top: 194px;left: 36px" onmousedown="malabi.onclickLongZoomOut()"
+       onmouseup="malabi.onmouseupLongZoomOut()">
       <i class="material-icons right small malabiZoomRipple" style="color:#393b4b;">zoom_out</i>
     </a>
   </div>
@@ -39,14 +39,14 @@
   </div>
   <div class="modal-footer" style="background-color: white ">
     <input type="checkbox" class="filled-in" id="malabi-show-transparent" />
-    <label for="malabi-show-transparent" style="top: 23px;left: 20px; padding-left: 28px;" onclick="malabiAPI.backToEdit()">Transparent</label>
+    <label for="malabi-show-transparent" style="top: 23px;left: 20px; padding-left: 28px;" onclick="malabi.backToEdit()">Transparent</label>
     <input type="checkbox" class="filled-in" id="malabi-show-shadow" />
-    <label for="malabi-show-shadow" style="top: 23px;left: 42px; padding-left: 28px;" onclick="malabiAPI.backToEdit()">Remove shadow</label>
+    <label for="malabi-show-shadow" style="top: 23px;left: 42px; padding-left: 28px;" onclick="malabi.backToEdit()">Remove shadow</label>
     <a id="malabi-btn-save-image" class=" btn white-text   waves-light btn-flat btn-large malabiBG "
-       onclick="malabiAPI.saveImage()"
+       onclick="malabi.saveImage()"
        style="font-size: 14px;margin-right: 9px; margin-left: 23px;">Save Changes</a>
     <a id="malabi-btn-show-result" class="waves-effect waves-teal btn-flat btn "
        style="font-size: 14px; margin-left: 10px; margin-top: 17px;"
-       onclick="malabiAPI.showResult()">preview result</a>
+       onclick="malabi.showResult()">preview result</a>
   </div>
 

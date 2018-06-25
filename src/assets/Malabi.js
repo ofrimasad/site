@@ -3,11 +3,11 @@
   var MODAL_NAME = "malabiEditorModal";
   var MALABI_EDITOR_IFRAME_NAME = "malabiEditorIFrame";
 
-  var malabiAPI = new MalabiAPI();
+  var malabi = new Malabi();
 
   window.waitForSQS = false; // should sqs keep listening.
 
-  window.malabiAPI = malabiAPI;
+  window.malabi = malabi;
 
   var malabiEditorText = {
     "show-result": "preview result",
@@ -21,9 +21,9 @@
   var injectStyleToIframe = null;
 
 
-  function MalabiAPI() {
+  function Malabi() {
     this.apiUrl = null;
-    this.customerId = null;
+    this.apiId = null;
     this.userId = null;
     this.sessionToken = null;
     this.sqsRunning = false;
@@ -36,7 +36,6 @@
 
     var frameDomain;
     var iFrame;
-    var apiUrl = "//api.malabi.co";
     var iFrameSrc = "";
     this.transparent = false;
     this.overrideTutorialElement = overrideTutorialElement;
@@ -70,7 +69,7 @@
         domain = arr[0] + "//" + arr[2];
         return domain;
       } else {
-        return "http://" + domain[1];//window.location.protocol + "//" + domain[1]; //TODO
+        return window.location.protocol + "//" + domain[1];
       }
     };
 
@@ -129,8 +128,8 @@
 
     this.init = function (_settings) {
 
-      if (!_settings || !_settings.customerId) {
-        console.error("Malabi init() fail - you must supply an object containing the customerId")
+      if (!_settings || !_settings.apiId) {
+        console.error("Malabi init() fail - you must supply an object containing the apiId")
       }
 
       if (this.isInit) {
@@ -141,7 +140,7 @@
 
       this.isInit = true;
 
-      this.customerId = _settings.customerId;
+      this.apiId = _settings.apiId;
       this.settings = _settings;
       this.settings.RETURN_IFRAME = 1;
       this.settings.RETURN_EDITOR = 2;
@@ -166,7 +165,7 @@
     var addStyleSheets = function() {
       addStyleSheet("https://fonts.googleapis.com/icon?family=Material+Icons");
       addStyleSheet("https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/css/materialize.min.css");
-      addStyleSheet("https://assets-malabi.s3.amazonaws.com/temp/malabi-editor.css");
+      addStyleSheet("https://api.v1.malabi.co/malabi-editor.css");
     };
 
     var addStyleSheet = function (url) {
@@ -199,7 +198,7 @@
       document.body.appendChild(newDiv);
 
       var request = new XMLHttpRequest();
-      request.open('GET', "https://assets-malabi.s3.amazonaws.com/temp/modal.html", true);
+      request.open('GET', "https://api.v1.malabi.co/modal.html", true);
       request.send(null);
 
       request.onreadystatechange = function () {
@@ -211,18 +210,12 @@
             if (_this.settings.hasOwnProperty('iFrameSrc') && _this.settings.iFrameSrc.length > 1) {
               iFrameSrc = _this.settings.iFrameSrc;
             } else {
-              iFrameSrc = "http://localhost:4201/index.html";//window.location.protocol + d8tv8no6fkiw3.cloudfront.net/version/" + editorVersion + "/index.html"; //TODO
+              iFrameSrc = window.location.protocol + "//d8tv8no6fkiw3.cloudfront.net/version/v4/index.html"; // "http://localhost:4201/index.html"
             }
 
             frameDomain = extractDomain(iFrameSrc);
             iFrame = document.createElement('iFrame');
             _this.iframeElement = iFrame;
-
-            // For development, make API calls to local host - for Malabi internal use only.
-            if (window.location.search.indexOf('malabiApi=local') > -1) {
-              console.log("apiUrl=localhost8080");
-              _this.settings.apiUrl = "http://localhost:8080";
-            }
 
             var element = document.getElementById('malabiFrame');
             if (element == null || typeof(element) == 'undefined') {   // If iFrame doesn't exist, create it.
@@ -303,7 +296,7 @@
 
       $('#' + MODAL_NAME).openModal();
 
-      ga('send', 'event', 'Site', 'open editor','customerId='+customerId+'imageId='+imageId);
+      ga('send', 'event', 'Site', 'open editor','apiId='+apiId+'imageId='+imageId);
 
       if (callbackFunc && typeof callbackFunc === "function")
         this.responseOnSave = callbackFunc;
@@ -312,7 +305,7 @@
 
       this.editorFrame.contentWindow.postMessage({
         'action': 'openEditor',
-        'customerId': this.customerId,
+        'apiId': this.apiId,
         'imageId': imageId,
         'secret': secret
       }, frameDomain);
@@ -394,7 +387,9 @@
       return 1;
     };
 
-
+    function eraseCookie(name) {
+      document.cookie = name+'=; Max-Age=-99999999;';
+    }
 
     var _this = this;
     // Listen for response messages from the frames.
@@ -408,10 +403,11 @@
       }
       if (e.data.hasOwnProperty('url') && data.url.length > 5) {
         enableButtons();
-        if (window.malabiAPI.settings.hasOwnProperty('callbackFuncSave')) {
-          window.malabiAPI.settings.callbackFuncSave(data.url, _this.responseOnSave);
+        if (window.malabi.settings.hasOwnProperty('callbackFuncSave')) {
+          window.malabi.settings.callbackFuncSave(data.url, _this.responseOnSave);
         } else {
           $('#' + MODAL_NAME).closeModal();
+          eraseCookie("AWSELB");
           if (typeof _this.responseOnSave === 'function') {
             _this.responseOnSave(data.url);
           } else {
@@ -432,8 +428,8 @@
         stopLoader();
       }
       if (e.data.hasOwnProperty('returnFromShowResult')) {
-        if (window.malabiAPI.settings.hasOwnProperty('returnFromShowResult')) {
-          window.malabiAPI.settings.returnFromShowResult();
+        if (window.malabi.settings.hasOwnProperty('returnFromShowResult')) {
+          window.malabi.settings.returnFromShowResult();
           return;
         }
         if (document.getElementById("malabi-btn-show-result")) {
@@ -444,14 +440,14 @@
       if (e.data.hasOwnProperty('inEditMode')) {
         stopLoader();
         enableButtons();
-        if (window.malabiAPI.settings.hasOwnProperty('callbackInEditMode')) {
-          window.malabiAPI.settings.callbackInEditMode();
+        if (window.malabi.settings.hasOwnProperty('callbackInEditMode')) {
+          window.malabi.settings.callbackInEditMode();
         }
       }
       if (e.data.hasOwnProperty('callbackInShowResult')) {
         console.log("callbackInShowResult");
-        if (window.malabiAPI.settings.hasOwnProperty('callbackInShowResult')) {
-          window.malabiAPI.settings.callbackInShowResult();
+        if (window.malabi.settings.hasOwnProperty('callbackInShowResult')) {
+          window.malabi.settings.callbackInShowResult();
         }
         stopLoader();
         enableButtons();
