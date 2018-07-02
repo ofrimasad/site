@@ -22,7 +22,7 @@
 
 
   function Malabi() {
-    this.apiUrl = null;
+    this.apiUrl = 'api.malabi.co/v1';
     this.apiId = null;
     this.userId = null;
     this.sessionToken = null;
@@ -165,7 +165,7 @@
     var addStyleSheets = function() {
       addStyleSheet("https://fonts.googleapis.com/icon?family=Material+Icons");
       addStyleSheet("https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/css/materialize.min.css");
-      addStyleSheet("https://api.v1.malabi.co/malabi-editor.css");
+      addStyleSheet("https://"+ malabi.apiUrl +"/malabi-editor.css");
     };
 
     var addStyleSheet = function (url) {
@@ -198,7 +198,7 @@
       document.body.appendChild(newDiv);
 
       var request = new XMLHttpRequest();
-      request.open('GET', "https://api.v1.malabi.co/modal.html", true);
+      request.open('GET', "https://"+ malabi.apiUrl +"/modal.html", true);
       request.send(null);
 
       request.onreadystatechange = function () {
@@ -239,6 +239,10 @@
               stopLoader(__this.settings.RETURN_IFRAME);
               enableButtons();
               setEditorText();
+
+              if (__this.settings.onFrameReady != null && typeof __this.settings.onFrameReady == 'function')
+                __this.settings.onFrameReady();
+
               if (__this.settings) {
                 __this.editorFrame.contentWindow.postMessage({'initMalabi': JSON.stringify(__this.settings)}, frameDomain);
               }
@@ -292,11 +296,20 @@
 
     this.edit = function (imageId, secret, callbackFunc) {
 
+      if (!this.isInit) {
+        console.error('please call malabi.init() before calling this function');
+        return false;
+      }
+
       addDiv();
+      setEditorText();
+      enableButtons();
 
-      $('#' + MODAL_NAME).openModal();
+      $('#' + MODAL_NAME).openModal({
+        complete: function() { document.cookie = 'AWSELB=;expires=Sat, 01-Jan-2000 00:00:00 GMT;'; }
+      });
 
-      ga('send', 'event', 'Site', 'open editor','apiId='+apiId+'imageId='+imageId);
+      ga('send', 'event', 'Site', 'open editor','apiId='+this.apiId+'imageId='+imageId);
 
       if (callbackFunc && typeof callbackFunc === "function")
         this.responseOnSave = callbackFunc;
@@ -387,9 +400,6 @@
       return 1;
     };
 
-    function eraseCookie(name) {
-      document.cookie = name+'=; Max-Age=-99999999;';
-    }
 
     var _this = this;
     // Listen for response messages from the frames.
@@ -403,17 +413,18 @@
       }
       if (e.data.hasOwnProperty('url') && data.url.length > 5) {
         enableButtons();
-        if (window.malabi.settings.hasOwnProperty('callbackFuncSave')) {
-          window.malabi.settings.callbackFuncSave(data.url, _this.responseOnSave);
+
+        $('#' + MODAL_NAME).closeModal();
+
+        //delete cookie
+        document.cookie = 'AWSELB=;expires=Sat, 01-Jan-2000 00:00:00 GMT;';
+
+        if (typeof _this.responseOnSave === 'function') {
+          _this.responseOnSave(JSON.parse(data.url));
         } else {
-          $('#' + MODAL_NAME).closeModal();
-          eraseCookie("AWSELB");
-          if (typeof _this.responseOnSave === 'function') {
-            _this.responseOnSave(data.url);
-          } else {
-            console.error("No function to run on save. Implment 'callbackFuncSave', recieves url.");
-          }
+          console.error("No function to run on save. Implment 'callbackFuncSave', recieves url.");
         }
+
       }
       if (e.data.hasOwnProperty('loader')) {
         if (data.loader == true) {
