@@ -10,7 +10,7 @@
 Javascript files, which may already be included in your web page.  -->
 <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/js/materialize.min.js"></script>
-<script src="https://api.v1.malabi.co/v1/Malabi.js"></script>
+<script src="https://api.malabi.co/v1/Malabi.js"></script>
 
 
 <script>
@@ -21,22 +21,6 @@ Javascript files, which may already be included in your web page.  -->
   //  before any call to malabi.edit(), initialize the malabi object by calling malabi.init() and
   // passing an object containing your "apiId" (this is the 10 notes id you got when registering).
   $(document).ready(function () {
-
-    var myTranslation = {
-      "show-result"     : "show result",
-      "back-to-edit"    : "back to edit",
-      "tooltip-mark-background" : "Draw lines to mark areas you want to remove from the image",
-      "tooltip-mark-object" : "Draw lines to mark areas you want to keep in the image",
-
-      "error-header-default": "Press here for manual background removal",
-      "error-header-image-failure": "Image error",
-      "error-text-5" : "Background was not automatically removed since the image <b>already has a white background</b>",
-      "error-text-2" : "Background was not automatically removed due to <b>low contrast</b>",
-      "error-text-4" : "Background was not automatically removed due to a <b>cluttered background</b>",
-      "error-text-103" : "Image <b>too small</b> to be processed",
-      "error-text-101" : "Image cannot be processed",
-    };
-
     malabi.init({
       "apiId": apiId
     });
@@ -87,9 +71,9 @@ Javascript files, which may already be included in your web page.  -->
 
 
 <h1 style="color: #5e9ca0;"><strong>Malabi toy example</strong></h1>
-<p><img src="https://api.v1.malabi.co/image.jpg" alt="" width="400" height="" />&nbsp;&nbsp;
-  <img id="resultImage" src="https://api.v1.malabi.co/place_holder.jpg" alt="result image" width="400" height=""/></p>
-<button onclick="processImage('https://api.v1.malabi.co/image.jpg')">Process Image</button>
+<p><img src="https://api.malabi.co/image.jpg" alt="" width="400" height="" />&nbsp;&nbsp;
+  <img id="resultImage" src="https://api.malabi.co/place_holder.jpg" alt="result image" width="400" height=""/></p>
+<button onclick="processImage('https://api.malabi.co/image.jpg')">Process Image</button>
 <button onclick="edit()">Edit</button>
 </body>
 <head>

@@ -1,6 +1,6 @@
 
 //var apiUrl = "https://sandbox.malabi.co";
-var apiUrl = "https://api.malabi.co";
+var apiUrl = "https://api.malabi.co/v1";
 
 var isloggedIn = false;
 var showWatermark = true;

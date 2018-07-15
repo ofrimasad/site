@@ -542,9 +542,10 @@
           }
         }
       };
-      xhttp.open("POST", this.apiUrl + "/images");
+      xhttp.open("POST", this.apiUrl + "/v1/images");
       xhttp.setRequestHeader("Content-type", "application/json;charset=UTF-8");
-      xhttp.setRequestHeader("x-api-key", "k0146ax0gd");
+      xhttp.setRequestHeader("x-api-id", "k0146ax0gd");
+      xhttp.setRequestHeader("x-api-key", "Z7ZdWDHrVi5IExgfd37z28qGNDdtZpDG8AcawOzj");
 
       var requestBodyObject = {
         "image_url":origImgUrl,
