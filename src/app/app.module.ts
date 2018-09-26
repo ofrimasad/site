@@ -17,6 +17,7 @@ import { Shopify } from './shopify';
 import { Bigcommerce } from './bigcommerce';
 import { Logout } from './logout';
 import { Login } from './login';
+import { CreateCustomer } from './createCustomer';
 import { Plans } from './plans';
 import { Paymentreceived } from './paymentreceived';
 import { Yourinfo } from './yourinfo';
@@ -74,6 +75,7 @@ const APP_PROVIDERS = [
     Forgotpassword,
     Changepassword,
     Login,Logout,
+    CreateCustomer,
     Plans,
     Paymentreceived,
     Yourinfo,
