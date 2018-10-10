@@ -24,6 +24,8 @@
   function Malabi() {
     this.apiUrl = 'api.malabi.co/v1';
     this.apiId = null;
+    this.framework = 'materialize';
+    this.isBootstrap = false;
     this.userId = null;
     this.sessionToken = null;
     this.sqsRunning = false;
@@ -141,6 +143,12 @@
       this.isInit = true;
 
       this.apiId = _settings.apiId;
+      if (_settings.framework != null) {
+        this.framework = _settings.framework;
+        if (this.framework == 'bootstrap' || this.framework == 'Bootstrap')
+          this.isBootstrap = true;
+      }
+
       this.settings = _settings;
       this.settings.RETURN_IFRAME = 1;
       this.settings.RETURN_EDITOR = 2;
@@ -152,7 +160,7 @@
         this.transparent = true;
       }
 
-      addStyleSheets();
+      addStyleSheets(this.isBootstrap);
       addDiv(this);
 
       if (_settings.apiUrl) {
@@ -162,10 +170,16 @@
 
     };
 
-    var addStyleSheets = function() {
-      addStyleSheet("https://fonts.googleapis.com/icon?family=Material+Icons");
-      addStyleSheet("https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/css/materialize.min.css");
-      addStyleSheet("https://"+ malabi.apiUrl +"/malabi-editor.css");
+    var addStyleSheets = function(isBootstrap) {
+      if (isBootstrap) {
+        addStyleSheet("https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css");
+        addStyleSheet("https://fonts.googleapis.com/icon?family=Material+Icons");
+        addStyleSheet("https://fonts.googleapis.com/css?family=Roboto");
+      } else {
+        addStyleSheet("https://fonts.googleapis.com/icon?family=Material+Icons");
+        addStyleSheet("https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/css/materialize.min.css");
+        addStyleSheet("https://" + malabi.apiUrl + "/malabi-editor.css");
+      }
     };
 
     var addStyleSheet = function (url) {
@@ -192,13 +206,26 @@
 
       var newDiv = document.createElement('div');
       newDiv.id = MODAL_NAME;
-      newDiv.setAttribute("class", "modal modal-wider");
 
-      newDiv.setAttribute("style", "margin-bottom: -8px;display: none;");
+      if (_this.isBootstrap) {
+        newDiv.setAttribute("class", "modal fade bd-example-modal-lg");
+        newDiv.setAttribute("tabindex", "-1");
+        newDiv.setAttribute("role", "dialog");
+        newDiv.setAttribute("style", "display: none;");
+      } else {
+        newDiv.setAttribute("class", "modal modal-wider");
+        newDiv.setAttribute("style", "margin-bottom: -8px;display: none;");
+      }
+
       document.body.appendChild(newDiv);
 
       var request = new XMLHttpRequest();
-      request.open('GET', "https://"+ malabi.apiUrl +"/modal.html", true);
+
+      if (_this.isBootstrap) {
+        request.open('GET', "https://" + malabi.apiUrl + "/modal.bootstrap.html", true);
+      } else {
+        request.open('GET', "https://" + malabi.apiUrl + "/modal.html", true);
+      }
       request.send(null);
 
       request.onreadystatechange = function () {
@@ -305,9 +332,17 @@
       setEditorText();
       enableButtons();
 
-      $('#' + MODAL_NAME).openModal({
-        complete: function() { document.cookie = 'AWSELB=;expires=Sat, 01-Jan-2000 00:00:00 GMT;'; }
-      });
+      if (_this.isBootstrap) {
+        var modalObject = $('#' + MODAL_NAME);
+        modalObject.modal('show');
+        modalObject.on('hidden.bs.modal', function (e) {
+          document.cookie = 'AWSELB=;expires=Sat, 01-Jan-2000 00:00:00 GMT;';
+        });
+      } else {
+        $('#' + MODAL_NAME).openModal({
+          complete: function() { document.cookie = 'AWSELB=;expires=Sat, 01-Jan-2000 00:00:00 GMT;'; }
+        });
+      }
 
       ga('send', 'event', 'Site', 'open editor','apiId='+this.apiId+'imageId='+imageId);
 
@@ -414,7 +449,11 @@
       if (e.data.hasOwnProperty('url') && data.url.length > 5) {
         enableButtons();
 
-        $('#' + MODAL_NAME).closeModal();
+        if (_this.isBootstrap) {
+          $('#' + MODAL_NAME).modal('toggle');
+        } else {
+          $('#' + MODAL_NAME).closeModal();
+        }
 
         //delete cookie
         document.cookie = 'AWSELB=;expires=Sat, 01-Jan-2000 00:00:00 GMT;';
