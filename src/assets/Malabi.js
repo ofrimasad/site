@@ -10,7 +10,7 @@
   window.malabi = malabi;
 
   var malabiEditorText = {
-    "show-result": "preview result",
+    "malabi-btn-show-result": "preview result",
     "back-to-edit": "back to edit",
     "tooltip-mark-background": "Draw lines to mark areas you want to remove from the image",
     "tooltip-mark-object": "Draw lines to mark areas you want to keep in the image"
@@ -75,27 +75,6 @@
       }
     };
 
-    var setAttributeText = function (atr, str) {
-      if (document.getElementById(atr)) {
-        var buttonShowresult = document.getElementById(atr);
-        buttonShowresult.innerText = str;
-      }
-    };
-
-    var setEditorText = function () {
-      var _this = this;
-      var listElement = {
-        'malabi-btn-show-result': "show-result",
-        'malabi-btn-save-image': 'save-image'
-      };
-
-      Object.keys(listElement).forEach(function (key) {
-        if (_this.malabiEditorText.hasOwnProperty(listElement[key]))
-          setAttributeText(key, _this.malabiEditorText[listElement[key]]);
-      });
-    };
-
-
     var startLoader = function () {
       disableButtons();
       if (document.getElementById("malabi-loader")) {
@@ -126,6 +105,48 @@
         var clientId = tracker.get('clientId');
         ga('set', 'dimension1', clientId);
       });
+    };
+
+
+    function loadJSON(url , callback) {
+      var request = new XMLHttpRequest();
+      request.overrideMimeType("application/json");
+      request.open('GET', url, false);
+
+      request.onreadystatechange = function() {
+        if (request.readyState === 4 && request.status === 200) {
+          callback(request.responseText);
+        }
+      };
+      request.send(null);
+    }
+
+    var localize = function(local) {
+      for (var key in local) {
+        if (local.hasOwnProperty(key)) {
+          if (document.getElementById(key) != null)
+            document.getElementById(key).innerText = local[key];
+          if (malabiEditorText[key] != null)
+            malabiEditorText[key] = local[key];
+        }
+      }
+    };
+
+
+    var fetchLocal = function(_settings) {
+
+      if (typeof _settings.local === 'string') {
+
+        loadJSON("https://" + malabi.apiUrl + "/" + _settings.local + '.json', function (response) {
+          var json = JSON.parse(response);
+          if (json != null) {
+            _settings.local = json;
+            if (json.hasOwnProperty('show-tutorial-first-time')) {
+              _settings['show-tutorial-first-time'] = json['show-tutorial-first-time'];
+            }
+          }
+        });
+      }
     };
 
     this.init = function (_settings) {
@@ -161,6 +182,11 @@
       }
 
       addStyleSheets(this.isBootstrap);
+
+      if (_settings.hasOwnProperty('local')) {
+        fetchLocal(_settings)
+      }
+
       addDiv(this);
 
       if (_settings.apiUrl) {
@@ -234,6 +260,10 @@
           if (type.indexOf("text") !== 1) {
             newDiv.innerHTML = request.responseText.trim();
 
+            if (_this.settings.hasOwnProperty('local')) {
+              localize(_this.settings.local);
+            }
+
             if (_this.settings.hasOwnProperty('iFrameSrc') && _this.settings.iFrameSrc.length > 1) {
               iFrameSrc = _this.settings.iFrameSrc;
             } else {
@@ -265,7 +295,6 @@
               __this.editorFrame = document.getElementById('malabiFrame');
               stopLoader(__this.settings.RETURN_IFRAME);
               enableButtons();
-              setEditorText();
 
               if (__this.settings.onFrameReady != null && typeof __this.settings.onFrameReady == 'function')
                 __this.settings.onFrameReady();
@@ -329,7 +358,6 @@
       }
 
       addDiv();
-      setEditorText();
       enableButtons();
 
       if (_this.isBootstrap) {
@@ -483,7 +511,7 @@
           return;
         }
         if (document.getElementById("malabi-btn-show-result")) {
-          document.getElementById("malabi-btn-show-result").innerText = malabiEditorText['show-result'];
+          document.getElementById("malabi-btn-show-result").innerText = malabiEditorText['malabi-btn-show-result'];
         }
         enableButtons();
       }

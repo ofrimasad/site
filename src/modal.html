@@ -3,7 +3,7 @@
        class="btn-floating modal-action modal-close waves-effect waves-light btn-flat">
       <i style="font-size: 24px;color: white" class="material-icons right">close</i>
     </a>
-    <div style="font-family: Roboto, sans-serif; font-size: 24px; color: white;margin-bottom: 6px;">Background Remover Edit
+    <div id="malabi-edit-title" style="font-family: Roboto, sans-serif; font-size: 24px; color: white;margin-bottom: 6px;">Background Remover Edit
     </div>
     <a id="malabi-btn-mark-object" class="waves-effect waves-light btn-flat malabiFont tooltipped"
        data-position="bottom" data-delay="50" data-tooltip="Draw lines to mark areas you want to keep in the image"
@@ -39,9 +39,9 @@
   </div>
   <div class="modal-footer" style="background-color: white ">
     <input type="checkbox" class="filled-in" id="malabi-show-transparent" />
-    <label for="malabi-show-transparent" style="top: 23px;left: 20px; padding-left: 28px;" onclick="malabi.backToEdit()">Transparent</label>
+    <label id="malabi-show-transparent-label" for="malabi-show-transparent" style="top: 23px;left: 20px; padding-left: 28px;" onclick="malabi.backToEdit()">Transparent</label>
     <input type="checkbox" class="filled-in" id="malabi-show-shadow" />
-    <label for="malabi-show-shadow" style="top: 23px;left: 42px; padding-left: 28px;" onclick="malabi.backToEdit()">Remove shadow</label>
+    <label id="malabi-show-shadow-label" for="malabi-show-shadow" style="top: 23px;left: 42px; padding-left: 28px;" onclick="malabi.backToEdit()">Remove shadow</label>
     <a id="malabi-btn-save-image" class=" btn white-text   waves-light btn-flat btn-large malabiBG "
        onclick="malabi.saveImage()"
        style="font-size: 14px;margin-right: 9px; margin-left: 23px;">Save Changes</a>
