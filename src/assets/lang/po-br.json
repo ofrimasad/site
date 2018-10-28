@@ -1,0 +1,12 @@
+{
+  "malabi-edit-title": "Eitar removedor de plano de fundo",
+  "malabi-btn-mark-object": "MARCAR OBJETO",
+  "malabi-btn-mark-background": "MARCAR PLANO DE FUNDO",
+  "malabi-btn-undo":"DESFAZER",
+  "malabi-show-transparent-label": "Transparente",
+  "malabi-show-shadow-label": "Remover sombra",
+  "malabi-btn-show-result": "Pré-visualização dos resultados",
+  "back-to-edit": "Voltar à edição",
+  "malabi-btn-save-image": "Salvar alterações",
+  "show-tutorial-first-time": "use <span style=\"color:#f44336\">MARCAR PLANO DE FUNDO</span> para ajustar o plano de fundo.<br> Use <span style=\"color:#7cb342\">MARCAR OBJETO</span> para o objeto.<br> O removedor de plano de fundo faz ajustes automaticamente, para que a precisão não seja necessária.<br><br><b class=\"md-button\">ENTENDI</b>"
+}

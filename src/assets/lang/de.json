@@ -1,0 +1,12 @@
+﻿{
+  "malabi-edit-title": "Hintergrund-Entferner Bearbeiten",
+  "malabi-btn-mark-object": "OBJEKT MARKIEREN",
+  "malabi-btn-mark-background": "HINTERGRUND MARKIEREN",
+  "malabi-btn-undo":"RÜCKGÄNGIG MACHEN",
+  "malabi-show-transparent-label": "Transparent",
+  "malabi-show-shadow-label": "Schatten entfernen",
+  "malabi-btn-show-result": "Ergebnisse überprüfen",
+  "back-to-edit": "Zurück zu Bearbeiten",
+  "malabi-btn-save-image": "Änderungen speichern",
+  "show-tutorial-first-time": "Verwenden Sie <span style=\"color:#f44336\">HINTERGRUND MARKIEREN</span>, um den Hintergrund anzupassen.<br> Verwenden Sie <span style=\"color:#7cb342\"> OBJEKT MARKIEREN</span> für das Objekt.<br> Der Hintergrund-Entferner nimmt automatisch Anpassungen vor, so dass es nicht notwendig ist, präzise zu sein.<br><br><b class=\"md-button\">ALLES VERSTANDEN</b>"
+}

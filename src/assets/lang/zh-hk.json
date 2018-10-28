@@ -1,0 +1,12 @@
+﻿{
+  "malabi-edit-title": "背景移除工具編輯",
+  "malabi-btn-mark-object": "標記物件",
+  "malabi-btn-mark-background": "編輯背景",
+  "malabi-btn-undo":"復原",
+  "malabi-show-transparent-label": "透明",
+  "malabi-show-shadow-label": "移除陰影",
+  "malabi-btn-show-result": "預覽結果",
+  "back-to-edit": "返回編輯",
+  "malabi-btn-save-image": "儲存變更",
+  "show-tutorial-first-time": "使用<span style=\"color:#f44336\">標記背景</span>來調整背景。<br>使用<span style=\"color:#7cb342\">標記物件</span>來標記物件。<br>背景移除工具將自動執行調整，因此不必非常精確。<br><br><b class=\"md-button\">知道了</b>"
+}

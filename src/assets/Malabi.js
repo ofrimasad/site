@@ -137,7 +137,7 @@
 
       if (typeof _settings.local === 'string') {
 
-        loadJSON("https://" + malabi.apiUrl + "/" + _settings.local + '.json', function (response) {
+        loadJSON("https://" + malabi.apiUrl + "/lang/" + _settings.local + '.json', function (response) {
           var json = JSON.parse(response);
           if (json != null) {
             _settings.local = json;

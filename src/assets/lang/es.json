@@ -1,0 +1,12 @@
+{
+  "malabi-edit-title": "Borrador de fondos - Editar",
+  "malabi-btn-mark-object": "MARCAR OBJETO",
+  "malabi-btn-mark-background": "MARCAR FONDO",
+  "malabi-btn-undo":"DESHACER",
+  "malabi-show-transparent-label": "Transparente",
+  "malabi-show-shadow-label": "Quitar sombra",
+  "malabi-btn-show-result": "Vista previa de los resultados",
+  "back-to-edit": "Regresar a Editar",
+  "malabi-btn-save-image": "Guardar cambios",
+  "show-tutorial-first-time": "Use <span style=\"color:#f44336\">MARCAR FONDO</span> para ajustar el fondo.<br> Use <span style=\"color:#7cb342\">MARCAR OBJECTO</span> para el objeto.<br> El Borrador de fondos realizará todos los cambios, por lo que no es necesario ser preciso.<br><br><b class=\"md-button\">COMPRENDO</b>"
+}

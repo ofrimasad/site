@@ -1,0 +1,12 @@
+{
+  "malabi-edit-title": "עורך הסרת רקע",
+  "malabi-btn-mark-object": "סמן אוביקט",
+  "malabi-btn-mark-background": "סמן רקע",
+  "malabi-btn-undo":"בטל",
+  "malabi-show-transparent-label": "רקע שקוף",
+  "malabi-show-shadow-label": "הסר צל",
+  "malabi-btn-show-result": "הצג תוצאות",
+  "back-to-edit": "חזרה למצב עריכה",
+  "malabi-btn-save-image": "שמור שינויים",
+  "show-tutorial-first-time":"השתמש <span style=\"color:#f44336\">MARK BACKGROUND</span> to adjust the background.<br> Use <span style=\"color:#7cb342\">MARK OBJECT</span> for the object.<br> The Background Remover will automatically make adjustments, so there is no need to be precise.<br><br><b class=\"md-button\">GOT IT</b>"
+}

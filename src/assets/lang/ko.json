@@ -1,0 +1,12 @@
+﻿{
+  "malabi-edit-title": "배경 리무버 편집",
+  "malabi-btn-mark-object": "객체 마크 표시",
+  "malabi-btn-mark-background": "배경 마크 표시",
+  "malabi-btn-undo":"실행 취소",
+  "malabi-show-transparent-label": "투명",
+  "malabi-show-shadow-label": "그림자 제거",
+  "malabi-btn-show-result": "미리보기 결과",
+  "back-to-edit": "편집으로 돌아가기",
+  "malabi-btn-save-image": "변경 저장",
+  "show-tutorial-first-time": "<span style=\"color:#f44336\">배경 마크 표시</span>를 사용하여 배경을 조절합니다.<br> 객체에 대해서는 <span style=\"color:#7cb342\">객체 마크 표시</span>를 사용합니다.<br> 배경 리무버가 자동으로 조정하므로, 정확하게 할 필요가 없습니다.<br><br><b class=\"md-button\">확인</b>"
+}

@@ -1,0 +1,12 @@
+﻿{
+  "malabi-edit-title": "Éditer le suppresseur d'arrière-plan",
+  "malabi-btn-mark-object": "MARQUER L'OBJET",
+  "malabi-btn-mark-background": "MARQUER L'ARRIÈRE-PLAN",
+  "malabi-btn-undo":"ANNULER",
+  "malabi-show-transparent-label": "Transparent",
+  "malabi-show-shadow-label": "Supprimer l'ombre",
+  "malabi-btn-show-result": "Prévisualiser les résultats",
+  "back-to-edit": "Retourner à Éditer",
+  "malabi-btn-save-image": "Enregistrer les modifications",
+  "show-tutorial-first-time": "Utiliser <span style=\"color:#f44336\">MARQUER L'ARRIÈRE-PLAN</span> pour ajuster l'arrière-plan.<br> Utiliser <span style=\"color:#7cb342\">MARQUER L'OBJET</span> pour l'objet.<br> Le suppresseur d'arrière-plan effectuera automatiquement les ajustements, ainsi il ne sera pas nécessaire d'etre précis.<br><br><b class=\"md-button\">GOT IT</b>"
+}

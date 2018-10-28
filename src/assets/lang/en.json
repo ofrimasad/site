@@ -1,0 +1,12 @@
+{
+  "malabi-edit-title": "Background Remover Edit",
+  "malabi-btn-mark-object": "MARK OBJECT",
+  "malabi-btn-mark-background": "MARK BACKGROUND",
+  "malabi-btn-undo":"UNDO",
+  "malabi-show-transparent-label": "Transparent",
+  "malabi-show-shadow-label": "Remove Shadow",
+  "malabi-btn-show-result": "Preview Results",
+  "back-to-edit": "Back to Edit",
+  "malabi-btn-save-image": "Save Changes",
+  "show-tutorial-first-time": "use <span style=\"color:#f44336\">MARK BACKGROUND</span> to adjust the background.<br> Use <span style=\"color:#7cb342\">MARK OBJECT</span> for the object.<br> The Background Remover will automatically make adjustments, so there is no need to be precise.<br><br><b class=\"md-button\">GOT IT</b>"
+}

@@ -1,0 +1,12 @@
+{
+  "malabi-edit-title": "Modifica rimozione dello sfondo",
+  "malabi-btn-mark-object": "CONTRASSEGNA OGGETTO",
+  "malabi-btn-mark-background": "CONTRASSEGNA SFONDO",
+  "malabi-btn-undo":"ANNULLA",
+  "malabi-show-transparent-label": "Trasparente",
+  "malabi-show-shadow-label": "Rimuovi ombreggiatura",
+  "malabi-btn-show-result": "Anteprima risultati",
+  "back-to-edit": "Torna a Modifica",
+  "malabi-btn-save-image": "Salva modifiche",
+  "show-tutorial-first-time": "usa <span style=\"color:#f44336\">CONTRASSEGNA SFONDO</span> per regolare lo sfondo.<br> Usa <span style=\"color:#7cb342\">CONTRASSEGNA OGGETTO</span> per l'oggetto.<br> Lo Rimozione dello sfondo apporterà regolazioni in automatico, pertanto, non occorre essere precisi.<br><br><b class=\"md-button\">FATTO</b>"
+}

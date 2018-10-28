@@ -1,0 +1,12 @@
+﻿{
+  "malabi-edit-title": "Редактирование удаления фона",
+  "malabi-btn-mark-object": "ВЫДЕЛИТЬ ОБЪЕКТ",
+  "malabi-btn-mark-background": "ВЫДЕЛИТь ФОН",
+  "malabi-btn-undo":"ОТМЕНА",
+  "malabi-show-transparent-label": "Прозрачность",
+  "malabi-show-shadow-label": "Убрать тень",
+  "malabi-btn-show-result": "Просмотр результата",
+  "back-to-edit": "Назад к редактированию",
+  "malabi-btn-save-image": "Сохранить изменения",
+  "show-tutorial-first-time": "Нажмите <span style=\"color:#f44336\">ВЫДЕЛИТЬ ФОН</span>, чтобы откорректировать фон.<br> Нажмите <span style=\"color:#7cb342\">ВЫДЕЛИТЬ ОБЪЕКТ</span>, чтобы выделить объект.<br> Приложение для удаление фона автоматически скорректирует выделение, поэтому выделять объекты очень точно не требуется.<br><br><b class=\"md-button\">ПОНЯТНО</b>"
+}

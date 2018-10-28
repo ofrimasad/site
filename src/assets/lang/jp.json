@@ -1,0 +1,12 @@
+{
+  "malabi-edit-title": "背景の編集",
+  "malabi-btn-mark-object": "オブジェクトとしてマーク",
+  "malabi-btn-mark-background": "背景としてマーク",
+  "malabi-btn-undo": "元に戻す",
+  "malabi-show-transparent-label": "透明を適用",
+  "malabi-show-shadow-label": "シャドウを削除",
+  "malabi-btn-show-result": "プレビュー表示",
+  "back-to-edit": "編集に戻る",
+  "malabi-btn-save-image": "変更を保存",
+  "show-tutorial-first-time": "[[span style=\"color:#f44336\">背景としてマーク/span>] を使用して背景を調整します。br>[[span style=\"color:#7cb342\">オブジェクトとしてマーク/span>] を使用してオブジェクトを指定します。br>自動的に調整されるので正確に指定する必要はありません。br>br>b class=\"md-button\">了解です/b>"
+}
