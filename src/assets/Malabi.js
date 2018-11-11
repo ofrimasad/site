@@ -133,11 +133,11 @@
     };
 
 
-    var fetchLocal = function(_settings) {
+    var fetchLocal = function(_settings, _this) {
 
       if (typeof _settings.local === 'string') {
 
-        loadJSON("https://" + malabi.apiUrl + "/lang/" + _settings.local + '.json', function (response) {
+        loadJSON(_this.malabiUrl + "lang/" + _settings.local + '.json', function (response) {
           var json = JSON.parse(response);
           if (json != null) {
             _settings.local = json;
@@ -170,7 +170,10 @@
           this.isBootstrap = true;
       }
 
+      var malabiUrlFull = document.querySelector('script[src*="Malabi"]');
+
       this.settings = _settings;
+      this.malabiUrl = malabiUrlFull.src.substring(0, malabiUrlFull.src.indexOf('Malabi'))
       this.settings.RETURN_IFRAME = 1;
       this.settings.RETURN_EDITOR = 2;
 
@@ -181,10 +184,11 @@
         this.transparent = true;
       }
 
-      addStyleSheets(this.isBootstrap);
+      addStyleSheets(this.isBootstrap, this.malabiUrl);
 
       if (_settings.hasOwnProperty('local')) {
-        fetchLocal(_settings)
+        fetchLocal(_settings, this)
+        fetchLocal(_settings, this)
       }
 
       addDiv(this);
@@ -196,7 +200,7 @@
 
     };
 
-    var addStyleSheets = function(isBootstrap) {
+    var addStyleSheets = function(isBootstrap, malabiUrl) {
       if (isBootstrap) {
         addStyleSheet("https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css");
         addStyleSheet("https://fonts.googleapis.com/icon?family=Material+Icons");
@@ -204,7 +208,7 @@
       } else {
         addStyleSheet("https://fonts.googleapis.com/icon?family=Material+Icons");
         addStyleSheet("https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/css/materialize.min.css");
-        addStyleSheet("https://" + malabi.apiUrl + "/malabi-editor.css");
+        addStyleSheet(malabiUrl + "malabi-editor.css");
       }
     };
 
@@ -248,9 +252,9 @@
       var request = new XMLHttpRequest();
 
       if (_this.isBootstrap) {
-        request.open('GET', "https://" + malabi.apiUrl + "/modal.bootstrap.html", true);
+        request.open('GET', _this.malabiUrl + "modal.bootstrap.html", true);
       } else {
-        request.open('GET', "https://" + malabi.apiUrl + "/modal.html", true);
+        request.open('GET', _this.malabiUrl + "modal.html", true);
       }
       request.send(null);
 
