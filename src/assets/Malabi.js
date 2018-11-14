@@ -354,7 +354,7 @@
       }
     };
 
-    this.edit = function (imageId, secret, callbackFunc) {
+    this.edit = function (imageId, secret, callbackFunc, onClose) {
 
       if (!this.isInit) {
         console.error('please call malabi.init() before calling this function');
@@ -369,10 +369,18 @@
         modalObject.modal('show');
         modalObject.on('hidden.bs.modal', function (e) {
           document.cookie = 'AWSELB=;expires=Sat, 01-Jan-2000 00:00:00 GMT;';
+          if (onClose != null && typeof onClose === 'function') {
+            onClose();
+          }
         });
       } else {
         $('#' + MODAL_NAME).openModal({
-          complete: function() { document.cookie = 'AWSELB=;expires=Sat, 01-Jan-2000 00:00:00 GMT;'; }
+          complete: function() {
+            document.cookie = 'AWSELB=;expires=Sat, 01-Jan-2000 00:00:00 GMT;';
+            if (onClose != null && typeof onClose === 'function') {
+              onClose();
+            }
+          }
         });
       }
 
