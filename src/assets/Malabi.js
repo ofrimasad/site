@@ -156,6 +156,9 @@
       }
 
       if (this.isInit) {
+        if (this.settings.onFrameReady != null && typeof this.settings.onFrameReady === 'function')
+          this.settings.onFrameReady();
+
         return;
       }
 
@@ -300,14 +303,8 @@
               stopLoader(__this.settings.RETURN_IFRAME);
               enableButtons();
 
-              if (__this.settings.onFrameReady != null && typeof __this.settings.onFrameReady == 'function')
-                __this.settings.onFrameReady();
-
               if (__this.settings) {
                 __this.editorFrame.contentWindow.postMessage({'initMalabi': JSON.stringify(__this.settings)}, frameDomain);
-              }
-              if (__this.settings.hasOwnProperty('backgroundColor')) {
-                __this.editorFrame.contentWindow.postMessage({'backgroundColor': __this.settings.backgroundColor}, frameDomain);
               }
               if (__this.injectStyleToIframe) {
                 __this.iframeElement.contentDocument.head.appendChild(__this.injectStyleToIframe);
@@ -316,7 +313,6 @@
                 __this.iframeElement.contentDocument.getElementById("show-tutorial-first-time").innerHTML = "";
                 __this.iframeElement.contentDocument.getElementById("show-tutorial-first-time").appendChild(__this.overrideTutorialElement);
               }
-
             });
           }
         }
@@ -546,6 +542,13 @@
           document.getElementById("malabi-btn-show-result").innerText = malabiEditorText['back-to-edit'];
         }
       }
+
+      if (e.data.hasOwnProperty('initMalabi')) {
+        if (window.malabi.settings.hasOwnProperty('onFrameReady') && typeof window.malabi.settings.onFrameReady === 'function' ) {
+          window.malabi.settings.onFrameReady();
+        }
+      }
+
     });
   }
 })(this, document);
