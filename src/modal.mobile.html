@@ -1,0 +1,46 @@
+  <div class="modal-content" style="padding-top: 20px;padding-bottom: 5px;background-color: #393b4b;min-height: 10%;">
+    <a style="position: absolute; right: 11px; top: 16px;"
+       class="btn-floating modal-action modal-close waves-effect waves-light btn-flat">
+      <i style="font-size: 3em;color: white" class="material-icons right">close</i>
+    </a>
+    <div id="malabi-edit-title" style="font-family: Roboto, sans-serif; font-size: 3em; color: white;margin-bottom: 6px;">Background Remover Edit
+    </div>
+    <a id="malabi-btn-mark-object" class="waves-effect waves-light btn-flat malabiFont tooltipped"
+       data-position="bottom" data-delay="50" data-tooltip="Draw lines to mark areas you want to keep in the image"
+       style="color:#7cb342;font-size: 2em;padding-right: 10px; padding-left: 10px;" onclick="malabi.setColor('colorFG');">
+      <i class="material-icons left" style="color:#7cb342;padding-right: 0px;margin-right: 10px;font-size: 24px;">add_circle</i>
+      Mark Object
+    </a>
+    <a id="malabi-btn-mark-background" class="waves-effect waves-light  btn-flat malabiFont tooltipped"
+       data-position="bottom" data-delay="50" data-tooltip="Draw lines to mark areas you want to remove from the image"
+       style="margin-left:10px;color:#f44336;font-size: 2em;padding-right: 10px; padding-left: 10px;" onclick="malabi.setColor('colorBG');">
+      <i class="material-icons left" style="color:#f44336;padding-right: 0px;margin-right: 10px;font-size: 24px;">remove_circle</i>
+      Mark Background
+    </a>
+    <a id="malabi-btn-undo" class="waves-effect waves-light btn-flat malabiFont" style="color: white;font-size: 2em;"
+       onclick="malabi.undo()">UNDO</a>
+    <br>
+  </div>
+  <div class="progress" style="margin: 0px;visibility: hidden;height: 3px" id="malabi-loader">
+    <div class="indeterminate"></div>
+  </div>
+  <div style="height: 74%">
+    <div id="malabiEditorIFrame" class="malabi-Iframe-mobile"></div>
+  </div>
+  <div class="modal-footer-mobile" style="background-color: white; height: 15% ">
+    <div style="height: 50%">
+      <input type="checkbox" class="filled-in" id="malabi-show-transparent" />
+      <label id="malabi-show-transparent-label" for="malabi-show-transparent" style="font-size: 3rem; top: 23px;left: 20px; padding-left: 28px;" onclick="malabi.backToEdit()">Transparent</label>
+      <input type="checkbox" class="filled-in" id="malabi-show-shadow" />
+      <label id="malabi-show-shadow-label" for="malabi-show-shadow" style="font-size: 3rem; top: 23px;left: 42px; padding-left: 28px;" onclick="malabi.backToEdit()">Remove shadow</label>
+    </div>
+    <div style="height: 50%; box-sizing: content-box;">
+      <div class="btn white-text waves-light btn-flat btn-large malabiBG "
+           style="font-size: 3em; width:44%; height: 100%; margin: 0 !important;line-height: 200%;"
+           onclick="malabi.showResult()"><p id="malabi-btn-show-result" style="position: relative; top: 50%; transform: translate(0,-50%); margin: 0;">preview result</p></div>
+      <div id="malabi-btn-save-image" class=" btn white-text waves-light btn-flat btn-large malabiBG "
+         onclick="malabi.saveImage()"
+      style="font-size: 3em; width:44%; height: 100%; margin: 0 !important;line-height: 200%;"><p style="position: relative; top: 50%; transform: translate(0,-50%); margin: 0;">Save Changes</p></div>
+    </div>
+  </div>
+
