@@ -274,7 +274,11 @@
             if (_this.settings.hasOwnProperty('iFrameSrc') && _this.settings.iFrameSrc.length > 1) {
               iFrameSrc = _this.settings.iFrameSrc;
             } else {
-              iFrameSrc = window.location.protocol + "//d8tv8no6fkiw3.cloudfront.net/version/v4/index.html"; // "http://localhost:4201/index.html"
+              var protocol = window.location.protocol;
+              if (window.location.protocol == "file:")
+                protocol = "https:";
+
+              iFrameSrc = protocol + "//d8tv8no6fkiw3.cloudfront.net/version/v4/index.html"; // "http://localhost:4201/index.html"
             }
 
             frameDomain = extractDomain(iFrameSrc);
