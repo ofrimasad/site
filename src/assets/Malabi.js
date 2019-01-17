@@ -71,7 +71,11 @@
         domain = arr[0] + "//" + arr[2];
         return domain;
       } else {
-        return window.location.protocol + "//" + domain[1];
+        var protocol = window.location.protocol;
+        if (window.location.protocol == "file:")
+          protocol = "https:";
+
+        return protocol + "//" + domain[1];
       }
     };
 
