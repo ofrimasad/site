@@ -499,7 +499,7 @@
       };
 
 
-      xhttp.open("POST", this.apiUrl  + "/Camera51Server/createQueue", (sync==null)? true: sync);
+      xhttp.open("POST", 'https://api.malabi.co'  + "/Camera51Server/createQueue", (sync==null)? true: sync);
       xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
       xhttp.send("token="+this.sessionToken+"&customerId="+this.customerId);
 
@@ -542,7 +542,7 @@
           }
         }
       };
-      xhttp.open("POST", this.apiUrl + "/v1/images");
+      xhttp.open("POST", this.apiUrl + "/images");
       xhttp.setRequestHeader("Content-type", "application/json;charset=UTF-8");
       xhttp.setRequestHeader("x-api-id", "k0146ax0gd");
       xhttp.setRequestHeader("x-api-key", "Z7ZdWDHrVi5IExgfd37z28qGNDdtZpDG8AcawOzj");
