@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="">
+<head>
+  <link href="//fonts.googleapis.com/css?family=Droid+Sans:regular,700|PT+Sans:regular,700|Play:regular|Roboto:300,regular,500,700" rel="stylesheet">
+
+  <link rel='stylesheet' id='googlematerial-css'  href='//fonts.googleapis.com/icon?family=Material+Icons&#038;ver=5.0.3' type='text/css' media='all' />
+  <link rel='stylesheet' id='materialize-style-css'  href='//cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/css/materialize.min.css?ver=5.0.3' type='text/css' media='all' />
+  <link rel='stylesheet' id='dragdropfile-style-css'  href='//d8tv8no6fkiw3.cloudfront.net/website/assets/dragdropfile/malabi-image-background-editor.css?ver=5.0.3' type='text/css' media='all' />
+
+
+  <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/js/materialize.min.js"></script>
+  <script src="//www.google-analytics.com/analytics.js"></script>
+
+  <script src="//d8tv8no6fkiw3.cloudfront.net/website/assets/camera51.min.js"></script>
+  <script src="//www.malabi.co/wp-content/themes/malabi/js/malabi-trail.js"></script>
+  <script src="//www.malabi.co/wp-content/themes/malabi/js/filereader.js"></script>
+  <script src="//www.malabi.co/wp-content/themes/malabi/js/malabi-image-background-editor.js"></script>
+
+
+
+</head>
+<body>
+<script>
+
+  var versionStart = function () {
+    var justOnce = "malv0901_vv";
+    try {
+      if (! localStorage["malabi-cl-v"]) {
+        localStorage.setItem("malabi-cl-v", justOnce);
+        window.location.reload(true);
+      } else {
+        if(localStorage["malabi-cl-v"] != justOnce){
+          localStorage.setItem("malabi-cl-v", justOnce);
+          window.location.reload(true);
+        }
+      }
+    } catch (e){
+    }
+  };
+  versionStart();
+
+  function getParameterByName(name) {
+    name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+    var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+      results = regex.exec(location.search);
+    return results == null ? null : decodeURIComponent(results[1].replace(/\+/g, " "));
+  }
+
+  function setCookie(cname, cvalue, exdays) {
+    var d = new Date();
+    d.setTime(d.getTime() + (exdays*24*60*60*1000));
+    var expires = "expires="+ d.toUTCString();
+    document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+  }
+
+  var coupon = getParameterByName('coupon');
+
+  if (coupon != null) {
+    setCookie("malabiCoupon", coupon, 30);
+  }
+
+  $(".myAccountDropdown").css("display","none");
+  $(".getSupportMenuButton").css("display","none");
+  $(document).ready(function () {
+    console.log("loaded");
+    $("#malabi-preloader").hide();
+  });
+</script>
+
+<div id="uploadload-container">
+  <div class="section no-pad-bot" id="index-banner">
+    <div class="container">
+      <br><br>
+      <div class="row center">
+        <div id="try-it-free" style="position: absolute;margin-top: 31px;margin-left: -195px;display: inline-block">
+          <img src="https://www.malabi.co/wp-content/uploads/2018/04/try_it_out.png">
+
+        </div>
+        <div id="dropbox">
+          <div style="font-family: Roboto, sans-serif;font-size: 17px;line-height: 73px">Drag and Drop Images Into Page</div>
+        </div>
+
+        <input id="file-input" type="file" style="display: none" multiple/>
+        <a id="fileupload-btn" for="file-input" class="waves-effect waves-teal btn-flat btn-large white-text" onclick="window.ga('send', 'event', 'Site','btn upload', 'topnav')">upload</a>
+      </div>
+    </div>
+  </div>
+
+  <div id="droptarget" class="droptarget" draggable="true">
+    <div  class="dropImagePopup" draggable="true">
+      <div class="centerInfo roboto" style=" position: fixed;
+    top: 50%;
+    left: 50%;
+    /* bring your own prefixes */
+    transform: translate(-50%, -50%);font-size: 50px;">Drop Images</div>
+    </div>
+  </div>
+
+
+  <div class="container" id="download-images-wrapper" style="display: none">
+    <!-- Page Content goes here -->
+    <div style="text-align: center;padding: 20px;">
+      <a id="download-images" class="waves-effect waves-light btn-large green" style="background-color: #44a6cb !important;">download images</a>
+    </div>
+    <hr>
+  </div>
+
+  <div class="row">
+    <div id="imageList">
+    </div>
+  </div>
+
+</div>
+<div id="malabi-preloader" class="camera51-preloader"></div>
+
+<!--this came from malabi-child footer.php-->
+
+<div id="modal1" class="modal modal-wider" style="margin-bottom: -8px; ">
+  <div class="modal-content" style="padding-top: 20px;padding-bottom: 5px;background-color: #393b4b;">
+    <a style="position: absolute; right: 11px; top: 16px;"
+       class="btn-floating modal-action modal-close waves-effect waves-light btn-flat">
+      <i style="font-size: 24px;color: white" class="material-icons right">close</i>
+    </a>
+    <div style="font-family: Roboto, sans-serif; font-size: 24px; color: white;margin-bottom: 6px;">Background Remover Edit
+    </div>
+    <a id="camera51-btn-mark-object" class="waves-effect waves-light btn-flat roboto tooltipped"
+       data-position="bottom" data-delay="50" data-tooltip="Draw lines to mark areas you want to keep in the image"
+       style="color:#7cb342;font-size: 14px;padding-right: 10px; padding-left: 10px;" onclick="camera51.setColor('colorFG');">
+      <i class="material-icons left" style="color:#7cb342;padding-right: 0px;margin-right: 10px;font-size: 24px;">add_circle</i>
+      Mark Object
+    </a>
+    <a id="camera51-btn-mark-background" class="waves-effect waves-light  btn-flat roboto tooltipped"
+       data-position="bottom" data-delay="50" data-tooltip="Draw lines to mark areas you want to remove from the image"
+       style="margin-left:10px;color:#f44336;font-size: 14px;padding-right: 10px; padding-left: 10px;" onclick="camera51.setColor('colorBG');">
+      <i class="material-icons left" style="color:#f44336;padding-right: 0px;margin-right: 10px;font-size: 24px;">remove_circle</i>
+      Mark Background
+    </a>
+    <a id="camera51-btn-undo" class="waves-effect waves-light btn-flat roboto" style="color: white;font-size: 14px;"
+       onclick="camera51.undo()">UNDO</a>
+    <br>
+    <a id="camera51-zoom-in" class="waves-effect waves-circle transparent"
+       style="position: absolute;top: 141px;left: 36px" onmousedown="camera51.onclickLongZoomIn()"
+       onmouseup="camera51.onmouseupLongZoomIn()">
+      <i class="material-icons right small zoomRippel" style="color:#393b4b;">zoom_in</i>
+    </a>
+    <a id="camera51-zoom-out" class="waves-effect waves-circle transparent"
+       style="position: absolute;top: 194px;left: 36px" onmousedown="camera51.onclickLongZoomOut()"
+       onmouseup="camera51.onmouseupLongZoomOut()">
+      <i class="material-icons right small zoomRippel" style="color:#393b4b;">zoom_out</i>
+    </a>
+  </div>
+  <div class="progress" style="margin: 0px;visibility: hidden;height: 3px" id="camera51-loader">
+    <div class="indeterminate"></div>
+  </div>
+  <div>
+    <div id="camera51Iframe" style="height:500px;width:100%"></div>
+  </div>
+  <div class="modal-footer" style="background-color: white ">
+    <input type="checkbox" class="filled-in" id="camera51-show-transparent" />
+    <label for="camera51-show-transparent" style="top: 23px;left: 20px; padding-left: 28px;" onclick="camera51.backToEdit();window.ga('send', 'event', 'Site','btn transparent', 'editor')">Transparent</label>
+    <input type="checkbox" class="filled-in" id="camera51-show-shadow" />
+    <label for="camera51-show-shadow" style="top: 23px;left: 42px; padding-left: 28px;" onclick="camera51.backToEdit();window.ga('send', 'event', 'Site','btn shadow', 'editor')">Remove shadow</label>
+    <a id="camera51-btn-save-image" class=" btn white-text   waves-light btn-flat btn-large malabiBG "
+       onclick="camera51.saveImage()"
+       style="font-size: 14px;margin-right: 9px; margin-left: 23px;">Save Changes</a>
+    <a id="camera51-btn-show-result" class="waves-effect waves-teal btn-flat btn "
+       style="font-size: 14px; margin-left: 10px; margin-top: 17px;color:black"
+       onclick="camera51.showResult()">preview result</a>
+  </div>
+</div>
+<div id="show-token-error" class="modal modal-small">
+  <div class="modal-content">
+    <h1 id="errorSubject" style="display: inline-block;font-size: x-large;">Cancel Subscription Plan</h1>
+    <p id="errorMessage" class="font14-5"></p>
+  </div>
+  <div class="modal-footer">
+    <a href="#" class=" modal-action modal-close waves-effect waves-green btn-flat font14">Close</a>
+  </div>
+</div>
+<app>
+  <div class="camera51-preloader "></div>
+</app>
+<script src="//d8tv8no6fkiw3.cloudfront.net/website/inline.3bbeb3be99cb2a6af48b.bundle.js"></script>
+<script src="//d8tv8no6fkiw3.cloudfront.net/website/polyfills.03938a4735d700364212.bundle.js"></script>
+<script src="//d8tv8no6fkiw3.cloudfront.net/website/vendor.48ccded52a365029e5e4.bundle.js"></script>
+<script src="//d8tv8no6fkiw3.cloudfront.net/website/main.77c41106a027f5b2a919.bundle.js"></script>
+
+</body>
+</html>
