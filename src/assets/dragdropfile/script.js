@@ -51,14 +51,32 @@ $(document).ready(function () {
 
   $("#download-images").click(function(){
     imageArray = [];
+    takenNames = {};
 
     $(".eachImage").each(function(){
       var imgSrc = $(this).find(".resultPreview").find('img').attr('src');
       var imgE = $(this).find(".resultPreview").find('img');
 
+      var imgName = $(this).attr('l_name');
+      if(imgName == undefined)
+        imgName = imgSrc.substring(imageSrc.lastIndexOf('/') + 1);
+
+      var finalName = imgName;
+      for (var i = 1; i <= 30; i++){
+        if (takenNames[finalName] == undefined) {
+          takenNames[finalName] = finalName;
+          break;
+        } else {
+          if (imgName.lastIndexOf('.') > 0)
+            finalName = imgName.substring(0, imgName.lastIndexOf('.')) + '[' + i + ']' + imgName.substring(imgName.lastIndexOf('.'));
+          else
+            finalName = imgName + '[' + i + ']';
+        }
+      }
+
       if(imgSrc != undefined){
         $(imgE).addClass("downloadMeDownload");
-        imageArray.push(imgSrc);
+        imageArray.push({resultImageURL: imgSrc, imageName: finalName});
 
       }
     });
@@ -284,7 +302,7 @@ create_box = function (e, file, size) {
   size.hPro = size.h *x;
   size.wPro = size.w *x;
 
-  var template = '<div class="eachImage z-depth-1" id="eachImage-' + rand + '">';
+  var template = '<div class="eachImage z-depth-1" id="eachImage-' + rand + '" l_name="' + imgName +'">';
   template += '<div class="save-option" onclick="updateRemoveImage()" >' +
     '<i id="save-option" style="font-size: 20px;margin: 5px;cursor: pointer !important;" title="remove" class="material-icons right" onclick="removeImage(this)">close</i></div>';
   template += '<div class="preview" id="' + rand + '" ><span class="camera51-darken"><img src="' + src + '" style="opacity: 0.6;margin: auto"></span><span class="overlay"><div class="progress" id="'+rand+'"><div class="determinate" style="width: 70%"></div></div>';

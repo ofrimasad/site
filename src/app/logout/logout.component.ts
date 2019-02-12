@@ -20,6 +20,8 @@ export class Logout {
 
     try {
       localStorage.setItem('camera51-login','');
+      localStorage.setItem('apiId','');
+      localStorage.setItem('apiKey','');
 
     } catch (e){
 

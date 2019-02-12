@@ -2,6 +2,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { Home } from './home';
 
 import { Login } from './login';
+import { CreateCustomer } from './createCustomer';
 import { Yourinfo } from './yourinfo';
 import { Register } from './register';
 import { Paymentreceived } from './paymentreceived';
@@ -26,6 +27,7 @@ export const ROUTES: Routes = [
   { path: 'bigcommerce/:userId/:userToken',  component: Bigcommerce },
   { path: 'bigcommerce/:userId/:userToken/stores/:storeHash',  component: Bigcommerce },
   { path: 'login',  component: Login },
+  { path: 'createCustomer',  component: CreateCustomer },
   { path: 'yourinfo',  component: Yourinfo },
 
   { path: 'paymentreceived', component: Paymentreceived },

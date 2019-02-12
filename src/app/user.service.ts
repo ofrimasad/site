@@ -176,9 +176,12 @@ export class UserService {
 
     private updateMenuOnLogin(view){
 
-      view.nativeElement.ownerDocument.getElementsByClassName("loginLabel")[0].style.display = "none";
-      view.nativeElement.ownerDocument.getElementsByClassName("registerLabel")[0].style.display = "none";
-
+      if(view.nativeElement.ownerDocument.getElementsByClassName("loginLabel").length > 0) {
+        view.nativeElement.ownerDocument.getElementsByClassName("loginLabel")[0].style.display = "none";
+      }
+      if(view.nativeElement.ownerDocument.getElementsByClassName("registerLabel").length > 0) {
+        view.nativeElement.ownerDocument.getElementsByClassName("registerLabel")[0].style.display = "none";
+      }
       if(view.nativeElement.ownerDocument.getElementsByClassName("aboutMenuButton").length > 0){
         view.nativeElement.ownerDocument.getElementsByClassName("aboutMenuButton")[0].style.display = "none";
       }

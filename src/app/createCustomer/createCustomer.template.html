@@ -1,0 +1,22 @@
+<div class="card-container">
+  <div id="modalGetAPIKey" class="modal modal-small">
+    <div class="modal-content">
+      <h1 x-large class="sample-content" style="display: inline-block">API Registration</h1>
+      <p>Please enter the name of your company or organization to get an API key</p>
+      <form #f="ngForm" (ngSubmit)="submitState(f)" autocomplete="on">
+        <div class="row">
+          <div class="input-field col s12">
+            <input ngModel name="name" id="name" type="text" class="validate">
+            <label id="nameLabel" for="name" data-error="Enter customer name" >Customer or Company Name</label>
+
+          </div>
+
+        </div>
+        <div class="modal-footer" >
+          <button class=" waves-effect waves-green btn-flat" >Get Key</button>
+        </div>
+      </form>
+
+    </div>
+  </div>
+</div>
