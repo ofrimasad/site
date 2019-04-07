@@ -150,6 +150,10 @@
             }
           }
         });
+      } else {
+        if (_settings.local.hasOwnProperty('show-tutorial-first-time')) {
+          _settings['show-tutorial-first-time'] = _settings.local['show-tutorial-first-time'];
+        }
       }
     };
 

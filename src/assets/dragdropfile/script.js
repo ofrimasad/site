@@ -1,6 +1,6 @@
 
-//var apiUrl = "https://sandbox.malabi.co";
-var apiUrl = "http://localhost:8080";
+var apiUrl = "https://api.malabi.co/v1";
+//var apiUrl = "http://localhost:8080";
 
 var isloggedIn = false;
 var showWatermark = true;
