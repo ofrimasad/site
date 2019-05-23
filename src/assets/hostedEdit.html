@@ -33,6 +33,29 @@
     return vars;
   }
 
+  download = function(url, file_name, mime_type ) {
+
+    if (undefined === window.navigator.msSaveOrOpenBlob) {
+      var e = document.createElement('a');
+      var href = 'data:' + mime_type + ';charset=utf-8,' + encodeURIComponent(url);
+      e.setAttribute('href', href);
+      e.setAttribute('download', file_name);
+      document.body.appendChild(e);
+      e.click();
+      document.body.removeChild(e);
+    }
+
+    else {
+      var charCodeArr = new Array(url.length);
+      for (var i = 0; i < url.length; ++i) {
+        var charCode = url.charCodeAt(i);
+        charCodeArr[i] = charCode;
+      }
+      var blob = new Blob([new Uint8Array(charCodeArr)], {type: mime_type});
+      window.navigator.msSaveOrOpenBlob(blob, file_name);
+    }
+  };
+
   var vars = getUrlVars();
 
   var onSaveWithResult = function (image) {
@@ -42,7 +65,15 @@
     request.open('POST', url, true);
     request.setRequestHeader("Content-type", "application/json");
     request.send(JSON.stringify({image: image}));
-    window.history.back();
+    if (vars['onSave'] === 'showImage') {
+      window.location.href = image.result_image_url;
+    } else if (vars['onSave'] === 'none') {
+      //do nothing
+    } else if (vars['onSave'] === 'download') {
+      download(image.result_image_url, image.original_file_name, 'image/jpg')
+    } else {
+      window.history.back();
+    }
   };
 
   $(document).ready(function () {
