@@ -104,6 +104,7 @@
       })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
 
       ga('create', 'UA-75726540-1', 'auto');
+      ga('set', 'anonymizeip', true);
       ga('send', 'pageview');
       ga(function(tracker) {
         var clientId = tracker.get('clientId');
