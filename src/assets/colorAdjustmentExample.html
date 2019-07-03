@@ -2,24 +2,22 @@
 <html lang="en">
 <body>
 
-<!--This is a simple example of Malabi API integration in web client.-->
-<!--Please read the documentation and implementation notes before implementing the client side.-->
-
-<!--Start by including the following 3 Javascript files. -->
-<!--note that the first two are the original jquery and materialize
-Javascript files, which may already be included in your web page.  -->
 <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/js/materialize.min.js"></script>
 <script src="https://api.malabi.co/v1/Malabi.min.js"></script>
 
 
-<h2 style="color: #5e9ca0;margin-left: 50px"><strong>Malabi API - Image Adjustment Demo</strong></h2>
+<div class="header">
+  <h2 style="color: #5e9ca0;margin-left: 50px;"><strong>Malabi API - Image Adjustment Demo for </strong></h2>
+  <img src="https://static1.squarespace.com/static/59fc76162aeba5627b254081/t/5c8a782bee6eb00b652daaf0/1553861787787/?format=1500w">
+</div>
 <div style="margin-left: 50px">
   <div class="loader" id="loader"></div>
-  <p><img src="https://api.malabi.co/image.jpg" alt="" width="400" height="" />&nbsp;&nbsp;
+  <label for="inputBox">Image URL  </label><input style="width: 630px" type="textbox" id="inputBox" value="https://api.malabi.co/image.jpg">
+  <button onclick="processImage()">Process Image</button>
+  <p><img src="https://api.malabi.co/image.jpg" alt="" width="400" height="" id="originalImage" />&nbsp;&nbsp;
     <img id="resultImage" src="https://api.malabi.co/place_holder.jpg" alt="result image" width="400" height=""/></p>
-  <button onclick="processImage('https://api.malabi.co/image.jpg')">Process Image</button>
-  <button onclick="resetInputs()">Reset</button>
+
 
   <div class="slidecontainer">
     <label for="autoBrightness">Auto Brightness</label>
@@ -27,6 +25,7 @@ Javascript files, which may already be included in your web page.  -->
     <br>
     <label for="autoContrast">Auto Contrast</label>
     <input type="checkbox" class="checkbox" name="vehicle1" id="autoContrast" value="false">
+    <button onclick="resetInputs()" style="margin-left: 60px">Reset</button>
   </div>
   <div class="slidecontainer">
 
@@ -55,13 +54,20 @@ Javascript files, which may already be included in your web page.  -->
 <script>
 
   var loader = document.getElementById("loader");
+  var inputBox = document.getElementById("inputBox");
+  var originalImage = document.getElementById("originalImage");
+
+  inputBox.addEventListener('input', function () {
+    mattImage();
+    originalImage.src = inputBox.value;
+  }, false);
 
   var apiId = 'k0146ax0gd';
-  var yourOwnBackendUrl = 'https://oqj08cxe4e.execute-api.us-east-1.amazonaws.com/v1';
+  var key = 'Z7ZdWDHrVi5IExgfd37z28qGNDdtZpDG8AcawOzj';
   var image;
 
-  //  before any call to malabi.edit(), initialize the malabi object by calling malabi.init() and
-  // passing an object containing your "apiId" (this is the 10 notes id you got when registering).
+  var host = 'https://api.malabi.co/v1';
+
   $(document).ready(function () {
     malabi.init({
       "apiId": apiId
@@ -77,23 +83,21 @@ Javascript files, which may already be included in your web page.  -->
   }
 
   hideLoader();
-  // This is the function requesting the automatic processing of the image.
-  // Note that this function does not call the Malabi API URL directly, since
-  // processing calls to the API requires the SECRET API key. Instead, you call
-  // your own backend, which holds the secret key and which will pass the request
-  // along with the secret key to Malabi API.
-  function processImage(origImgUrl) {
+
+  function processImage() {
+    originalImage.src = inputBox.value;
+
     var request = new XMLHttpRequest();
-    request.open('POST', 'http://localhost:8080/images', true);
+    request.open('POST', host + '/images', true);
     request.setRequestHeader("Content-type", "application/json");
     request.setRequestHeader("x-api-id", apiId);
-    request.setRequestHeader("x-api-key", 'Z7ZdWDHrVi5IExgfd37z28qGNDdtZpDG8AcawOzj');
+    request.setRequestHeader("x-api-key", key);
 
     showLoader();
     disableInputs(true);
 
     var requestBody = {
-      "image_url": origImgUrl
+      "image_url": inputBox.value
     };
 
     request.send(JSON.stringify(requestBody));
@@ -103,7 +107,7 @@ Javascript files, which may already be included in your web page.  -->
         image = JSON.parse(request.response).image;
 
         var getRequest = new XMLHttpRequest();
-        getRequest.open('GET', 'http://localhost:8080/images/' + image.id + '?with_mask_url=true', true);
+        getRequest.open('GET', host + '/images/' + image.id + '?with_mask_url=true', true);
         getRequest.setRequestHeader("Content-type", "application/json");
         getRequest.setRequestHeader("secret", image.secret);
 
@@ -124,7 +128,7 @@ Javascript files, which may already be included in your web page.  -->
 
   function mattImage() {
     var request = new XMLHttpRequest();
-    request.open('PUT', 'http://localhost:8080/images/' + image.id + '/settings', true);
+    request.open('PUT', host + '/images/' + image.id + '/settings', true);
     request.setRequestHeader("Content-type", "application/json");
     request.setRequestHeader("secret", image.secret);
 
@@ -136,7 +140,6 @@ Javascript files, which may already be included in your web page.  -->
       "mask_name": image.mask_url.substring(image.mask_url.lastIndexOf('/') + 1),
       "settings":
         {
-         // "color_temperature" : -50
           "contrast" : contrastSlider.value,
           "sharpness" :sharpnessTempSlider.value,
           "brightness" : brightnessSlider.value,
@@ -158,22 +161,6 @@ Javascript files, which may already be included in your web page.  -->
         disableInputs(false);
       }
     };
-  }
-
-  // Call malabi.edit() to open up the popup window and edit the image.
-  // Pass the function the image id and secret (which you got from the response of the
-  // automatic processing request), and a callback function to be triggered after the
-  // editing was completed.
-  // the callback function accepts a string containing the URL for the newly created result image.
-  function edit() {
-    if (image == null)
-      return;
-
-    var onSaveWithResult = function (result) {
-      document.getElementById("resultImage").setAttribute("src", result.result_image_url);
-    };
-
-    malabi.edit(image.id, image.secret, onSaveWithResult);
   }
 </script>
 
@@ -235,6 +222,8 @@ Javascript files, which may already be included in your web page.  -->
     colorTempSlider.value = 0;
     sharpnessTempSlider.value = 0;
     saturationTempSlider.value = 0;
+    autoContrast.checked = false;
+    autoBrightness.checked = false;
     mattImage();
   }
 
@@ -245,7 +234,7 @@ Javascript files, which may already be included in your web page.  -->
 </body>
 <head>
     <meta charset="UTF-8">
-    <title>Malabi Toy Example</title>
+    <title>Malabi API - Image Adjustment Demo</title>
     <style>
       .slidecontainer {
         width: 20%;
@@ -257,6 +246,20 @@ Javascript files, which may already be included in your web page.  -->
         opacity: 100 !important;
         position: relative !important;
         left: 0 !important;
+      }
+
+      .header h2 {
+        position: relative;
+        top: 18px;
+        left: 10px;
+      }
+
+      .header img {
+        position: relative;
+        left: 1060px;
+        top: -14px;
+        width: 200px;
+        margin-top: -87px;
       }
 
       .slider {
@@ -288,6 +291,10 @@ Javascript files, which may already be included in your web page.  -->
         border-radius: 50%;
         background: #4CAF50;
         cursor: pointer;
+      }
+
+      .span.thumb.active {
+        visibility: hidden;
       }
 
       .loader {
